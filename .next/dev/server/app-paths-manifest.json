@@ -1,0 +1,13 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/events/page": "app/admin/events/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/pricing/page": "app/admin/pricing/page.js",
+  "/admin/sponsors/page": "app/admin/sponsors/page.js",
+  "/admin/users/page": "app/admin/users/page.js",
+  "/events/[id]/page": "app/events/[id]/page.js",
+  "/events/page": "app/events/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/sponsors/page": "app/sponsors/page.js"
+}
