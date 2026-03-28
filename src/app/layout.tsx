@@ -9,7 +9,7 @@ import NotificationStack from '@/components/shared/NotificationStack';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "HYROX.FIT | The Ultimate Fitness Competition",
+  title: "ATHLiON | The Ultimate Fitness Competition",
   description: "Register for the world's premier fitness racing series. Challenge yourself across strength and endurance.",
 };
 

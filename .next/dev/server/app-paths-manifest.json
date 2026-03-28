@@ -1,13 +1,17 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/events/new/page": "app/admin/events/new/page.js",
   "/admin/events/page": "app/admin/events/page.js",
   "/admin/page": "app/admin/page.js",
   "/admin/pricing/page": "app/admin/pricing/page.js",
+  "/admin/registrations/page": "app/admin/registrations/page.js",
+  "/admin/scanner/page": "app/admin/scanner/page.js",
   "/admin/sponsors/page": "app/admin/sponsors/page.js",
   "/admin/users/page": "app/admin/users/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/events/[id]/page": "app/events/[id]/page.js",
   "/events/page": "app/events/page.js",
   "/login/page": "app/login/page.js",
   "/page": "app/page.js",
+  "/register/page": "app/register/page.js",
   "/sponsors/page": "app/sponsors/page.js"
 }

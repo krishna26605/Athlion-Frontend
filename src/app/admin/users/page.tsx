@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import apiClient from '@/api/client';
-import AdminSidebar from '@/components/AdminSidebar';
+
 import { Loader2, Search, Mail, Phone, Calendar as CalendarIcon, User as UserIcon } from 'lucide-react';
 import { formatDate } from '@/utils/utils';
 import { motion } from 'framer-motion';
@@ -59,21 +59,13 @@ export default function AdminUsersPage() {
     );
 
     return (
-        <div className="min-h-screen bg-black flex">
-            <AdminSidebar />
-            <div className="flex-1 ml-64 p-12 pt-32">
+        <>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
                     <div className="flex justify-between items-end mb-12">
-                        <div>
-                            <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Management</span>
-                            <h1 className="text-5xl font-black italic tracking-tighter uppercase mb-2 leading-none">
-                                Registered <span className="text-white">Users</span>
-                            </h1>
-                            <p className="text-gray-400">View and manage all members of the Athlion platform.</p>
-                        </div>
+                        
 
                         <div className="relative w-80">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
@@ -149,7 +141,6 @@ export default function AdminUsersPage() {
                         )}
                     </div>
                 </motion.div>
-            </div>
-        </div>
-    );
+            </>
+);
 }

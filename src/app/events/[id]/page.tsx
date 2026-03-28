@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import apiClient from '@/api/client';
 import { useAuth } from '@/context/AuthContext';
-import { motion } from 'framer-motion';
-import { MapPin, Calendar, Clock, Trophy, ArrowLeft, Loader2, CheckCircle, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, Calendar, Clock, Trophy, ArrowLeft, Loader2, CheckCircle, ShieldCheck, Tag, Zap, X } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/utils/utils';
 import Script from 'next/script';
 
@@ -27,6 +27,12 @@ interface Event {
     status: string;
 }
 
+interface DiscountInfo {
+    type: string;
+    value: number;
+    label: string;
+}
+
 declare global {
     interface Window {
         Razorpay: any;
@@ -41,6 +47,7 @@ export default function EventDetailPage() {
     const [event, setEvent] = useState<Event | null>(null);
     const [loading, setLoading] = useState(true);
     const [bookingLoading, setBookingLoading] = useState(false);
+    const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
     const [step, setStep] = useState(1);
     const [regData, setRegData] = useState({
         level: '',
@@ -49,6 +56,14 @@ export default function EventDetailPage() {
         category: 'Single',
         batchTime: ''
     });
+
+    // --- DISCOUNT STATE ---
+    const [discountInfo, setDiscountInfo] = useState<DiscountInfo | null>(null);
+    const [couponCode, setCouponCode] = useState('');
+    const [couponApplied, setCouponApplied] = useState(false);
+    const [couponError, setCouponError] = useState('');
+    const [couponLoading, setCouponLoading] = useState(false);
+    const [spotsRemaining, setSpotsRemaining] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -65,31 +80,107 @@ export default function EventDetailPage() {
         if (id) fetchEvent();
     }, [id]);
 
+    // Fetch early bird discount info when user reaches payment step
+    useEffect(() => {
+        const fetchDiscount = async () => {
+            if (!user || !id || couponApplied) return;
+            try {
+                const res = await apiClient.get(`registrations/check-discount/${id}`);
+                if (res.data.discount && res.data.discount.type !== 'none') {
+                    setDiscountInfo(res.data.discount);
+                    setSpotsRemaining(res.data.spotsRemaining);
+                }
+            } catch (error) {
+                console.error('Failed to fetch discount', error);
+            }
+        };
+
+        if (step === 4) {
+            fetchDiscount();
+        }
+    }, [step, user, id, couponApplied]);
+
     const steps = [
         { id: 1, title: 'SELECT LEVEL' },
         { id: 2, title: 'PHYSICAL DETAILS' },
         { id: 3, title: 'CATEGORY' },
-        { id: 4, title: 'WAVE SELECTION' }
+        { id: 4, title: 'WAVE & PAY' }
     ];
 
     const generateWaveTimes = () => {
         const times = [];
         let current = new Date();
-        current.setHours(9, 0, 0, 0); // Start at 9:00 AM
+        current.setHours(9, 0, 0, 0);
         const end = new Date();
-        end.setHours(17, 0, 0, 0); // End at 5:00 PM
+        end.setHours(17, 0, 0, 0);
 
         while (current <= end) {
             const timeStr = `${current.getHours().toString().padStart(2, '0')}:${current.getMinutes().toString().padStart(2, '0')}`;
-            // 9:00-9:20 and 9:30-9:50 are sold out by default
-            const isDefaultSoldOut = (timeStr === '09:00' || timeStr === '09:20' || timeStr === '09:30' || timeStr === '09:40' || timeStr === '09:50');
+            const isDefaultSoldOut = (timeStr === '09:00' || timeStr === '09:10' || timeStr === '09:20' || timeStr === '09:30' || timeStr === '09:40' || timeStr === '09:50');
             times.push({
                 time: timeStr,
                 isSoldOut: isDefaultSoldOut
             });
-            current.setMinutes(current.getMinutes() + 10); // 10 min intervals for variety, but user mentioned specific slots
+            current.setMinutes(current.getMinutes() + 10);
         }
         return times;
+    };
+
+    const handleApplyCoupon = async () => {
+        if (!couponCode.trim()) return;
+        setCouponLoading(true);
+        setCouponError('');
+        try {
+            const res = await apiClient.post('sponsors/coupons/validate', { code: couponCode.trim() });
+            if (res.data.success) {
+                const couponData = res.data.data;
+                let discountValue = 0;
+                if (couponData.type === 'percentage') {
+                    discountValue = Math.round((event!.price * couponData.value) / 100);
+                } else {
+                    discountValue = Math.min(couponData.value, event!.price);
+                }
+                setDiscountInfo({
+                    type: 'coupon',
+                    value: discountValue,
+                    label: `Coupon ${couponData.code} (${couponData.type === 'percentage' ? `${couponData.value}%` : `₹${couponData.value}`} off)`
+                });
+                setCouponApplied(true);
+            }
+        } catch (error: any) {
+            setCouponError(error.response?.data?.message || 'Invalid coupon code');
+            setCouponApplied(false);
+        } finally {
+            setCouponLoading(false);
+        }
+    };
+
+    const handleRemoveCoupon = () => {
+        setCouponCode('');
+        setCouponApplied(false);
+        setCouponError('');
+        setDiscountInfo(null);
+        // Re-fetch early bird discount
+        const fetchDiscount = async () => {
+            try {
+                const res = await apiClient.get(`registrations/check-discount/${id}`);
+                if (res.data.discount && res.data.discount.type !== 'none') {
+                    setDiscountInfo(res.data.discount);
+                    setSpotsRemaining(res.data.spotsRemaining);
+                }
+            } catch (error) {
+                console.error('Failed to re-fetch discount', error);
+            }
+        };
+        fetchDiscount();
+    };
+
+    const getFinalPrice = () => {
+        if (!event) return 0;
+        if (discountInfo && discountInfo.value > 0) {
+            return Math.max(event.price - discountInfo.value, 0);
+        }
+        return event.price;
     };
 
     const handleBooking = async () => {
@@ -105,15 +196,37 @@ export default function EventDetailPage() {
 
         setBookingLoading(true);
         try {
-            const res = await apiClient.post(`registrations/book/${id}`, regData);
+            const bookingPayload: any = { ...regData };
+            if (couponApplied && couponCode.trim()) {
+                bookingPayload.couponCode = couponCode.trim();
+            }
+
+            // --- TEST MODE BYPASS ---
+            if (process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID === 'rzp_test_placeholder') {
+                console.log('--- TEST MODE: BYPASSING RAZORPAY ---');
+                try {
+                    await apiClient.post(`registrations/test-register/${id}`, bookingPayload);
+                    setShowSuccessOverlay(true);
+                    setTimeout(() => router.push('/dashboard'), 2000);
+                    return;
+                } catch (err: any) {
+                    console.error('Test registration failed', err);
+                    const msg = err.response?.data?.message || err.response?.data?.error || err.message || 'Test registration failed';
+                    alert(err.response?.status ? `Error ${err.response.status}: ${msg}` : msg);
+                    setBookingLoading(false);
+                    return;
+                }
+            }
+
+            const res = await apiClient.post(`registrations/book/${id}`, bookingPayload);
             const { order } = res.data;
 
             const options = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                 amount: order.amount,
                 currency: order.currency,
-                name: "ATHLION",
-                description: `Registration for ${event?.name} - ${regData.level}`,
+                name: "ATHLiON",
+                description: `Registration for ${event?.name}`,
                 order_id: order.id,
                 handler: async function (response: any) {
                     try {
@@ -122,10 +235,12 @@ export default function EventDetailPage() {
                             razorpay_payment_id: response.razorpay_payment_id,
                             razorpay_signature: response.razorpay_signature,
                         });
+                        setShowSuccessOverlay(true);
+                        setTimeout(() => router.push('/dashboard'), 2000);
+                    } catch (err) {
+                        console.error('Payment verification failed', err);
+                        alert('Payment verified on gateway but failed on our server. Please contact support.');
                         router.push('/dashboard');
-                    } catch (error) {
-                        console.error('Payment verification failed', error);
-                        alert('Payment verification failed. Please contact support.');
                     }
                 },
                 prefill: {
@@ -151,6 +266,12 @@ export default function EventDetailPage() {
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center bg-black">
             <Loader2 className="animate-spin text-[#f82506]" size={40} />
+        </div>
+    );
+
+    if (!event) return (
+        <div className="min-h-screen flex items-center justify-center bg-black">
+            <p className="text-white font-black italic uppercase tracking-widest text-xl">Event Not Found</p>
         </div>
     );
 
@@ -238,15 +359,18 @@ export default function EventDetailPage() {
                                     <div className="space-y-6">
                                         <h3 className="text-3xl font-black italic uppercase tracking-tighter">PICK YOUR <span className="text-[#f82506]">LEVEL</span></h3>
                                         <div className="grid grid-cols-1 gap-4">
-                                            {['advance', 'intermediate'].map((lvl) => (
+                                            {[
+                                                { id: 'elite', label: 'Elite (VIP)', desc: 'For experienced athletes' },
+                                                { id: 'classical', label: 'Classical (regular)', desc: 'For regular fitness enthusiasts' }
+                                            ].map((lvl) => (
                                                 <button
-                                                    key={lvl}
+                                                    key={lvl.id}
                                                     type="button"
-                                                    onClick={() => { setRegData({ ...regData, level: lvl }); setStep(2); }}
-                                                    className={`glass-card-hover p-6 rounded-2xl text-left border transition-all ${regData.level === lvl ? 'border-[#f82506] bg-[#f82506]/10' : 'border-white/5'}`}
+                                                    onClick={() => { setRegData({ ...regData, level: lvl.id }); setStep(2); }}
+                                                    className={`glass-card-hover p-6 rounded-2xl text-left border transition-all ${regData.level === lvl.id ? 'border-[#f82506] bg-[#f82506]/10' : 'border-white/5'}`}
                                                 >
-                                                    <span className="block text-xl font-black italic uppercase">{lvl}</span>
-                                                    <span className="text-xs text-gray-500 uppercase font-bold tracking-widest">{lvl === 'advance' ? 'For experienced athletes' : 'For regular fitness enthusiasts'}</span>
+                                                    <span className="block text-xl font-black italic uppercase">{lvl.label}</span>
+                                                    <span className="text-xs text-gray-500 uppercase font-bold tracking-widest">{lvl.desc}</span>
                                                 </button>
                                             ))}
                                         </div>
@@ -309,7 +433,7 @@ export default function EventDetailPage() {
                                     </div>
                                 )}
 
-                                {/* STEP 4: WAVE SELECTION */}
+                                {/* STEP 4: WAVE SELECTION + COUPON + PAYMENT */}
                                 {step === 4 && (
                                     <div className="space-y-6">
                                         <h3 className="text-3xl font-black italic uppercase tracking-tighter">WAVE <span className="text-[#f82506]">SELECTION</span></h3>
@@ -331,10 +455,97 @@ export default function EventDetailPage() {
                                             ))}
                                         </div>
 
-                                        <div className="pt-6 border-t border-white/5 space-y-6">
-                                            <div className="flex justify-between items-end">
-                                                <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Entry Fee</span>
-                                                <span className="text-4xl font-black italic text-white">{formatCurrency(event.price)}</span>
+                                        {/* ═══════ COUPON CODE INPUT ═══════ */}
+                                        <div className="pt-4 border-t border-white/5">
+                                            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">
+                                                <Tag size={12} className="inline mr-1" /> Have a Coupon Code?
+                                            </label>
+                                            {couponApplied ? (
+                                                <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 rounded-xl p-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <CheckCircle size={18} className="text-green-500" />
+                                                        <div>
+                                                            <code className="text-green-400 font-mono font-bold text-sm">{couponCode.toUpperCase()}</code>
+                                                            <p className="text-[10px] text-green-500/70 font-bold">Coupon applied successfully!</p>
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleRemoveCoupon}
+                                                        className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-500 hover:text-red-500"
+                                                    >
+                                                        <X size={16} />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div className="flex gap-2">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Enter coupon code..."
+                                                        value={couponCode}
+                                                        onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setCouponError(''); }}
+                                                        className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-sm uppercase font-mono outline-none focus:border-[#f82506] transition-all"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleApplyCoupon}
+                                                        disabled={couponLoading || !couponCode.trim()}
+                                                        className="px-6 py-3 rounded-xl bg-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#f82506] transition-all disabled:opacity-50"
+                                                    >
+                                                        {couponLoading ? <Loader2 size={14} className="animate-spin" /> : 'Apply'}
+                                                    </button>
+                                                </div>
+                                            )}
+                                            {couponError && (
+                                                <p className="text-red-500 text-[10px] font-bold mt-2 uppercase tracking-wider">{couponError}</p>
+                                            )}
+                                        </div>
+
+                                        {/* ═══════ PRICE BREAKDOWN ═══════ */}
+                                        <div className="pt-6 border-t border-white/5 space-y-4">
+                                            {/* Early Bird Badge */}
+                                            {discountInfo && discountInfo.type !== 'none' && discountInfo.type !== 'coupon' && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-3"
+                                                >
+                                                    <Zap size={16} className="text-amber-500" />
+                                                    <div>
+                                                        <span className="text-amber-400 text-[10px] font-black uppercase tracking-widest">{discountInfo.label}</span>
+                                                        {spotsRemaining !== null && (
+                                                            <p className="text-amber-500/50 text-[9px] font-bold">{spotsRemaining} super early spot{spotsRemaining !== 1 ? 's' : ''} remaining!</p>
+                                                        )}
+                                                    </div>
+                                                </motion.div>
+                                            )}
+
+                                            {/* Price Lines */}
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between items-center">
+                                                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Entry Fee</span>
+                                                    <span className={`text-lg font-black italic ${discountInfo && discountInfo.value > 0 ? 'text-gray-500 line-through' : 'text-white'}`}>
+                                                        {formatCurrency(event.price)}
+                                                    </span>
+                                                </div>
+
+                                                {discountInfo && discountInfo.value > 0 && (
+                                                    <motion.div
+                                                        initial={{ opacity: 0, x: 20 }}
+                                                        animate={{ opacity: 1, x: 0 }}
+                                                        className="flex justify-between items-center"
+                                                    >
+                                                        <span className="text-xs font-bold text-green-500 uppercase tracking-widest flex items-center gap-1">
+                                                            <Tag size={12} /> Discount
+                                                        </span>
+                                                        <span className="text-lg font-black italic text-green-500">- {formatCurrency(discountInfo.value)}</span>
+                                                    </motion.div>
+                                                )}
+
+                                                <div className="flex justify-between items-end pt-3 border-t border-white/5">
+                                                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Total</span>
+                                                    <span className="text-4xl font-black italic text-white">{formatCurrency(getFinalPrice())}</span>
+                                                </div>
                                             </div>
 
                                             <div className="flex gap-4">
@@ -366,7 +577,95 @@ export default function EventDetailPage() {
                 .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
                 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #f82506; }
             `}</style>
+
+            {/* --- SUCCESS OVERLAY --- */}
+            <AnimatePresence>
+                {showSuccessOverlay && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center p-6 text-center overflow-hidden"
+                    >
+                        {/* Background Pulsing Glow */}
+                        <motion.div
+                            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+                            transition={{ duration: 3, repeat: Infinity }}
+                            className="absolute w-[800px] h-[800px] bg-[#f82506] rounded-full blur-[150px] pointer-events-none"
+                        />
+
+                        <div className="relative z-10">
+                            <motion.div
+                                initial={{ scale: 0.5, opacity: 0, rotate: -10 }}
+                                animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                                className="mb-8 inline-block p-8 bg-[#f82506] rounded-[2.5rem] shadow-[0_0_50px_rgba(248,37,6,0.5)]"
+                            >
+                                <Trophy size={80} className="text-white" />
+                            </motion.div>
+
+                            <motion.h2
+                                initial={{ y: 50, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.2 }}
+                                className="text-6xl md:text-8xl font-black italic uppercase tracking-tighter text-white mb-4"
+                            >
+                                SUCCESSFUL<span className="text-[#f82506]">!</span>
+                            </motion.h2>
+
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.4 }}
+                                className="bg-white/5 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full inline-block mb-12"
+                            >
+                                <span className="text-xs font-black uppercase tracking-[0.4em] text-gray-400">Registration Confirmed</span>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.6 }}
+                                className="space-y-2"
+                            >
+                                <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">Redirecting to your dashboard</p>
+                                <div className="flex gap-1 justify-center" title="Redirecting...">
+                                    {[0, 1, 2].map((i) => (
+                                        <motion.div
+                                            key={i}
+                                            animate={{ scale: [1, 1.5, 1], opacity: [0.3, 1, 0.3] }}
+                                            transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                                            className="w-1.5 h-1.5 bg-[#f82506] rounded-full"
+                                        />
+                                    ))}
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        {/* Particle fragments */}
+                        {[...Array(20)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{
+                                    x: 0,
+                                    y: 0,
+                                    opacity: 1,
+                                    rotate: 0,
+                                    scale: Math.random() * 2
+                                }}
+                                animate={{
+                                    x: (Math.random() - 0.5) * 1000,
+                                    y: (Math.random() - 0.5) * 1000,
+                                    opacity: 0,
+                                    rotate: Math.random() * 360
+                                }}
+                                transition={{ duration: 1.5, ease: 'easeOut', delay: 0.1 }}
+                                className="absolute w-2 h-8 bg-[#f82506] rounded-full pointer-events-none"
+                            />
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
-

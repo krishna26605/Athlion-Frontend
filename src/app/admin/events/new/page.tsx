@@ -6,7 +6,7 @@ import apiClient from '@/api/client';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Loader2, Save, MapPin, Calendar, Clock, Trophy, Info, DollarSign, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import AdminSidebar from '@/components/AdminSidebar';
+
 
 export default function NewEventPage() {
     const { user, loading: authLoading } = useAuth();
@@ -74,9 +74,7 @@ export default function NewEventPage() {
     );
 
     return (
-        <div className="min-h-screen bg-black flex">
-            <AdminSidebar />
-            <div className="flex-1 ml-64 p-12 pt-32">
+        <>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -110,7 +108,7 @@ export default function NewEventPage() {
                                         type="text"
                                         name="name"
                                         required
-                                        placeholder="e.g., Hyrox City Sprint 2026"
+                                        placeholder="e.g., Athlion City Sprint 2026"
                                         value={formData.name}
                                         onChange={handleChange}
                                         className="w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold italic uppercase"
@@ -267,7 +265,6 @@ export default function NewEventPage() {
                         </div>
                     </form>
                 </motion.div>
-            </div>
-        </div>
-    );
+            </>
+);
 }

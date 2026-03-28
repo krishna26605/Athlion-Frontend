@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Menu, X, Trophy, LogOut, User as UserIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,6 +11,8 @@ const Navbar = () => {
     const { user, logout } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+
+    const pathname = usePathname();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -25,13 +28,17 @@ const Navbar = () => {
         { name: 'Sponsors', href: '/sponsors' },
     ];
 
+    if (pathname?.startsWith('/admin')) {
+        return null;
+    }
+
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md py-4' : 'bg-transparent py-6'}`}>
+        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0a0a]/90 border-b border-white/5 backdrop-blur-md py-4' : 'bg-transparent py-6'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2">
-                        <Trophy className="w-8 h-8 text-[#f82506]" />
-                        <span className="text-2xl font-black tracking-tighter italic">HYROX<span className="text-[#f82506]">.FIT</span></span>
+                        <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-10 h-10 object-contain" />
+                        <span className="text-2xl font-black tracking-tighter italic">ATH<span className="text-[#f82506]">LiON</span></span>
                     </Link>
 
                     {/* Desktop Nav */}
@@ -57,7 +64,7 @@ const Navbar = () => {
                                 </button>
                             </div>
                         ) : (
-                            <Link href="/login" className="btn-primary uppercase text-sm tracking-widest">
+                            <Link href="/register" className="btn-primary uppercase text-sm tracking-widest">
                                 Join Now
                             </Link>
                         )}
@@ -96,7 +103,10 @@ const Navbar = () => {
                                     <button onClick={logout} className="text-left text-[#f82506]">Logout</button>
                                 </>
                             ) : (
-                                <Link href="/login" onClick={() => setIsOpen(false)} className="text-[#f82506]">Login</Link>
+                                <>
+                                    <Link href="/login" onClick={() => setIsOpen(false)} className="hover:text-[#f82506]">Login</Link>
+                                    <Link href="/register" onClick={() => setIsOpen(false)} className="text-[#f82506]">Register</Link>
+                                </>
                             )}
                         </div>
                     </motion.div>

@@ -3,25 +3,33 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Trophy, Zap, Users, MapPin } from 'lucide-react';
+import { ArrowRight, Trophy, Zap, Users, MapPin, Info } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import AthlionStationsSection from '@/components/AthlionStationsSection';
+import CardFlip from '@/components/ui/flip-card';
+import { useState, useEffect } from 'react';
+import { HeroFuturistic } from '@/components/ui/hero-futuristic';
+import apiClient from '@/api/client';
 
 export default function Home() {
   const { user } = useAuth();
-  const sponsors = [
-    { name: 'Sponsor 1', logo: 'S1' },
-    { name: 'Sponsor 2', logo: 'S2' },
-    { name: 'Sponsor 3', logo: 'S3' },
-  ];
+  const [sponsors, setSponsors] = useState<any[]>([]);
+
+  useEffect(() => {
+    apiClient.get('sponsors')
+      .then(res => setSponsors(res.data.data || res.data))
+      .catch(console.error);
+  }, []);
+
+  
 
   return (
     <div className="relative overflow-hidden">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center pt-20">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(248,37,6,0.15),transparent_70%)] pointer-events-none" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#f82506]/10 blur-[120px] rounded-full pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      
+      <section className="relative h-screen w-full flex flex-col">
+        <HeroFuturistic>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-50 text-center pointer-events-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -33,7 +41,7 @@ export default function Home() {
             <h1 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-none mb-6">
               ARE YOU <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">ATHLION?</span>
             </h1>
-            <p className="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl mb-10 leading-relaxed uppercase font-black italic">
+            <p className="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl mb-[10vh] leading-relaxed uppercase font-black italic">
               The standardized format of fitness racing hits India. 8KM RUN. 8 WORKOUTS. NO LIMITS.
             </p>
 
@@ -48,9 +56,7 @@ export default function Home() {
                   <Link href="/register" className="px-8 py-4 rounded-full border border-white/20 hover:bg-white/5 transition-all text-lg font-bold uppercase italic">
                     REGISTER AS USER
                   </Link>
-                  <Link href="/admin" className="px-8 py-4 rounded-full border border-white/20 hover:bg-white/5 transition-all text-lg font-bold uppercase italic text-gray-500 hover:text-white">
-                    ADMIN LOGIN
-                  </Link>
+                  
                 </>
               ) : (
                 <Link
@@ -62,37 +68,47 @@ export default function Home() {
               )}
             </div>
           </motion.div>
-        </div>
-
-        {/* Sponsor Banner (Static Placeholder for now) */}
-        <div className="absolute bottom-32 w-full overflow-hidden bg-white/5 backdrop-blur-md py-4 border-y border-white/5">
-          <div className="flex animate-marquee gap-12 items-center justify-center whitespace-nowrap">
-            {sponsors.map((s, i) => (
-              <span key={i} className="text-2xl font-black italic text-gray-600 uppercase opacity-30 px-12">{s.name}</span>
-            ))}
-            {sponsors.map((s, i) => (
-              <span key={i + 10} className="text-2xl font-black italic text-gray-600 uppercase opacity-30 px-12">{s.name}</span>
+        
+          </div>
+        </HeroFuturistic>
+        
+        {/* Dynamic Sponsor Flow Strip below hero */}
+        <div className="w-full overflow-hidden bg-[#0a0a0a] border-y border-white/5 py-6 z-40 relative flex-shrink-0">
+          <div className="flex animate-marquee gap-12 items-center min-w-max">
+            {[...sponsors, ...sponsors, ...sponsors, ...sponsors, { name: 'ATHLION' }, { name: 'HYROX' }].map((s, i) => (
+              <Link key={i} href="/sponsors" className="hover:scale-105 transition-transform">
+                <span className="text-2xl font-black italic text-gray-500 uppercase px-8 opacity-50 whitespace-nowrap leading-normal py-1 pr-4">
+                  {s?.name || 'PARTNER'}
+                </span>
+              </Link>
             ))}
           </div>
         </div>
-
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">SCROLL</span>
-          <div className="w-[1px] h-12 bg-gradient-to-b from-[#f82506] to-transparent" />
-        </motion.div>
       </section>
+  
 
       {/* About Section */}
-      <section id="about" className="py-24 bg-zinc-950/50 border-y border-white/5">
+      <section id="about" className="py-24 bg-[#0a0a0a] border-y border-white/5">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-6xl font-black italic tracking-tighter uppercase mb-12">WHAT IS <span className="text-[#f82506]">ATHLION?</span></h2>
           <p className="text-gray-400 text-xl leading-relaxed mb-8">
             Athlion is India's answer to the global fitness racing revolution. We bring a standardized format that combines elite-level endurance with functional strength. Whether you're a first-timer or a pro, Athlion tests your heart, grit, and physical power in a high-octane stadium environment.
           </p>
+          <div className="flex justify-center mt-8">
+            <Link
+              href="#stations"
+              className="group flex items-center gap-3 px-8 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-[#f82506]/50 hover:bg-[#f82506]/5 transition-all outline-none cursor-pointer"
+            >
+              <div className="p-2 rounded-xl bg-[#f82506]/10 group-hover:bg-[#f82506] transition-colors shadow-lg shadow-[#f82506]/0 group-hover:shadow-[#f82506]/20">
+                <Info size={18} className="text-[#f82506] group-hover:text-white" />
+              </div>
+              <div className="text-left">
+                <p className="text-[10px] font-black uppercase tracking-widest text-[#f82506]">The Challenge</p>
+                <p className="text-sm font-black italic uppercase tracking-tight text-white">EXPLORE THE STATIONS</p>
+              </div>
+              <ArrowRight size={16} className="text-gray-600 group-hover:text-white group-hover:translate-x-1 transition-all ml-4" />
+            </Link>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 font-black italic uppercase italic">
             <div className="flex flex-col gap-2"><span className="text-4xl text-[#f82506]">8KM</span><span className="text-xs text-gray-600">Total Running</span></div>
             <div className="flex flex-col gap-2"><span className="text-4xl text-[#f82506]">8</span><span className="text-xs text-gray-600">Workouts</span></div>
@@ -102,34 +118,76 @@ export default function Home() {
         </div>
       </section>
 
+      <AthlionStationsSection />
+
       {/* Partners Section */}
-      <section className="py-24 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black italic uppercase italic">WHO <span className="text-[#f82506]">WE ARE</span></h2>
-            <p className="text-gray-500 font-bold uppercase tracking-widest text-xs mt-4">Gym Partners & Run Clubs Affiliated with Athlion</p>
+      <section className="py-24 bg-black relative overflow-hidden">
+        {/* Background Accents to fill empty space */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#f82506]/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#f82506]/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-20">
+            <motion.span 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-[#f82506] font-black uppercase tracking-[0.4em] text-xs mb-4 block"
+            >
+              OUR ECOSYSTEM
+            </motion.span>
+            <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">
+              WHO <span className="text-[#f82506]">WE ARE</span>
+            </h2>
+            <div className="w-24 h-1 bg-[#f82506] mx-auto mt-6 mb-8 rounded-full shadow-[0_0_10px_rgba(248,37,6,0.5)]" />
+            <p className="text-gray-500 font-bold uppercase tracking-widest text-xs max-w-xl mx-auto leading-relaxed">
+              ATHLiON is more than a race. It&apos;s a nationwide network of elite gym partners, run clubs, and premium sponsors powering the next generation of Indian athletes.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { icon: <Zap className="text-[#f82506]" />, title: 'GYM PARTNERS', desc: 'Local gyms across India equipped with Athlion training standards.', href: '/sponsors' },
-              { icon: <Users className="text-[#f82506]" />, title: 'RUN CLUBS', desc: 'Join our official run clubs to improve your splits and endurance.', href: '/sponsors' },
-              { icon: <Trophy className="text-[#f82506]" />, title: 'SPONSORS', desc: 'World-class brands powering the fitness performance of tomorrow.', href: '/sponsors' }
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-stretch">
+            {[ 
+              { 
+                icon: <Zap className="text-[#f82506]" />, 
+                title: 'GYM PARTNERS', 
+                desc: 'Local gyms across India equipped with Athlion standards.', 
+                href: '/sponsors',
+                detail: '20+ Cities'
+              },
+              { 
+                icon: <Users className="text-[#f82506]" />, 
+                title: 'RUN CLUBS', 
+                desc: 'Join official run clubs to improve your splits.', 
+                href: '/sponsors',
+                detail: '5000+ Runners'
+              },
+              { 
+                icon: <Trophy className="text-[#f82506]" />, 
+                title: 'SPONSORS', 
+                desc: 'World-class brands powering fitness tomorrow.', 
+                href: '/sponsors',
+                detail: 'Global Brands'
+              }
             ].map((feature, i) => (
-              <Link key={i} href={feature.href}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="glass-card p-8 group hover:border-[#f82506]/30 transition-all border-white/5 h-full"
-                >
-                  <div className="mb-6 p-4 bg-white/5 rounded-2xl inline-block group-hover:bg-[#f82506]/10 transition-colors">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-2xl font-black italic mb-4">{feature.title}</h3>
-                  <p className="text-gray-400 leading-relaxed text-sm uppercase">{feature.desc}</p>
-                </motion.div>
-              </Link>
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
+                className="flex justify-center w-full"
+              >
+                <CardFlip 
+                  title={feature.title} 
+                  subtitle={feature.desc} 
+                  description="Become an integral part of the ATHLiON ecosystem. Access exclusive benefits and tools by affiliating with us." 
+                  features={['Certified Support', 'Official Equipment', 'Global Network', 'Dedicated Dashboard']} 
+                  color="#f82506" 
+                  icon={React.cloneElement(feature.icon as React.ReactElement<any>, { className: 'h-10 w-10 text-[#f82506]' })}
+                  detail={feature.detail}
+                  href={feature.href}
+                />
+              </motion.div>
             ))}
           </div>
         </div>
@@ -145,6 +203,7 @@ export default function Home() {
           animation: marquee 20s linear infinite;
         }
       `}</style>
+
     </div>
   );
 }

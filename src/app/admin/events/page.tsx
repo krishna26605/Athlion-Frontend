@@ -8,7 +8,7 @@ import { Plus, Edit, Trash2, Calendar, MapPin, Loader2, Trophy } from 'lucide-re
 import { formatDate, formatCurrency } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import AdminSidebar from '@/components/AdminSidebar';
+
 
 interface Event {
     _id: string;
@@ -69,21 +69,13 @@ export default function AdminEventsPage() {
     );
 
     return (
-        <div className="min-h-screen bg-black flex">
-            <AdminSidebar />
-            <div className="flex-1 ml-64 p-12 pt-32">
+        <>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
                     <div className="flex justify-between items-end mb-12">
-                        <div>
-                            <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Event Management</span>
-                            <h1 className="text-5xl font-black italic tracking-tighter uppercase mb-2 leading-none">
-                                All <span className="text-white">Races</span>
-                            </h1>
-                            <p className="text-gray-400">Create and manage Athlion competitive events.</p>
-                        </div>
+                        
 
                         <Link href="/admin/events/new">
                             <button className="flex items-center gap-2 bg-white text-black px-8 py-4 rounded-2xl font-black italic uppercase tracking-widest hover:bg-[#f82506] hover:text-white transition-all shadow-xl shadow-white/5">
@@ -163,7 +155,6 @@ export default function AdminEventsPage() {
                         )}
                     </div>
                 </motion.div>
-            </div>
-        </div>
-    );
+            </>
+);
 }

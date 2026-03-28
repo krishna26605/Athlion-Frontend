@@ -49,10 +49,13 @@ export default function LoginPage() {
             >
                 <div className="glass-card p-10 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                        <Trophy size={120} className="text-[#f82506]" />
+                        <img src="/FINAL-ATH-LOGO.png" alt="" className="w-32 h-32 object-contain" />
                     </div>
 
                     <div className="text-center mb-8 relative z-10">
+                        <div className="flex justify-center mb-6">
+                            <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-20 h-20 object-contain" />
+                        </div>
                         <h1 className="text-4xl font-black italic tracking-tighter mb-2 uppercase">WELCOME <span className="text-[#f82506]">BACK</span></h1>
                         <p className="text-gray-400">Enter your credentials to access your trainer dashboard.</p>
                     </div>

@@ -9,6 +9,8 @@ import { Trophy, QrCode, MapPin, Calendar, Clock, ArrowRight, Loader2, Download,
 import { formatDate } from '@/utils/utils';
 import { QRCodeSVG } from 'qrcode.react';
 import SponsorAds from '@/components/SponsorAds';
+import AthlionInfoModal from '@/components/AthlionInfoModal';
+import { HelpCircle } from 'lucide-react';
 
 interface Sponsor {
     _id: string;
@@ -47,6 +49,9 @@ interface Registration {
     paymentStatus: string;
     qrCode: string;
     amountPaid: number;
+    checkInStatus: boolean;
+    verificationCode: string;
+    createdAt: string;
     verifiedAt: string;
 }
 
@@ -56,6 +61,7 @@ export default function DashboardPage() {
     const [sponsors, setSponsors] = useState<Sponsor[]>([]);
     const [events, setEvents] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -92,7 +98,16 @@ export default function DashboardPage() {
                         <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase mb-6 leading-none">
                             MY <span className="text-white">DASHBOARD</span>
                         </h1>
-                        <p className="text-gray-400 text-lg">Manage your registrations and view your assigned race slots.</p>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                            <p className="text-gray-400 text-lg">Manage your registrations and view your assigned race slots.</p>
+                            <button
+                                onClick={() => setIsInfoModalOpen(true)}
+                                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#f82506]/10 border border-[#f82506]/30 text-[#f82506] hover:bg-[#f82506] hover:text-white transition-all group w-fit"
+                            >
+                                <HelpCircle size={18} className="group-hover:rotate-12 transition-transform" />
+                                <span className="text-[10px] font-black uppercase tracking-widest">What is ATHLiON?</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div className="glass-card p-6 flex items-center gap-6">
@@ -120,7 +135,7 @@ export default function DashboardPage() {
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: i * 0.1 }}
-                                        className="glass-card overflow-hidden bg-zinc-950/50 flex flex-col md:flex-row p-8 gap-8 border-[#f82506]/20"
+                                        className="glass-card overflow-hidden flex flex-col md:flex-row p-8 gap-8 border-[#f82506]/20"
                                     >
                                         <div className="flex flex-col flex-grow">
                                             <span className="bg-[#f82506] text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider w-fit mb-4">
@@ -156,16 +171,33 @@ export default function DashboardPage() {
 
                                         <div className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl min-w-[200px]">
                                             <QRCodeSVG value={reg.qrCode} size={150} level="H" />
-                                            <span className="mt-4 text-[10px] font-black uppercase text-black italic tracking-widest opacity-50">
+                                            <span className="mt-3 text-[10px] font-black uppercase text-black italic tracking-widest opacity-50">
                                                 SCAN AT VENUE
                                             </span>
+                                            {/* Verification Status Badge */}
+                                            {reg.checkInStatus ? (
+                                                <span className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-green-700 text-[9px] font-black uppercase tracking-wider">
+                                                    <ShieldCheck size={12} /> VERIFIED
+                                                </span>
+                                            ) : (
+                                                <span className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[9px] font-black uppercase tracking-wider">
+                                                    <Clock size={12} /> PENDING
+                                                </span>
+                                            )}
+                                            {/* Secret Code */}
+                                            {reg.verificationCode && (
+                                                <div className="mt-2 text-center">
+                                                    <span className="text-[8px] font-bold uppercase tracking-widest text-gray-400">Code: </span>
+                                                    <span className="text-sm font-black italic tracking-[0.15em] text-black">{reg.verificationCode}</span>
+                                                </div>
+                                            )}
                                         </div>
                                     </motion.div>
                                 ))}
                             </div>
                         ) : (
-                            <div className="text-center py-20 border border-dashed border-white/10 rounded-[3rem] bg-zinc-950/20">
-                                <Trophy size={64} className="mx-auto text-zinc-800 mb-6" />
+                            <div className="text-center py-20 border border-dashed border-white/10 rounded-[3rem] bg-[#0a0a0a]">
+                                <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-24 h-24 mx-auto mb-6 object-contain opacity-20 grayscale" />
                                 <h3 className="text-2xl font-black italic uppercase mb-4">No registrations yet</h3>
                                 <p className="text-gray-500 mb-10 max-w-sm mx-auto text-sm">Pick a race challenge yourself. The world's largest fitness race is waiting for you.</p>
                                 <Link href="/events" className="btn-primary">EXPLORE EVENTS</Link>
@@ -266,6 +298,11 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </div>
+            
+            <AthlionInfoModal 
+                isOpen={isInfoModalOpen} 
+                onClose={() => setIsInfoModalOpen(false)} 
+            />
         </div>
     );
 }

@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { Users, Search, Loader2, CheckCircle2, Clock, ShieldCheck, Mail, Activity } from 'lucide-react';
 import { formatDate } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
-import AdminSidebar from '@/components/AdminSidebar';
+
 
 interface User {
     name: string;
@@ -81,21 +81,13 @@ export default function AdminRegistrations() {
     );
 
     return (
-        <div className="min-h-screen bg-black flex">
-            <AdminSidebar />
-            <div className="flex-1 ml-64 p-12 pt-32">
+        <>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
                     <div className="flex justify-between items-end mb-12">
-                        <div>
-                            <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Race Day Operations</span>
-                            <h1 className="text-5xl font-black italic tracking-tighter uppercase mb-2 leading-none">
-                                Athlete <span className="text-white">Check-in</span>
-                            </h1>
-                            <p className="text-gray-400">Verify athlete credentials and manage event registrations.</p>
-                        </div>
+                        
 
                         <div className="relative w-80">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
@@ -178,7 +170,6 @@ export default function AdminRegistrations() {
                         )}
                     </div>
                 </motion.div>
-            </div>
-        </div>
-    );
+            </>
+);
 }

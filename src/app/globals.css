@@ -2,27 +2,25 @@
 
 :root {
   --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 10, 10, 10;
+  --background-start-rgb: 0, 0, 0;
   --background-end-rgb: 0, 0, 0;
 
   --primary: #f82506;
-  /* Hyrox Orange/Red */
+  /* Athlion Orange/Red */
   --secondary: #1a1a1a;
   --accent: #ffd700;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  background: #000000;
   min-height: 100vh;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #121214; /* A sophisticated dark gray, visible against black */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
 }
 
@@ -38,16 +36,18 @@ body {
 }
 
 .glass-card-hover {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #121214;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
+  border-radius: 1rem;
 }
 
 .glass-card-hover:hover {
+  background: #18181b; /* slightly lighter on hover */
   border-color: #f82506;
-  box-shadow: 0 0 20px rgba(248, 37, 6, 0.2);
+  box-shadow: 0 8px 32px -8px rgba(248, 37, 6, 0.3);
+  transform: translateY(-2px);
 }
 
 .text-stroke {

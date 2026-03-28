@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { Users, Calendar, Trophy, TrendingUp, Loader2, ArrowUpRight } from 'lucide-react';
 import { formatCurrency } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
-import AdminSidebar from '@/components/AdminSidebar';
+
 
 interface Stats {
     totalUsers: number;
@@ -57,20 +57,12 @@ export default function AdminDashboard() {
     ];
 
     return (
-        <div className="min-h-screen bg-black flex">
-            <AdminSidebar />
-            <div className="flex-1 ml-64 p-12 pt-32">
+        <>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
-                    <div className="mb-16">
-                        <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Executive Summary</span>
-                        <h1 className="text-6xl font-black italic tracking-tighter uppercase mb-4 leading-none">
-                            Admin <span className="text-white">Dashboard</span>
-                        </h1>
-                        <p className="text-gray-400 text-lg">Platform overview and performance analytics.</p>
-                    </div>
+                    
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                         {cards.map((card, idx) => (
@@ -107,7 +99,7 @@ export default function AdminDashboard() {
                                 {[1, 2, 3, 4, 5].map((i) => (
                                     <div key={i} className="flex gap-4 items-start border-l-2 border-[#f82506]/20 pl-4 py-1">
                                         <div>
-                                            <p className="text-xs font-bold text-gray-300 uppercase tracking-tight line-clamp-1">New registration for HYROX North</p>
+                                            <p className="text-xs font-bold text-gray-300 uppercase tracking-tight line-clamp-1">New registration for ATHLiON North</p>
                                             <p className="text-[10px] text-gray-600 font-black uppercase tracking-widest mt-1">2 mins ago</p>
                                         </div>
                                     </div>
@@ -116,7 +108,6 @@ export default function AdminDashboard() {
                         </div>
                     </div>
                 </motion.div>
-            </div>
-        </div>
-    );
+            </>
+);
 }

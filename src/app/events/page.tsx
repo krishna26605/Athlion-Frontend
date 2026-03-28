@@ -130,7 +130,7 @@ export default function EventsPage() {
                     </div>
                 ) : (
                     <div className="text-center py-24 border border-dashed border-white/10 rounded-3xl">
-                        <Trophy size={48} className="mx-auto text-gray-700 mb-4" />
+                        <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-24 h-24 mx-auto mb-6 object-contain opacity-20 grayscale" />
                         <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No events found matching your search.</p>
                     </div>
                 )}

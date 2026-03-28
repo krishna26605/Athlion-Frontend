@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import apiClient from '@/api/client';
-import AdminSidebar from '@/components/AdminSidebar';
+
 import { Loader2, Plus, Globe, Image as ImageIcon, Trash2, ExternalLink, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -107,21 +107,13 @@ export default function AdminSponsorsPage() {
     );
 
     return (
-        <div className="min-h-screen bg-black flex">
-            <AdminSidebar />
-            <div className="flex-1 ml-64 p-12 pt-32">
+        <>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
                     <div className="flex justify-between items-end mb-12">
-                        <div>
-                            <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Partners & Advertising</span>
-                            <h1 className="text-5xl font-black italic tracking-tighter uppercase mb-2 leading-none">
-                                Sponsors <span className="text-white">& Ads</span>
-                            </h1>
-                            <p className="text-gray-400">Manage sponsor profiles and dashboard advertisements.</p>
-                        </div>
+                        
 
                         <button
                             onClick={() => setIsModalOpen(true)}
@@ -194,7 +186,6 @@ export default function AdminSponsorsPage() {
                         </div>
                     )}
                 </motion.div>
-            </div>
 
             {/* Create Modal */}
             <AnimatePresence>
@@ -329,6 +320,6 @@ export default function AdminSponsorsPage() {
                     </div>
                 )}
             </AnimatePresence>
-        </div>
+        </>
     );
 }

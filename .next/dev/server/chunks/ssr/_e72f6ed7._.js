@@ -388,7 +388,7 @@ function NewEventPage() {
                                                             type: "text",
                                                             name: "name",
                                                             required: true,
-                                                            placeholder: "e.g., Hyrox City Sprint 2026",
+                                                            placeholder: "e.g., Athlion City Sprint 2026",
                                                             value: formData.name,
                                                             onChange: handleChange,
                                                             className: "w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold italic uppercase"

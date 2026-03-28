@@ -203,7 +203,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$shared$
 ;
 ;
 const metadata = {
-    title: "HYROX.FIT | The Ultimate Fitness Competition",
+    title: "ATHLiON | The Ultimate Fitness Competition",
     description: "Register for the world's premier fitness racing series. Challenge yourself across strength and endurance."
 };
 function RootLayout({ children }) {
