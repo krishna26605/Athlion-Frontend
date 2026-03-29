@@ -233,7 +233,7 @@ export function FlickeringFooter() {
   return (
     <footer id="footer" className="relative w-full bg-black border-t border-white/5 pt-16 pb-24 md:pb-12 overflow-hidden">
       {/* Background Layer: World Map */}
-      <div className="absolute inset-0 z-0 opacity-80 pointer-events-none md:scale-100 scale-150 origin-center">
+      <div className="absolute inset-0 z-0 opacity-80 pointer-events-none md:scale-100 scale-110 origin-center">
         <WorldMap 
           dots={[
             { start: { lat: 28.6139, lng: 77.2090, label: "HQ" }, end: { lat: 25.2048, lng: 55.2708, label: "Dubai" } },
@@ -288,11 +288,11 @@ export function FlickeringFooter() {
       </div>
 
       {/* Flickering Grid Bottom Accent */}
-      <div className="relative w-full h-40 mt-16 z-10 pointer-events-none">
+      <div className="relative w-full h-28 md:h-40 mt-16 z-10 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-20" />
         <FlickeringGrid
           text={isMobile ? "ATHLiON" : "ESTABLISHED IN INDIA"}
-          fontSize={isMobile ? 60 : 100}
+          fontSize={isMobile ? 38 : 100}
           className="h-full w-full opacity-50"
           squareSize={2}
           gridGap={2}
