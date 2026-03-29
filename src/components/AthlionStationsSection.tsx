@@ -36,7 +36,7 @@ const stations: Station[] = [
         id: 1,
         name: 'Mudgar Ritual',
         description: '360° mace swings in controlled pattern',
-        distanceReps: '20 reps each direction (40 total)',
+        distanceReps: '25 reps each direction (50 total)',
         muscleGroup: 'Shoulders, Grip, Core rotation',
         culturalRoots: 'Ancient Indian warrior training',
         icon: RotateCw,
