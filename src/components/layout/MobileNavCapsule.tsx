@@ -255,7 +255,7 @@ const MobileNavCapsule = () => {
                                         {active && (
                                             <motion.div
                                                 layoutId="capsule-highlight"
-                                                className="absolute inset-x-1.5 inset-y-1 bg-gradient-to-b from-white/20 to-[#f82506]/10 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2),0_0_20px_rgba(248,37,6,0.1)] border-t border-white/20"
+                                                className="absolute inset-x-1 inset-y-1 bg-gradient-to-b from-[#f82506]/25 to-transparent rounded-full shadow-[0_0_15px_rgba(248,37,6,0.4)] border-t border-[#f82506]/40"
                                                 transition={{ type: 'spring', stiffness: 400, damping: 28 }}
                                             />
                                         )}
