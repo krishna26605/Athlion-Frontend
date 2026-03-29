@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    X, Trophy, Dumbbell, Move, Zap, 
-    RefreshCcw, Briefcase, ArrowUpCircle, 
+import {
+    X, Trophy, Dumbbell, Move, Zap,
+    RefreshCcw, Briefcase, ArrowUpCircle,
     Footprints, CircleDot, Wind, ArrowRight,
     Search, Info, History, Target, Activity,
     RotateCw, LucideIcon
@@ -104,16 +104,6 @@ const stations: Station[] = [
     },
     {
         id: 8,
-        name: 'Low Crawl',
-        description: 'Army crawl under netting/barbed wire',
-        distanceReps: '30m',
-        muscleGroup: 'Core, Shoulders, Grit',
-        culturalRoots: 'Military/OCR staple',
-        icon: Move,
-        image: 'https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?q=80&w=2070&auto=format&fit=crop'
-    },
-    {
-        id: 9,
         name: 'Farmer\'s Carry',
         description: 'Heavy kettlebell/dumbbell walk',
         distanceReps: '100m (50m out/back)',
@@ -123,7 +113,7 @@ const stations: Station[] = [
         image: 'https://images.unsplash.com/photo-1541534741688-6078c6422736?q=80&w=2070&auto=format&fit=crop'
     },
     {
-        id: 10,
+        id: 9,
         name: 'Height Net Trap',
         description: 'Climb 12ft cargo net, descend other side',
         distanceReps: '1 ascent/descent',
@@ -133,7 +123,7 @@ const stations: Station[] = [
         image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=2070&auto=format&fit=crop'
     },
     {
-        id: 11,
+        id: 10,
         name: 'Sandbag Lunges',
         description: 'Walking lunges with sandbag on shoulders',
         distanceReps: '100m',
@@ -143,7 +133,7 @@ const stations: Station[] = [
         image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop'
     },
     {
-        id: 12,
+        id: 11,
         name: 'Wall Ball',
         description: 'Squat + throw medicine ball to target',
         distanceReps: '30 reps (9kg men / 6kg women)',
@@ -153,8 +143,18 @@ const stations: Station[] = [
         image: 'https://images.unsplash.com/photo-1620188467120-5042ed1eb5da?q=80&w=1887&auto=format&fit=crop'
     },
     {
+        id: 12,
+        name: 'Low Mud Crawl',
+        description: 'Army crawl under netting/barbed wire',
+        distanceReps: '30m',
+        muscleGroup: 'Core, Shoulders, Grit',
+        culturalRoots: 'Military/OCR staple',
+        icon: Move,
+        image: 'https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?q=80&w=2070&auto=format&fit=crop'
+    },
+    {
         id: 13,
-        name: 'Ice Pool Obstacle',
+        name: 'Ice Plunge',
         description: 'Submerge and traverse ice water channel',
         distanceReps: '10m wade + 2min immersion',
         muscleGroup: 'Mental fortitude, Recovery',
@@ -203,30 +203,27 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
                                     <X size={20} />
                                 </button>
                             </div>
-                            
+
                             <div className="flex-grow overflow-y-auto p-3 space-y-1.5 custom-scrollbar">
                                 {stations.map((station) => (
                                     <button
                                         key={station.id}
                                         onClick={() => setSelectedStation(station)}
-                                        className={`w-full flex items-center gap-3 p-3 rounded-2xl transition-all group ${
-                                            selectedStation?.id === station.id 
-                                            ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20' 
-                                            : 'hover:bg-white/5 text-gray-400 hover:text-white'
-                                        }`}
+                                        className={`w-full flex items-center gap-3 p-3 rounded-2xl transition-all group ${selectedStation?.id === station.id
+                                                ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20'
+                                                : 'hover:bg-white/5 text-gray-400 hover:text-white'
+                                            }`}
                                     >
-                                        <div className={`p-2 rounded-xl bg-zinc-900 group-hover:scale-110 transition-transform ${
-                                            selectedStation?.id === station.id ? 'bg-white/20' : ''
-                                        }`}>
+                                        <div className={`p-2 rounded-xl bg-zinc-900 group-hover:scale-110 transition-transform ${selectedStation?.id === station.id ? 'bg-white/20' : ''
+                                            }`}>
                                             <station.icon size={16} />
                                         </div>
                                         <div className="text-left overflow-hidden">
                                             <p className="text-[7px] font-black uppercase opacity-60 truncate">Station {station.id}</p>
                                             <p className="font-bold italic uppercase tracking-tight text-xs truncate">{station.name}</p>
                                         </div>
-                                        <ArrowRight size={12} className={`ml-auto opacity-0 group-hover:opacity-100 transition-opacity ${
-                                            selectedStation?.id === station.id ? 'opacity-100' : ''
-                                        }`} />
+                                        <ArrowRight size={12} className={`ml-auto opacity-0 group-hover:opacity-100 transition-opacity ${selectedStation?.id === station.id ? 'opacity-100' : ''
+                                            }`} />
                                     </button>
                                 ))}
                             </div>
@@ -235,8 +232,8 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
                         {/* Right Side: Station Detail & Image */}
                         <div className="w-full md:w-3/4 flex flex-col bg-zinc-900/20 overflow-hidden relative">
                             {/* Close Button Desktop */}
-                            <button 
-                                onClick={onClose} 
+                            <button
+                                onClick={onClose}
                                 className="hidden md:flex absolute top-6 right-6 p-2 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-white hover:bg-[#f82506] transition-all z-50 shadow-xl"
                             >
                                 <X size={20} />
@@ -301,7 +298,7 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
                                                     <div className="w-2 h-2 rounded-full bg-[#f82506] animate-pulse" />
                                                     <span className="text-[8px] font-black uppercase tracking-widest text-gray-500">The Ritual of Strength</span>
                                                 </div>
-                                                <button 
+                                                <button
                                                     onClick={() => {
                                                         const nextIdx = (stations.findIndex(s => s.id === selectedStation.id) + 1) % stations.length;
                                                         setSelectedStation(stations[nextIdx]);
@@ -344,17 +341,17 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
                                         <div className="space-y-4 relative z-10">
                                             <h3 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">ELITE <span className="text-[#f82506]">STATIONS</span></h3>
                                             <p className="text-gray-500 max-w-md mx-auto uppercase text-xs font-bold tracking-[0.2em] leading-relaxed">
-                                                Each station is a monument to human endurance. 
+                                                Each station is a monument to human endurance.
                                                 Explore the biomechanics and origins behind the ATHLiON rituals.
                                             </p>
                                         </div>
                                         <div className="flex gap-3 justify-center pt-4">
                                             {[1, 2, 3, 4, 5].map(i => (
-                                                <motion.div 
-                                                    key={i} 
+                                                <motion.div
+                                                    key={i}
                                                     animate={{ opacity: [0.2, 1, 0.2] }}
                                                     transition={{ repeat: Infinity, duration: 2, delay: i * 0.2 }}
-                                                    className="w-16 h-1.5 bg-[#f82506] rounded-full" 
+                                                    className="w-16 h-1.5 bg-[#f82506] rounded-full"
                                                 />
                                             ))}
                                         </div>

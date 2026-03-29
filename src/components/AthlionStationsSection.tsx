@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    X, Trophy, Dumbbell, Move, Zap, 
-    RefreshCcw, Briefcase, ArrowUpCircle, 
+import {
+    X, Trophy, Dumbbell, Move, Zap,
+    RefreshCcw, Briefcase, ArrowUpCircle,
     Footprints, CircleDot, Wind, ArrowRight,
     Search, Info, History, Target, Activity,
     RotateCw, LucideIcon
@@ -102,18 +102,9 @@ const stations: Station[] = [
         icon: Dumbbell,
         image: '/images/stations/tire_flip.png'
     },
+
     {
         id: 8,
-        name: 'Low Crawl',
-        description: 'Army crawl under netting/barbed wire',
-        distanceReps: '30m',
-        muscleGroup: 'Core, Shoulders, Grit',
-        culturalRoots: 'Military/OCR staple',
-        icon: Move,
-        image: 'https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?q=80&w=2070&auto=format&fit=crop' // Will generate soon
-    },
-    {
-        id: 9,
         name: 'Farmer\'s Carry',
         description: 'Heavy kettlebell/dumbbell walk',
         distanceReps: '100m (50m out/back)',
@@ -123,17 +114,17 @@ const stations: Station[] = [
         image: '/images/stations/farmers_carry.png'
     },
     {
-        id: 10,
+        id: 9,
         name: 'Height Net Trap',
         description: 'Climb 12ft cargo net, descend other side',
         distanceReps: '1 ascent/descent',
         muscleGroup: 'Full body, Fear conquer',
         culturalRoots: 'OCR signature',
         icon: ArrowUpCircle,
-        image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=2070&auto=format&fit=crop' // Will generate soon
+        image: 'images/stations/HIghtrap.png' // Will generate soon
     },
     {
-        id: 11,
+        id: 10,
         name: 'Sandbag Lunges',
         description: 'Walking lunges with sandbag on shoulders',
         distanceReps: '100m',
@@ -143,7 +134,7 @@ const stations: Station[] = [
         image: '/images/stations/sandbag_lunges.png'
     },
     {
-        id: 12,
+        id: 11,
         name: 'Wall Ball',
         description: 'Squat + throw medicine ball to target',
         distanceReps: '30 reps (9kg men / 6kg women)',
@@ -153,8 +144,18 @@ const stations: Station[] = [
         image: '/images/stations/wall_ball.png'
     },
     {
+        id: 12,
+        name: 'Low Mud Crawl',
+        description: 'Army crawl under netting/barbed wire',
+        distanceReps: '30m',
+        muscleGroup: 'Core, Shoulders, Grit',
+        culturalRoots: 'Military/OCR staple',
+        icon: Move,
+        image: '/images/stations/add_mud_in_202603291034.png' // Will generate soon
+    },
+    {
         id: 13,
-        name: 'Ice Pool Obstacle',
+        name: 'Ice Plunge',
         description: 'Submerge and traverse ice water channel',
         distanceReps: '10m wade + 2min immersion',
         muscleGroup: 'Mental fortitude, Recovery',
@@ -189,7 +190,7 @@ export default function AthlionStationsSection() {
                     <h2 className="text-4xl md:text-6xl font-black italic tracking-tighter uppercase mb-4">ATHLiON <span className="text-[#f82506]">CHALLENGES</span></h2>
                     <p className="text-gray-500 font-bold uppercase tracking-widest text-xs mt-4">Master the ritual. Explore the 8 challenges.</p>
                 </div>
-                
+
                 <div className="flex justify-center w-full">
                     {/* Component Content directly mimicking the old modal but inline */}
                     <motion.div
@@ -205,30 +206,27 @@ export default function AthlionStationsSection() {
                             <div className="p-6 border-b border-white/10 flex flex-col bg-zinc-900/50">
                                 <h2 className="text-xl font-black italic uppercase tracking-tighter">ATHLiON <span className="text-[#f82506]">CHALLENGES</span></h2>
                             </div>
-                            
+
                             <div className="flex-grow overflow-y-auto p-3 space-y-1.5 custom-scrollbar bg-black">
                                 {stations.map((station) => (
                                     <button
                                         key={station.id}
                                         onClick={() => setSelectedStation(station)}
-                                        className={`w-full flex items-center gap-3 p-3 rounded-2xl transition-all group ${
-                                            selectedStation?.id === station.id 
-                                            ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20' 
+                                        className={`w-full flex items-center gap-3 p-3 rounded-2xl transition-all group ${selectedStation?.id === station.id
+                                            ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20'
                                             : 'hover:bg-white/5 text-gray-400 hover:text-white'
-                                        }`}
+                                            }`}
                                     >
-                                        <div className={`p-2 rounded-xl bg-zinc-900 group-hover:scale-110 transition-transform ${
-                                            selectedStation?.id === station.id ? 'bg-white/20' : ''
-                                        }`}>
+                                        <div className={`p-2 rounded-xl bg-zinc-900 group-hover:scale-110 transition-transform ${selectedStation?.id === station.id ? 'bg-white/20' : ''
+                                            }`}>
                                             <station.icon size={16} />
                                         </div>
                                         <div className="text-left overflow-hidden">
                                             <p className="text-[7px] font-black uppercase opacity-60 truncate">Station {station.id}</p>
                                             <p className="font-bold italic uppercase tracking-tight text-xs truncate">{station.name}</p>
                                         </div>
-                                        <ArrowRight size={12} className={`ml-auto opacity-0 group-hover:opacity-100 transition-opacity ${
-                                            selectedStation?.id === station.id ? 'opacity-100' : ''
-                                        }`} />
+                                        <ArrowRight size={12} className={`ml-auto opacity-0 group-hover:opacity-100 transition-opacity ${selectedStation?.id === station.id ? 'opacity-100' : ''
+                                            }`} />
                                     </button>
                                 ))}
                             </div>
@@ -268,11 +266,11 @@ export default function AthlionStationsSection() {
                                             <selectedStation.icon size={14} className="text-[#f82506]" />
                                             <span className="text-[10px] font-black uppercase tracking-widest">Station {selectedStation.id}</span>
                                         </div>
-                                        
+
                                         <h3 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4 shadow-black drop-shadow-lg">
                                             {selectedStation.name}
                                         </h3>
-                                        
+
                                         <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl font-medium tracking-wide drop-shadow-md">
                                             {selectedStation.description}
                                         </p>
@@ -285,7 +283,7 @@ export default function AthlionStationsSection() {
                                                 </div>
                                                 <p className="font-bold italic uppercase tracking-tight text-sm text-gray-200">{selectedStation.distanceReps}</p>
                                             </div>
-                                            
+
                                             <div className="p-4 bg-black/40 backdrop-blur-md rounded-2xl border border-white/10 group hover:bg-[#f82506]/10 transition-colors">
                                                 <div className="flex items-center gap-2 mb-2 text-[#f82506]">
                                                     <Activity size={16} />
@@ -309,7 +307,7 @@ export default function AthlionStationsSection() {
                     </motion.div>
                 </div>
             </div>
-            
+
             <style jsx global>{`
                 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
                 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
