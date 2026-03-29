@@ -21,6 +21,29 @@ const MobileNavCapsule = () => {
     const isAdminPage = pathname?.startsWith('/admin');
     const isScannerPage = pathname === '/admin/scanner';
 
+    // PWA Install Logic
+    useEffect(() => {
+        const handleBeforeInstallPrompt = (e: any) => {
+            e.preventDefault();
+            const installBtn = document.getElementById('pwa-install-btn');
+            const installBanner = document.getElementById('pwa-install-banner');
+            if (installBanner) installBanner.classList.remove('hidden');
+            
+            if (installBtn) {
+                installBtn.onclick = async () => {
+                    e.prompt();
+                    const { outcome } = await e.userChoice;
+                    if (outcome === 'accepted') {
+                        if (installBanner) installBanner.classList.add('hidden');
+                    }
+                };
+            }
+        };
+
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    }, []);
+
     // Auto-hide on scroll down, show on scroll up
     useEffect(() => {
         const handleScroll = () => {
@@ -104,7 +127,22 @@ const MobileNavCapsule = () => {
                                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                                 className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-56 origin-bottom"
                             >
-                                <div className="bg-[#0a0a0a]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-2 shadow-2xl shadow-black/50">
+                                <div className="bg-[#0a0a0a]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-2 shadow-2xl shadow-black/50 overflow-hidden">
+                                    {/* Installation Prompt (PWA) */}
+                                    <div id="pwa-install-banner" className="hidden px-4 py-3 bg-[#f82506]/10 border-b border-white/5 mb-1 rounded-xl">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <p className="text-[10px] font-black uppercase tracking-wider text-white">ATHLiON App</p>
+                                                <p className="text-[8px] font-bold text-gray-500 uppercase">Better experience</p>
+                                            </div>
+                                            <button 
+                                                id="pwa-install-btn"
+                                                className="bg-[#f82506] text-white px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider shadow-lg shadow-[#f82506]/20"
+                                            >
+                                                Install
+                                            </button>
+                                        </div>
+                                    </div>
                                     {user ? (
                                         <>
                                             <div className="px-4 py-3 border-b border-white/5">
