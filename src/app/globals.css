@@ -9,30 +9,35 @@
   /* Athlion Orange/Red */
   --secondary: #1a1a1a;
   --accent: #ffd700;
+
+  /* Safe area insets */
+  --sai-top: env(safe-area-inset-top, 0px);
+  --sai-bottom: env(safe-area-inset-bottom, 0px);
+  --sai-left: env(safe-area-inset-left, 0px);
+  --sai-right: env(safe-area-inset-right, 0px);
 }
 
+/* ═══════ BASE BODY ═══════ */
 body {
   color: rgb(var(--foreground-rgb));
   background: #000000;
   min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* ═══════ GLASS CARDS ═══════ */
 .glass-card {
-  background: #121214; /* A sophisticated dark gray, visible against black */
+  background: #121214;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
-}
-
-.text-gradient {
-  background: linear-gradient(45deg, var(--primary), #ff6b6b);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.btn-primary {
-  @apply bg-[#f82506] hover:bg-[#d41f05] text-white px-6 py-2 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95;
 }
 
 .glass-card-hover {
@@ -44,13 +49,94 @@ body {
 }
 
 .glass-card-hover:hover {
-  background: #18181b; /* slightly lighter on hover */
+  background: #18181b;
   border-color: #f82506;
   box-shadow: 0 8px 32px -8px rgba(248, 37, 6, 0.3);
   transform: translateY(-2px);
 }
 
+/* ═══════ TEXT UTILITIES ═══════ */
+.text-gradient {
+  background: linear-gradient(45deg, var(--primary), #ff6b6b);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .text-stroke {
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
   color: transparent;
+}
+
+/* ═══════ BUTTON UTILITIES ═══════ */
+.btn-primary {
+  @apply bg-[#f82506] hover:bg-[#d41f05] text-white px-6 py-2 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95;
+}
+
+/* ═══════ SCROLLBAR ═══════ */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #f82506; }
+
+/* ═══════ HIDE SCROLLBAR ═══════ */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ═══════ SAFE AREA SUPPORT ═══════ */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* ═══════ MOBILE TOUCH TARGETS ═══════ */
+@media (max-width: 768px) {
+  .glass-card {
+    border-radius: 1.25rem;
+  }
+  .glass-card-hover {
+    border-radius: 1.25rem;
+  }
+  /* Prevent pull-to-refresh on PWA */
+  body.pwa-standalone {
+    overscroll-behavior-y: contain;
+  }
+}
+
+/* ═══════ PWA STANDALONE MODE ═══════ */
+@media all and (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+  }
+  /* Add extra bottom padding on standalone for floating nav */
+  .pwa-main-content {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ═══════ MOBILE NAV CAPSULE BOTTOM PADDING ═══════ */
+@media (max-width: 768px) {
+  .mobile-nav-spacer {
+    padding-bottom: 6rem;
+  }
+}
+
+/* ═══════ MARQUEE ANIMATION ═══════ */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  display: flex;
+  animation: marquee 20s linear infinite;
+}
+
+/* ═══════ SELECT STYLING FOR DARK MODE ═══════ */
+select option {
+  background: #0a0a0a;
+  color: white;
 }

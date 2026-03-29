@@ -286,50 +286,50 @@ export default function EventDetailPage() {
     );
 
     return (
-        <div className="min-h-screen pt-32 pb-24 bg-black px-4 lg:px-0">
+        <div className="min-h-screen pt-20 md:pt-32 pb-28 md:pb-24 bg-black px-4 lg:px-0">
             <Script src="https://checkout.razorpay.com/v1/checkout.js" />
 
-            <div className="max-w-7xl mx-auto px-4">
-                <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors mb-12 uppercase text-xs font-black tracking-widest group">
-                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Calender
+            <div className="max-w-7xl mx-auto px-0 md:px-4">
+                <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors mb-6 md:mb-12 uppercase text-xs font-black tracking-widest group">
+                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Calendar
                 </button>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
                     {/* Left Side: Event Info */}
                     <div className="lg:col-span-7">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                         >
-                            <h1 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase mb-8 leading-none">
+                            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-black italic tracking-tighter uppercase mb-4 md:mb-8 leading-[0.9] break-words">
                                 {event.name?.split(' ')[0]} <span className="text-[#f82506]">{event.name?.split(' ').slice(1).join(' ')}</span>
                             </h1>
 
-                            <div className="flex flex-wrap gap-4 mb-12">
-                                <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-gray-300">
-                                    <Calendar size={14} className="text-[#f82506]" /> {formatDate(event.date)}
+                            <div className="flex flex-wrap gap-2 md:gap-4 mb-6 md:mb-12">
+                                <div className="flex items-center gap-2 bg-white/5 px-3 md:px-4 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-300">
+                                    <Calendar size={13} className="text-[#f82506] shrink-0" /> {formatDate(event.date)}
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-gray-300">
-                                    <Clock size={14} className="text-[#f82506]" /> {event.startTime} Start
+                                <div className="flex items-center gap-2 bg-white/5 px-3 md:px-4 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-300">
+                                    <Clock size={13} className="text-[#f82506] shrink-0" /> {event.startTime} Start
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-gray-300">
-                                    <MapPin size={14} className="text-[#f82506]" /> {event.venue.address.split(',')[0]}
+                                <div className="flex items-center gap-2 bg-white/5 px-3 md:px-4 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-300">
+                                    <MapPin size={13} className="text-[#f82506] shrink-0" /> <span className="truncate max-w-[180px] md:max-w-none">{event.venue.address.split(',')[0]}</span>
                                 </div>
                             </div>
 
-                            <div className="space-y-8 text-gray-400 text-lg leading-relaxed mb-12">
+                            <div className="space-y-6 md:space-y-8 text-gray-400 text-sm md:text-lg leading-relaxed mb-8 md:mb-12">
                                 <p>{event.description}</p>
-                                <div className="glass-card p-8 border-l-4 border-l-[#f82506] bg-zinc-950/30">
-                                    <h3 className="text-white text-xl font-black italic uppercase mb-4 tracking-tight">Race Format</h3>
-                                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-medium">
-                                        <li className="flex items-center gap-2"><CheckCircle size={16} className="text-[#f82506]" /> 1km Run x 8 Sections</li>
-                                        <li className="flex items-center gap-2"><CheckCircle size={16} className="text-[#f82506]" /> 1000m Ski Erg</li>
-                                        <li className="flex items-center gap-2"><CheckCircle size={16} className="text-[#f82506]" /> 50m Sled Push</li>
-                                        <li className="flex items-center gap-2"><CheckCircle size={16} className="text-[#f82506]" /> 50m Sled Pull</li>
-                                        <li className="flex items-center gap-2"><CheckCircle size={16} className="text-[#f82506]" /> 80m Burpee Broad Jumps</li>
-                                        <li className="flex items-center gap-2"><CheckCircle size={16} className="text-[#f82506]" /> 1000m Row</li>
-                                        <li className="flex items-center gap-2"><CheckCircle size={16} className="text-[#f82506]" /> 200m Farmers Carry</li>
-                                        <li className="flex items-center gap-2"><CheckCircle size={16} className="text-[#f82506]" /> 100 Wall Balls</li>
+                                <div className="glass-card p-5 md:p-8 border-l-4 border-l-[#f82506] bg-zinc-950/30">
+                                    <h3 className="text-white text-base md:text-xl font-black italic uppercase mb-3 md:mb-4 tracking-tight">Race Format</h3>
+                                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-4 text-xs md:text-sm font-medium">
+                                        <li className="flex items-center gap-2"><CheckCircle size={14} className="text-[#f82506] shrink-0" /> 1km Run x 8 Sections</li>
+                                        <li className="flex items-center gap-2"><CheckCircle size={14} className="text-[#f82506] shrink-0" /> 1000m Ski Erg</li>
+                                        <li className="flex items-center gap-2"><CheckCircle size={14} className="text-[#f82506] shrink-0" /> 50m Sled Push</li>
+                                        <li className="flex items-center gap-2"><CheckCircle size={14} className="text-[#f82506] shrink-0" /> 50m Sled Pull</li>
+                                        <li className="flex items-center gap-2"><CheckCircle size={14} className="text-[#f82506] shrink-0" /> 80m Burpee Broad Jumps</li>
+                                        <li className="flex items-center gap-2"><CheckCircle size={14} className="text-[#f82506] shrink-0" /> 1000m Row</li>
+                                        <li className="flex items-center gap-2"><CheckCircle size={14} className="text-[#f82506] shrink-0" /> 200m Farmers Carry</li>
+                                        <li className="flex items-center gap-2"><CheckCircle size={14} className="text-[#f82506] shrink-0" /> 100 Wall Balls</li>
                                     </ul>
                                 </div>
                             </div>
@@ -341,14 +341,14 @@ export default function EventDetailPage() {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="sticky top-32 glass-card p-8 md:p-10 border-[#f82506]/20 bg-zinc-950/80"
+                            className="sticky top-24 md:top-32 glass-card p-5 md:p-8 lg:p-10 border-[#f82506]/20 bg-zinc-950/80"
                         >
                             {/* Progress Header */}
-                            <div className="flex justify-between items-center mb-10">
+                            <div className="flex justify-between items-center mb-6 md:mb-10">
                                 {steps.map((s) => (
-                                    <div key={s.id} className="flex flex-col items-center gap-2">
-                                        <div className={`w-10 h-1 md:w-16 rounded-full transition-all duration-500 ${step >= s.id ? 'bg-[#f82506]' : 'bg-gray-800'}`} />
-                                        <span className={`text-[8px] font-black tracking-tighter ${step === s.id ? 'text-[#f82506]' : 'text-gray-600'}`}>{s.title}</span>
+                                    <div key={s.id} className="flex flex-col items-center gap-1 md:gap-2">
+                                        <div className={`w-8 h-1 md:w-16 rounded-full transition-all duration-500 ${step >= s.id ? 'bg-[#f82506]' : 'bg-gray-800'}`} />
+                                        <span className={`text-[7px] md:text-[8px] font-black tracking-tighter ${step === s.id ? 'text-[#f82506]' : 'text-gray-600'}`}>{s.title}</span>
                                     </div>
                                 ))}
                             </div>
@@ -356,8 +356,8 @@ export default function EventDetailPage() {
                             <form onSubmit={(e) => e.preventDefault()}>
                                 {/* STEP 1: LEVEL */}
                                 {step === 1 && (
-                                    <div className="space-y-6">
-                                        <h3 className="text-3xl font-black italic uppercase tracking-tighter">PICK YOUR <span className="text-[#f82506]">LEVEL</span></h3>
+                                    <div className="space-y-5 md:space-y-6">
+                                        <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PICK YOUR <span className="text-[#f82506]">LEVEL</span></h3>
                                         <div className="grid grid-cols-1 gap-4">
                                             {[
                                                 { id: 'elite', label: 'Elite (VIP)', desc: 'For experienced athletes' },
@@ -367,10 +367,10 @@ export default function EventDetailPage() {
                                                     key={lvl.id}
                                                     type="button"
                                                     onClick={() => { setRegData({ ...regData, level: lvl.id }); setStep(2); }}
-                                                    className={`glass-card-hover p-6 rounded-2xl text-left border transition-all ${regData.level === lvl.id ? 'border-[#f82506] bg-[#f82506]/10' : 'border-white/5'}`}
+                                                    className={`glass-card-hover p-4 md:p-6 rounded-xl md:rounded-2xl text-left border transition-all ${regData.level === lvl.id ? 'border-[#f82506] bg-[#f82506]/10' : 'border-white/5'}`}
                                                 >
-                                                    <span className="block text-xl font-black italic uppercase">{lvl.label}</span>
-                                                    <span className="text-xs text-gray-500 uppercase font-bold tracking-widest">{lvl.desc}</span>
+                                                    <span className="block text-lg md:text-xl font-black italic uppercase">{lvl.label}</span>
+                                                    <span className="text-[10px] md:text-xs text-gray-500 uppercase font-bold tracking-widest">{lvl.desc}</span>
                                                 </button>
                                             ))}
                                         </div>
@@ -379,8 +379,8 @@ export default function EventDetailPage() {
 
                                 {/* STEP 2: PHYSICAL DETAILS */}
                                 {step === 2 && (
-                                    <div className="space-y-6">
-                                        <h3 className="text-3xl font-black italic uppercase tracking-tighter">PHYSICAL <span className="text-[#f82506]">DETAILS</span></h3>
+                                    <div className="space-y-5 md:space-y-6">
+                                        <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PHYSICAL <span className="text-[#f82506]">DETAILS</span></h3>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
                                                 <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Height (CM)</label>
@@ -389,7 +389,7 @@ export default function EventDetailPage() {
                                                     placeholder="175"
                                                     value={regData.height}
                                                     onChange={(e) => setRegData({ ...regData, height: e.target.value })}
-                                                    className="w-full bg-white/5 border border-white/10 rounded-xl p-4 focus:border-[#f82506] transition-all outline-none"
+                                                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 focus:border-[#f82506] transition-all outline-none text-sm"
                                                 />
                                             </div>
                                             <div>
@@ -399,7 +399,7 @@ export default function EventDetailPage() {
                                                     placeholder="70"
                                                     value={regData.weight}
                                                     onChange={(e) => setRegData({ ...regData, weight: e.target.value })}
-                                                    className="w-full bg-white/5 border border-white/10 rounded-xl p-4 focus:border-[#f82506] transition-all outline-none"
+                                                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 focus:border-[#f82506] transition-all outline-none text-sm"
                                                 />
                                             </div>
                                         </div>
@@ -418,16 +418,16 @@ export default function EventDetailPage() {
 
                                 {/* STEP 3: CATEGORY */}
                                 {step === 3 && (
-                                    <div className="space-y-6">
-                                        <h3 className="text-3xl font-black italic uppercase tracking-tighter">PICK <span className="text-[#f82506]">CATEGORY</span></h3>
+                                    <div className="space-y-5 md:space-y-6">
+                                        <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PICK <span className="text-[#f82506]">CATEGORY</span></h3>
                                         <button
                                             type="button"
                                             onClick={() => setStep(4)}
-                                            className="w-full glass-card-hover p-10 rounded-2xl text-center border border-[#f82506] bg-[#f82506]/10 transition-all group"
+                                            className="w-full glass-card-hover p-6 md:p-10 rounded-xl md:rounded-2xl text-center border border-[#f82506] bg-[#f82506]/10 transition-all group"
                                         >
-                                            <Trophy className="mx-auto mb-4 text-[#f82506] group-hover:scale-110 transition-transform" size={48} />
-                                            <span className="block text-4xl font-black italic uppercase tracking-tighter mb-2">SINGLE</span>
-                                            <span className="text-xs text-gray-300 uppercase font-black tracking-[0.2em]">Standard Solo Entry</span>
+                                            <Trophy className="mx-auto mb-3 md:mb-4 text-[#f82506] group-hover:scale-110 transition-transform" size={40} />
+                                            <span className="block text-2xl md:text-4xl font-black italic uppercase tracking-tighter mb-2">SINGLE</span>
+                                            <span className="text-[10px] md:text-xs text-gray-300 uppercase font-black tracking-[0.2em]">Standard Solo Entry</span>
                                         </button>
                                         <button onClick={() => setStep(2)} className="w-full p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
                                     </div>
@@ -435,9 +435,9 @@ export default function EventDetailPage() {
 
                                 {/* STEP 4: WAVE SELECTION + COUPON + PAYMENT */}
                                 {step === 4 && (
-                                    <div className="space-y-6">
-                                        <h3 className="text-3xl font-black italic uppercase tracking-tighter">WAVE <span className="text-[#f82506]">SELECTION</span></h3>
-                                        <div className="grid grid-cols-3 gap-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                                    <div className="space-y-5 md:space-y-6">
+                                        <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">WAVE <span className="text-[#f82506]">SELECTION</span></h3>
+                                        <div className="grid grid-cols-4 md:grid-cols-3 gap-2 md:gap-3 max-h-52 md:max-h-60 overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
                                             {generateWaveTimes().map((wave) => (
                                                 <button
                                                     key={wave.time}
@@ -544,7 +544,7 @@ export default function EventDetailPage() {
 
                                                 <div className="flex justify-between items-end pt-3 border-t border-white/5">
                                                     <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Total</span>
-                                                    <span className="text-4xl font-black italic text-white">{formatCurrency(getFinalPrice())}</span>
+                                                    <span className="text-2xl md:text-4xl font-black italic text-white">{formatCurrency(getFinalPrice())}</span>
                                                 </div>
                                             </div>
 
@@ -553,7 +553,7 @@ export default function EventDetailPage() {
                                                 <button
                                                     onClick={handleBooking}
                                                     disabled={bookingLoading || !regData.batchTime}
-                                                    className="flex-[2] btn-primary p-4 py-4 font-black italic tracking-widest text-lg disabled:bg-zinc-800 disabled:text-zinc-500"
+                                                    className="flex-[2] btn-primary p-3 md:p-4 py-3 md:py-4 font-black italic tracking-widest text-sm md:text-lg disabled:bg-zinc-800 disabled:text-zinc-500"
                                                 >
                                                     {bookingLoading ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'PAY & REGISTER'}
                                                 </button>

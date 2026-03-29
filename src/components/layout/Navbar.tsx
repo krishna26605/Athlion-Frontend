@@ -9,7 +9,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
-    const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
     const pathname = usePathname();
@@ -33,12 +32,12 @@ const Navbar = () => {
     }
 
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0a0a]/90 border-b border-white/5 backdrop-blur-md py-4' : 'bg-transparent py-6'}`}>
+        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0a0a]/90 border-b border-white/5 backdrop-blur-md py-3 md:py-4' : 'bg-transparent py-4 md:py-6'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2">
-                        <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-10 h-10 object-contain" />
-                        <span className="text-2xl font-black tracking-tighter italic">ATH<span className="text-[#f82506]">LiON</span></span>
+                        <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+                        <span className="text-xl md:text-2xl font-black tracking-tighter italic">ATH<span className="text-[#f82506]">LiON</span></span>
                     </Link>
 
                     {/* Desktop Nav */}
@@ -70,48 +69,10 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
-                    <div className="md:hidden flex items-center">
-                        <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-[#f82506]">
-                            {isOpen ? <X size={28} /> : <Menu size={28} />}
-                        </button>
-                    </div>
+                    {/* Mobile: Just keep the logo, floating nav handles the rest */}
+                    <div className="md:hidden" />
                 </div>
             </div>
-
-            {/* Mobile Nav Overlay */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="md:hidden bg-black/95 absolute w-full h-screen top-0 left-0 pt-24 px-8"
-                    >
-                        <div className="flex flex-col gap-6 text-2xl font-bold italic uppercase">
-                            {navLinks.map((link) => (
-                                <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)} className="hover:text-[#f82506]">
-                                    {link.name}
-                                </Link>
-                            ))}
-                            {user ? (
-                                <>
-                                    {user.role === 'admin' && (
-                                        <Link href="/admin" onClick={() => setIsOpen(false)} className="text-[#f82506]">Admin Panel</Link>
-                                    )}
-                                    <Link href="/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link>
-                                    <button onClick={logout} className="text-left text-[#f82506]">Logout</button>
-                                </>
-                            ) : (
-                                <>
-                                    <Link href="/login" onClick={() => setIsOpen(false)} className="hover:text-[#f82506]">Login</Link>
-                                    <Link href="/register" onClick={() => setIsOpen(false)} className="text-[#f82506]">Register</Link>
-                                </>
-                            )}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </nav>
     );
 };

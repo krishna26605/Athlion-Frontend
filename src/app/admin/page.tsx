@@ -64,43 +64,43 @@ export default function AdminDashboard() {
                 >
                     
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-8 md:mb-12">
                         {cards.map((card, idx) => (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.1 }}
                                 key={card.title}
-                                className="glass-card p-8 border-white/5 hover:border-white/10 transition-all group"
+                                className="glass-card p-4 md:p-8 border-white/5 hover:border-white/10 transition-all group"
                             >
-                                <div className="flex justify-between items-start mb-6">
-                                    <div className="p-3 bg-white/5 rounded-2xl group-hover:scale-110 transition-transform">
+                                <div className="flex justify-between items-start mb-3 md:mb-6">
+                                    <div className="p-2 md:p-3 bg-white/5 rounded-xl md:rounded-2xl group-hover:scale-110 transition-transform">
                                         {card.icon}
                                     </div>
-                                    <ArrowUpRight size={16} className="text-gray-700 group-hover:text-white transition-colors" />
+                                    <ArrowUpRight size={14} className="text-gray-700 group-hover:text-white transition-colors hidden md:block" />
                                 </div>
-                                <h3 className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">{card.title}</h3>
-                                <div className="text-3xl font-black italic tracking-tight mb-2">{card.value}</div>
-                                <p className="text-[10px] font-bold text-gray-700 uppercase">{card.sub}</p>
+                                <h3 className="text-gray-500 text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-1">{card.title}</h3>
+                                <div className="text-xl md:text-3xl font-black italic tracking-tight mb-1 md:mb-2">{card.value}</div>
+                                <p className="text-[9px] md:text-[10px] font-bold text-gray-700 uppercase hidden md:block">{card.sub}</p>
                             </motion.div>
                         ))}
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2 glass-card p-8 border-white/5 min-h-[400px] flex items-center justify-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+                        <div className="lg:col-span-2 glass-card p-6 md:p-8 border-white/5 min-h-[200px] md:min-h-[400px] flex items-center justify-center">
                             <div className="text-center">
-                                <TrendingUp size={48} className="text-zinc-900 mx-auto mb-4" />
-                                <p className="text-gray-600 font-bold uppercase tracking-widest text-xs">Analytics Visualization coming soon</p>
+                                <TrendingUp size={36} className="text-zinc-900 mx-auto mb-4" />
+                                <p className="text-gray-600 font-bold uppercase tracking-widest text-[10px] md:text-xs">Analytics Visualization coming soon</p>
                             </div>
                         </div>
-                        <div className="glass-card p-8 border-white/5 bg-zinc-950/50">
-                            <h3 className="text-lg font-black italic uppercase mb-6 tracking-tight">Recent Activity</h3>
-                            <div className="space-y-6">
+                        <div className="glass-card p-5 md:p-8 border-white/5 bg-zinc-950/50">
+                            <h3 className="text-base md:text-lg font-black italic uppercase mb-4 md:mb-6 tracking-tight">Recent Activity</h3>
+                            <div className="space-y-4 md:space-y-6">
                                 {[1, 2, 3, 4, 5].map((i) => (
-                                    <div key={i} className="flex gap-4 items-start border-l-2 border-[#f82506]/20 pl-4 py-1">
+                                    <div key={i} className="flex gap-3 md:gap-4 items-start border-l-2 border-[#f82506]/20 pl-3 md:pl-4 py-1">
                                         <div>
-                                            <p className="text-xs font-bold text-gray-300 uppercase tracking-tight line-clamp-1">New registration for ATHLiON North</p>
-                                            <p className="text-[10px] text-gray-600 font-black uppercase tracking-widest mt-1">2 mins ago</p>
+                                            <p className="text-[10px] md:text-xs font-bold text-gray-300 uppercase tracking-tight line-clamp-1">New registration for ATHLiON North</p>
+                                            <p className="text-[9px] md:text-[10px] text-gray-600 font-black uppercase tracking-widest mt-1">2 mins ago</p>
                                         </div>
                                     </div>
                                 ))}

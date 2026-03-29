@@ -64,22 +64,51 @@ export default function AdminUsersPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
-                    <div className="flex justify-between items-end mb-12">
+                    <div className="flex flex-col md:flex-row justify-between items-stretch md:items-end gap-4 mb-6 md:mb-12">
                         
 
-                        <div className="relative w-80">
+                        <div className="relative w-full md:w-80">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
                             <input
                                 type="text"
                                 placeholder="Search by name, email or phone..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-zinc-900/50 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-sm outline-none focus:border-[#f82506]/50 transition-all font-medium"
+                                className="w-full bg-zinc-900/50 border border-white/5 rounded-2xl py-3.5 md:py-4 pl-11 md:pl-12 pr-6 text-sm outline-none focus:border-[#f82506]/50 transition-all font-medium"
                             />
                         </div>
                     </div>
 
-                    <div className="glass-card overflow-hidden border-white/5">
+                    {/* Mobile Card List */}
+                    <div className="md:hidden space-y-3">
+                        {filteredUsers.map((u) => (
+                            <div key={u._id} className="glass-card p-4 border-white/5">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-[#f82506] shrink-0">
+                                        <UserIcon size={18} />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <div className="font-black italic uppercase tracking-tight text-sm truncate">{u.name}</div>
+                                        <div className="text-[9px] text-gray-500 uppercase font-bold tracking-widest">ID: {u._id.slice(-6)}</div>
+                                    </div>
+                                    <span className={`ml-auto px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider shrink-0 ${u.role === 'admin' ? 'bg-[#f82506]/10 text-[#f82506]' : 'bg-zinc-800 text-gray-400'}`}>
+                                        {u.role}
+                                    </span>
+                                </div>
+                                <div className="space-y-1 text-[10px]">
+                                    <div className="flex items-center gap-2 text-gray-400">
+                                        <Mail size={10} className="text-gray-600" /> {u.email}
+                                    </div>
+                                    <div className="flex items-center gap-2 text-gray-500">
+                                        <Phone size={10} className="text-gray-600" /> {u.phone || 'N/A'}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Desktop Table */}
+                    <div className="hidden md:block glass-card overflow-hidden border-white/5">
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="border-b border-white/5 text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] bg-white/[0.02]">
@@ -132,14 +161,14 @@ export default function AdminUsersPage() {
                                 ))}
                             </tbody>
                         </table>
-
-                        {filteredUsers.length === 0 && (
-                            <div className="p-20 text-center">
-                                <Search size={40} className="mx-auto text-zinc-800 mb-4" />
-                                <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">No users found matching your search.</p>
-                            </div>
-                        )}
                     </div>
+
+                    {filteredUsers.length === 0 && (
+                        <div className="p-12 md:p-20 text-center glass-card md:glass-card-none border-white/5">
+                            <Search size={32} className="mx-auto text-zinc-800 mb-4" />
+                            <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] md:text-xs">No users found matching your search.</p>
+                        </div>
+                    )}
                 </motion.div>
             </>
 );

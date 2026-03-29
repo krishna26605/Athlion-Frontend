@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    LayoutDashboard, Users, Calendar, Heart, Tag, Handshake, 
-    LogOut, ChevronRight, User as UserIcon, ScanLine
+    LayoutDashboard, Users, Calendar, Heart, Tag, Handshake,
+    LogOut, ChevronRight, User as UserIcon, ScanLine, Menu, X, Home
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -36,33 +36,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         if (pathname === '/admin/scanner') return { pre: 'QR', color: 'Scanner', sub: 'Athlete Verification' };
         if (pathname === '/admin/sponsors') return { pre: 'Sponsors', color: '& Ads', sub: 'Partners & Advertising' };
         if (pathname === '/admin/users') return { pre: 'Platform', color: 'Users', sub: 'Registered Athletes' };
-        // Default to dashboard
         return { pre: 'Admin', color: 'Dashboard', sub: 'Executive Summary', titleSize: 'text-3xl' };
     };
 
     const header = getHeaderInfo();
 
-   
+    // For scanner page on mobile, use minimal layout
+    const isScannerPage = pathname === '/admin/scanner';
 
     return (
-        <div className="min-h-screen bg-black flex overflow-hidden">
-            {/* Collapsible Sidebar */}
+        <div className="min-h-screen min-h-dvh bg-black flex overflow-hidden">
+            {/* ═══════ DESKTOP SIDEBAR (md+) ═══════ */}
             <motion.aside
                 initial={false}
                 animate={{ width: isCollapsed ? 96 : 300 }}
                 transition={{ type: 'spring', stiffness: 250, damping: 28, mass: 0.5 }}
-                className="bg-[#0a0a0a] border-r border-white/10 h-screen fixed left-0 top-0 flex flex-col z-50 shadow-2xl"
+                className="hidden md:flex bg-[#0a0a0a] border-r border-white/10 h-screen fixed left-0 top-0 flex-col z-50 shadow-2xl"
             >
-                {/* Brand / Logo Area */}
+                {/* Brand */}
                 <div className="h-24 border-b border-white/10 flex items-center px-6 shrink-0 justify-between overflow-hidden">
                     <Link href="/admin" className="flex items-center gap-3 whitespace-nowrap overflow-visible">
                         <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-12 h-12 object-contain shrink-0" />
                         <AnimatePresence>
                             {!isCollapsed && (
-                                <motion.span 
-                                    initial={{ opacity: 0, x: -10 }} 
-                                    animate={{ opacity: 1, x: 0 }} 
-                                    exit={{ opacity: 0, x: -10 }} 
+                                <motion.span
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -10 }}
                                     transition={{ duration: 0.2 }}
                                     className="text-3xl font-black tracking-tighter italic text-white pr-2"
                                 >
@@ -73,14 +73,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     </Link>
                 </div>
 
-                {/* Sidebar Navigation */}
+                {/* Nav */}
                 <div className="p-4 flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
                     <AnimatePresence>
                         {!isCollapsed && (
-                            <motion.div 
-                                initial={{ opacity: 0 }} 
-                                animate={{ opacity: 1 }} 
-                                exit={{ opacity: 0 }} 
+                            <motion.div
+                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                                 transition={{ duration: 0.2 }}
                                 className="mb-6 px-2 whitespace-nowrap"
                             >
@@ -106,10 +104,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                     <span className="shrink-0">{item.icon}</span>
                                     <AnimatePresence>
                                         {!isCollapsed && (
-                                            <motion.span 
-                                                initial={{ opacity: 0 }} 
-                                                animate={{ opacity: 1 }} 
-                                                exit={{ opacity: 0 }}
+                                            <motion.span
+                                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                                                 transition={{ duration: 0.2 }}
                                             >
                                                 {item.name}
@@ -122,19 +118,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     </div>
                 </div>
 
-                {/* Bottom - Back to site / Logout */}
+                {/* Bottom */}
                 <div className="p-4 border-t border-white/10 shrink-0 flex flex-col gap-2">
                     <Link
                         href="/"
                         title={isCollapsed ? "Back to Site" : ""}
                         className="flex items-center gap-4 px-4 py-4 text-gray-500 hover:text-white rounded-xl hover:bg-white/5 transition-colors uppercase tracking-widest text-xs font-black whitespace-nowrap"
                     >
-                        <span className="shrink-0"><LayoutDashboard size={20} /></span>
+                        <span className="shrink-0"><Home size={20} /></span>
                         {!isCollapsed && <span>Live Site</span>}
                     </Link>
                 </div>
-                
-                {/* Collapse Button - Fully Symmetric Pill */}
+
+                {/* Collapse Button */}
                 <button
                     onClick={toggleSidebar}
                     className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-16 bg-zinc-900 border border-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#f82506] hover:border-[#f82506] shadow-xl z-50 group hover:scale-105 transition-all outline-none"
@@ -146,14 +142,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </button>
             </motion.aside>
 
-            {/* Main Content Area - Synchronized Framer Motion state */}
-            <motion.div 
+            {/* ═══════ MAIN CONTENT AREA (Desktop) ═══════ */}
+            <motion.div
                 animate={{ marginLeft: isCollapsed ? 96 : 300 }}
                 transition={{ type: 'spring', stiffness: 250, damping: 28, mass: 0.5 }}
-                className="flex-1 flex flex-col h-screen overflow-hidden" 
+                className="hidden md:flex flex-1 flex-col h-screen overflow-hidden"
             >
-                
-                {/* Top Right Separate Header */}
+                {/* Desktop Header */}
                 <header className="h-24 shrink-0 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-10 z-40 relative shadow-2xl">
                     <div className="flex flex-col">
                         <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-[10px] mb-1">{header.sub}</span>
@@ -165,14 +160,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <div className="flex items-center gap-6">
                         {user && (
                             <div className="flex items-center gap-4">
-                                <div className="hidden md:flex flex-col text-right">
+                                <div className="flex flex-col text-right">
                                     <span className="text-sm font-black uppercase tracking-widest text-white">{user.name}</span>
                                     <span className="text-[10px] uppercase font-bold text-[#f82506]">{user.role}</span>
                                 </div>
                                 <div className="w-12 h-12 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center relative overflow-hidden shadow-lg shadow-black/50">
-                                     <UserIcon size={20} className="text-gray-300" />
+                                    <UserIcon size={20} className="text-gray-300" />
                                 </div>
-                                <div className="h-8 w-px bg-white/10 mx-2 hidden md:block" />
+                                <div className="h-8 w-px bg-white/10 mx-2" />
                                 <button onClick={logout} title="Sign off" className="p-3 text-gray-500 hover:text-[#f82506] transition-colors rounded-xl hover:bg-white/5 border border-transparent hover:border-[#f82506]/20">
                                     <LogOut size={20} />
                                 </button>
@@ -181,11 +176,46 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     </div>
                 </header>
 
-                {/* Page Content */}
+                {/* Desktop Content */}
                 <main className="flex-1 overflow-y-auto p-4 md:p-10 bg-black custom-scrollbar w-full relative z-0">
                     {children}
                 </main>
             </motion.div>
+
+            {/* ═══════ MOBILE LAYOUT ═══════ */}
+            <div className="flex md:hidden flex-1 flex-col min-h-screen min-h-dvh w-full">
+                {/* Mobile Top Header — Clean & minimal, NO menu button */}
+                {!isScannerPage && (
+                    <header className="shrink-0 bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-4 py-3 z-40 relative safe-top">
+                        <div className="flex items-center gap-3">
+                            <Link href="/admin" className="shrink-0">
+                                <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON" className="w-7 h-7 object-contain" />
+                            </Link>
+                            <div className="flex flex-col min-w-0">
+                                <span className="text-[8px] font-black uppercase tracking-[0.15em] text-[#f82506] leading-tight">{header.sub}</span>
+                                <h1 className="text-base font-black italic tracking-tighter uppercase leading-tight truncate">
+                                    {header.pre} <span className={header.colorClass || 'text-white'}>{header.color}</span>
+                                </h1>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                            {user && (
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[9px] font-black uppercase tracking-wider text-gray-400 hidden min-[400px]:block">{user.name.split(' ')[0]}</span>
+                                    <div className="w-8 h-8 rounded-full bg-[#f82506]/10 border border-[#f82506]/30 flex items-center justify-center">
+                                        <UserIcon size={14} className="text-[#f82506]" />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </header>
+                )}
+
+                {/* Mobile Content — padding bottom for floating nav */}
+                <main className={`flex-1 overflow-y-auto bg-black custom-scrollbar w-full relative z-0 ${isScannerPage ? '' : 'p-4 pb-24'}`}>
+                    {children}
+                </main>
+            </div>
 
             <style jsx global>{`
                 .custom-scrollbar::-webkit-scrollbar { width: 4px; }

@@ -56,7 +56,7 @@ function LoginPage() {
         }
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "min-h-screen flex items-center justify-center pt-20 pb-12 px-4 bg-black",
+        className: "min-h-screen min-h-dvh flex items-center justify-center pt-16 md:pt-20 pb-28 md:pb-12 px-4 bg-black",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
             initial: {
                 opacity: 0,
@@ -71,7 +71,7 @@ function LoginPage() {
             },
             className: "w-full max-w-md",
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "glass-card p-10 relative overflow-hidden",
+                className: "glass-card p-6 md:p-10 relative overflow-hidden",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute top-0 right-0 p-4 opacity-5 pointer-events-none",
@@ -90,14 +90,14 @@ function LoginPage() {
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "text-center mb-8 relative z-10",
+                        className: "text-center mb-6 md:mb-8 relative z-10",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex justify-center mb-6",
+                                className: "flex justify-center mb-4 md:mb-6",
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                                     src: "/FINAL-ATH-LOGO.png",
                                     alt: "ATHLiON Logo",
-                                    className: "w-20 h-20 object-contain"
+                                    className: "w-16 h-16 md:w-20 md:h-20 object-contain"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/login/page.tsx",
                                     lineNumber: 57,
@@ -109,7 +109,7 @@ function LoginPage() {
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                className: "text-4xl font-black italic tracking-tighter mb-2 uppercase",
+                                className: "text-3xl md:text-4xl font-black italic tracking-tighter mb-2 uppercase",
                                 children: [
                                     "WELCOME ",
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -118,7 +118,7 @@ function LoginPage() {
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/login/page.tsx",
                                         lineNumber: 59,
-                                        columnNumber: 108
+                                        columnNumber: 120
                                     }, this)
                                 ]
                             }, void 0, true, {
@@ -127,8 +127,8 @@ function LoginPage() {
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: "text-gray-400",
-                                children: "Enter your credentials to access your trainer dashboard."
+                                className: "text-gray-400 text-sm md:text-base",
+                                children: "Enter your credentials to access your dashboard."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/login/page.tsx",
                                 lineNumber: 60,

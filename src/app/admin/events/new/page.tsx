@@ -75,196 +75,196 @@ export default function NewEventPage() {
 
     return (
         <>
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="max-w-4xl"
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="max-w-4xl"
+            >
+                <button
+                    onClick={() => router.back()}
+                    className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors mb-6 md:mb-8 uppercase text-[10px] font-black tracking-widest group"
                 >
-                    <button
-                        onClick={() => router.back()}
-                        className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors mb-8 uppercase text-[10px] font-black tracking-widest group"
-                    >
-                        <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Back to Races
-                    </button>
+                    <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Back to Races
+                </button>
 
-                    <div className="mb-12">
-                        <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Event Management</span>
-                        <h1 className="text-5xl font-black italic tracking-tighter uppercase mb-2 leading-none">
-                            Create <span className="text-white">New Race</span>
-                        </h1>
-                        <p className="text-gray-400">Define the parameters for a new Athlion competitive event.</p>
+                <div className="mb-8 md:mb-12">
+                    <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-3 md:mb-4 block">Event Management</span>
+                    <h1 className="text-3xl md:text-5xl font-black italic tracking-tighter uppercase mb-2 leading-none">
+                        Create <span className="text-white">New Race</span>
+                    </h1>
+                    <p className="text-gray-400 text-sm md:text-base">Define the parameters for a new Athlion competitive event.</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+                    {/* Section 1: Basic Information */}
+                    <div className="glass-card p-5 md:p-8 border-white/5 space-y-5 md:space-y-6">
+                        <h3 className="text-base md:text-lg font-black italic uppercase tracking-tight flex items-center gap-3 border-b border-white/5 pb-4">
+                            <Info className="text-[#f82506]" size={16} /> Basic Information
+                        </h3>
+                        <div className="grid grid-cols-1 gap-5 md:gap-6">
+                            <div>
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Race Name</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    required
+                                    placeholder="e.g., Athlion City Sprint 2026"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-900 border border-white/5 rounded-xl p-3 md:p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold italic uppercase text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Description</label>
+                                <textarea
+                                    name="description"
+                                    required
+                                    rows={4}
+                                    placeholder="Describe the event format, challenges, and details..."
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-900 border border-white/5 rounded-xl p-3 md:p-4 focus:border-[#f82506]/50 transition-all outline-none text-xs md:text-sm font-medium"
+                                />
+                            </div>
+                        </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-8">
-                        {/* Section 1: Basic Information */}
-                        <div className="glass-card p-8 border-white/5 space-y-6">
-                            <h3 className="text-lg font-black italic uppercase tracking-tight flex items-center gap-3 border-b border-white/5 pb-4">
-                                <Info className="text-[#f82506]" size={18} /> Basic Information
-                            </h3>
-                            <div className="grid grid-cols-1 gap-6">
-                                <div>
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Race Name</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        required
-                                        placeholder="e.g., Athlion City Sprint 2026"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold italic uppercase"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Description</label>
-                                    <textarea
-                                        name="description"
-                                        required
-                                        rows={4}
-                                        placeholder="Describe the event format, challenges, and details..."
-                                        value={formData.description}
-                                        onChange={handleChange}
-                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none text-sm font-medium"
-                                    />
-                                </div>
+                    {/* Section 2: Venue Details */}
+                    <div className="glass-card p-5 md:p-8 border-white/5 space-y-5 md:space-y-6">
+                        <h3 className="text-base md:text-lg font-black italic uppercase tracking-tight flex items-center gap-3 border-b border-white/5 pb-4">
+                            <MapPin className="text-[#f82506]" size={16} /> Venue Details
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                            <div className="md:col-span-2">
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Full Address</label>
+                                <input
+                                    type="text"
+                                    name="venue.address"
+                                    required
+                                    placeholder="Venue Name, Street, City"
+                                    value={formData.venue.address}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-900 border border-white/5 rounded-xl p-3 md:p-4 focus:border-[#f82506]/50 transition-all outline-none font-medium text-sm"
+                                />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Google Maps Link</label>
+                                <input
+                                    type="url"
+                                    name="venue.googleMapsLink"
+                                    required
+                                    placeholder="https://goo.gl/maps/..."
+                                    value={formData.venue.googleMapsLink}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-900 border border-white/5 rounded-xl p-3 md:p-4 focus:border-[#f82506]/50 transition-all outline-none font-medium text-sm"
+                                />
                             </div>
                         </div>
+                    </div>
 
-                        {/* Section 2: Venue Details */}
-                        <div className="glass-card p-8 border-white/5 space-y-6">
-                            <h3 className="text-lg font-black italic uppercase tracking-tight flex items-center gap-3 border-b border-white/5 pb-4">
-                                <MapPin className="text-[#f82506]" size={18} /> Venue Details
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="md:col-span-2">
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Full Address</label>
-                                    <input
-                                        type="text"
-                                        name="venue.address"
-                                        required
-                                        placeholder="Venue Name, Street, City"
-                                        value={formData.venue.address}
-                                        onChange={handleChange}
-                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none font-medium"
-                                    />
-                                </div>
-                                <div className="md:col-span-2">
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Google Maps Link</label>
-                                    <input
-                                        type="url"
-                                        name="venue.googleMapsLink"
-                                        required
-                                        placeholder="https://goo.gl/maps/..."
-                                        value={formData.venue.googleMapsLink}
-                                        onChange={handleChange}
-                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none font-medium"
-                                    />
-                                </div>
+                    {/* Section 3: Schedule & Capacity */}
+                    <div className="glass-card p-5 md:p-8 border-white/5 space-y-5 md:space-y-6">
+                        <h3 className="text-base md:text-lg font-black italic uppercase tracking-tight flex items-center gap-3 border-b border-white/5 pb-4">
+                            <Calendar className="text-[#f82506]" size={16} /> Schedule & Capacity
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+                            <div>
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Race Date</label>
+                                <input
+                                    type="date"
+                                    name="date"
+                                    required
+                                    value={formData.date}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-900 border border-white/5 rounded-xl p-3 md:p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold text-sm"
+                                />
                             </div>
-                        </div>
-
-                        {/* Section 3: Schedule & Capacity */}
-                        <div className="glass-card p-8 border-white/5 space-y-6">
-                            <h3 className="text-lg font-black italic uppercase tracking-tight flex items-center gap-3 border-b border-white/5 pb-4">
-                                <Calendar className="text-[#f82506]" size={18} /> Schedule & Capacity
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div>
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Race Date</label>
-                                    <input
-                                        type="date"
-                                        name="date"
-                                        required
-                                        value={formData.date}
-                                        onChange={handleChange}
-                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Start Time</label>
-                                    <input
-                                        type="time"
-                                        name="startTime"
-                                        required
-                                        value={formData.startTime}
-                                        onChange={handleChange}
-                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Total Capacity</label>
-                                    <div className="relative">
-                                        <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
-                                        <input
-                                            type="number"
-                                            name="maxParticipants"
-                                            required
-                                            value={formData.maxParticipants}
-                                            onChange={handleChange}
-                                            className="w-full bg-zinc-900 border border-white/5 rounded-xl py-4 pl-12 pr-4 focus:border-[#f82506]/50 transition-all outline-none font-bold"
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Batch Size</label>
+                            <div>
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Start Time</label>
+                                <input
+                                    type="time"
+                                    name="startTime"
+                                    required
+                                    value={formData.startTime}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-900 border border-white/5 rounded-xl p-3 md:p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Total Capacity</label>
+                                <div className="relative">
+                                    <Users className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" size={14} />
                                     <input
                                         type="number"
-                                        name="batchSize"
+                                        name="maxParticipants"
                                         required
-                                        value={formData.batchSize}
+                                        value={formData.maxParticipants}
                                         onChange={handleChange}
-                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold"
+                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl py-3.5 md:py-4 pl-10 md:pl-12 pr-4 focus:border-[#f82506]/50 transition-all outline-none font-bold text-sm"
                                     />
                                 </div>
-                                <div>
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Gap (Minutes)</label>
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Batch Size</label>
+                                <input
+                                    type="number"
+                                    name="batchSize"
+                                    required
+                                    value={formData.batchSize}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-900 border border-white/5 rounded-xl p-3 md:p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Gap (Minutes)</label>
+                                <input
+                                    type="number"
+                                    name="gapBetweenBatches"
+                                    required
+                                    value={formData.gapBetweenBatches}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-900 border border-white/5 rounded-xl p-3 md:p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Entry Fee (INR)</label>
+                                <div className="relative">
+                                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" size={14} />
                                     <input
                                         type="number"
-                                        name="gapBetweenBatches"
+                                        name="price"
                                         required
-                                        value={formData.gapBetweenBatches}
+                                        value={formData.price}
                                         onChange={handleChange}
-                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl p-4 focus:border-[#f82506]/50 transition-all outline-none font-bold"
+                                        className="w-full bg-zinc-900 border border-white/5 rounded-xl py-3.5 md:py-4 pl-10 md:pl-12 pr-4 focus:border-[#f82506]/50 transition-all outline-none font-black italic text-lg"
                                     />
-                                </div>
-                                <div>
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Entry Fee (INR)</label>
-                                    <div className="relative">
-                                        <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
-                                        <input
-                                            type="number"
-                                            name="price"
-                                            required
-                                            value={formData.price}
-                                            onChange={handleChange}
-                                            className="w-full bg-zinc-900 border border-white/5 rounded-xl py-4 pl-12 pr-4 focus:border-[#f82506]/50 transition-all outline-none font-black italic text-lg"
-                                        />
-                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="flex justify-end gap-4 pt-8">
-                            <button
-                                type="button"
-                                onClick={() => router.back()}
-                                className="px-8 py-4 rounded-2xl border border-white/5 font-black italic uppercase tracking-widest hover:bg-white/5 transition-all text-xs"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="px-12 py-4 bg-[#f82506] text-white rounded-2xl font-black italic uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(248,37,6,0.3)] flex items-center gap-3 text-xs"
-                            >
-                                {loading ? <Loader2 className="animate-spin" size={18} /> : (
-                                    <>
-                                        <Save size={18} /> Publish Race
-                                    </>
-                                )}
-                            </button>
-                        </div>
-                    </form>
-                </motion.div>
-            </>
-);
+                    <div className="flex flex-col sm:flex-row justify-end gap-3 md:gap-4 pt-6 md:pt-8 mb-20 md:mb-0">
+                        <button
+                            type="button"
+                            onClick={() => router.back()}
+                            className="w-full sm:w-auto px-8 py-3.5 md:py-4 rounded-xl md:rounded-2xl border border-white/5 font-black italic uppercase tracking-widest hover:bg-white/5 transition-all text-[10px] md:text-xs"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full sm:w-auto px-10 md:px-12 py-3.5 md:py-4 bg-[#f82506] text-white rounded-xl md:rounded-2xl font-black italic uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(248,37,6,0.3)] flex items-center justify-center gap-3 text-[10px] md:text-xs"
+                        >
+                            {loading ? <Loader2 className="animate-spin" size={18} /> : (
+                                <>
+                                    <Save size={18} /> Publish Race
+                                </>
+                            )}
+                        </button>
+                    </div>
+                </form>
+            </motion.div>
+        </>
+    );
 }

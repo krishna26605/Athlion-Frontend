@@ -48,25 +48,25 @@ export default function EventsPage() {
     );
 
     return (
-        <div className="min-h-screen pt-32 pb-24 px-4 bg-black">
+        <div className="min-h-screen pt-20 md:pt-32 pb-28 md:pb-24 px-4 bg-black">
             <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-8 mb-10 md:mb-16">
                     <div className="max-w-2xl">
-                        <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Race Calendar</span>
-                        <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase mb-6 leading-none">
+                        <span className="text-[#f82506] font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-3 md:mb-4 block">Race Calendar</span>
+                        <h1 className="text-4xl sm:text-5xl md:text-7xl font-black italic tracking-tighter uppercase mb-4 md:mb-6 leading-none">
                             UPCOMING <span className="text-white">EVENTS</span>
                         </h1>
-                        <p className="text-gray-400 text-lg">Pick your race and Join the global series. New batches released daily.</p>
+                        <p className="text-gray-400 text-sm md:text-lg">Pick your race and Join the global series. New batches released daily.</p>
                     </div>
 
                     <div className="relative group w-full md:w-80">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#f82506] transition-colors" size={20} />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#f82506] transition-colors" size={18} />
                         <input
                             type="text"
                             placeholder="Search by city or venue..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-[#f82506] transition-all italic text-sm"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 md:py-4 pl-11 md:pl-12 pr-4 focus:outline-none focus:border-[#f82506] transition-all italic text-sm"
                         />
                     </div>
                 </div>
@@ -77,7 +77,7 @@ export default function EventsPage() {
                         <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">Loading Events...</p>
                     </div>
                 ) : filteredEvents.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                         {filteredEvents.map((event, i) => (
                             <motion.div
                                 key={event._id}
@@ -86,42 +86,44 @@ export default function EventsPage() {
                                 transition={{ delay: i * 0.1 }}
                                 className="glass-card overflow-hidden group hover:border-[#f82506]/30 transition-all"
                             >
-                                <div className="h-48 bg-zinc-900 relative overflow-hidden">
-                                    <div className="absolute top-4 right-4 z-10">
-                                        <span className="bg-white text-black px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
-                                            {event.status}
+                                <div className="h-32 md:h-48 bg-zinc-900 relative overflow-hidden">
+                                    <div className="absolute top-3 right-3 md:top-4 md:right-4 z-10">
+                                        <span className="bg-white text-black px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-wider flex items-center gap-1">
+                                            <div className="w-1 h-1 rounded-full bg-green-600 animate-pulse" /> {event.status}
                                         </span>
                                     </div>
-                                    {/* Placeholder for event image */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60" />
-                                    <div className="absolute bottom-4 left-6">
-                                        <h3 className="text-2xl font-black italic tracking-tight leading-none uppercase">{event.name}</h3>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
+                                    <div className="absolute bottom-3 left-4 md:bottom-4 md:left-6 pr-4">
+                                        <h3 className="text-lg md:text-2xl font-black italic tracking-tighter leading-[1.1] uppercase break-words line-clamp-2">{event.name}</h3>
                                     </div>
                                 </div>
 
-                                <div className="p-6">
-                                    <div className="flex flex-col gap-4 mb-8">
-                                        <div className="flex items-center gap-3 text-gray-400 text-sm">
-                                            <MapPin size={16} className="text-[#f82506]" />
-                                            <span className="truncate">{event.venue.address}</span>
+                                <div className="p-4 md:p-6 bg-zinc-950/20">
+                                    <div className="grid grid-cols-1 gap-2.5 md:gap-4 mb-5 md:mb-8">
+                                        <div className="flex items-center gap-2 text-gray-400">
+                                            <MapPin size={12} className="text-[#f82506] shrink-0" />
+                                            <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight truncate line-clamp-1">{event.venue.address}</span>
                                         </div>
-                                        <div className="flex items-center gap-3 text-gray-400 text-sm">
-                                            <Calendar size={16} className="text-[#f82506]" />
-                                            <span>{formatDate(event.date)} at {event.startTime}</span>
+                                        <div className="flex items-center gap-2 text-gray-400">
+                                            <Calendar size={12} className="text-[#f82506] shrink-0" />
+                                            <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight">{formatDate(event.date)} @ {event.startTime}</span>
                                         </div>
-                                        <div className="flex items-center gap-3 text-gray-400 text-sm">
-                                            <Users size={16} className="text-[#f82506]" />
-                                            <span>{event.currentParticipants}/{event.maxParticipants} Registered</span>
+                                        <div className="flex items-center gap-2 text-gray-400">
+                                            <Users size={12} className="text-[#f82506] shrink-0" />
+                                            <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight">Spots: {event.currentParticipants}/{event.maxParticipants} Full</span>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center justify-between pt-6 border-t border-white/5">
-                                        <div className="flex flex-col">
-                                            <span className="text-xs text-gray-500 font-bold uppercase">Registration</span>
-                                            <span className="text-xl font-black italic">{formatCurrency(event.price)}</span>
+                                    <div className="flex items-center justify-between pt-4 md:pt-6 border-t border-white/5">
+                                        <div>
+                                            <span className="text-[8px] md:text-xs text-gray-500 font-bold uppercase tracking-widest block mb-0.5">Entry Pass</span>
+                                            <span className="text-base md:text-xl font-black italic text-white flex items-center gap-1">
+                                                <Trophy size={14} className="text-[#f82506]" /> {formatCurrency(event.price)}
+                                            </span>
                                         </div>
-                                        <Link href={`/events/${event._id}`} className="p-3 bg-white/5 rounded-full group-hover:bg-[#f82506] transition-all text-white">
-                                            <ArrowRight size={20} />
+                                        <Link href={`/events/${event._id}`} className="px-4 py-2 md:p-3 bg-white text-black rounded-lg md:rounded-full group-hover:bg-[#f82506] group-hover:text-white transition-all text-xs font-black uppercase italic flex items-center gap-2">
+                                            <span className="md:hidden">Join Now</span>
+                                            <ArrowRight size={14} />
                                         </Link>
                                     </div>
                                 </div>
@@ -129,9 +131,9 @@ export default function EventsPage() {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-24 border border-dashed border-white/10 rounded-3xl">
-                        <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-24 h-24 mx-auto mb-6 object-contain opacity-20 grayscale" />
-                        <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No events found matching your search.</p>
+                    <div className="text-center py-20 md:py-24 border border-dashed border-white/10 rounded-3xl">
+                        <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 object-contain opacity-20 grayscale" />
+                        <p className="text-gray-500 font-bold uppercase tracking-widest text-xs md:text-sm">No events found matching your search.</p>
                     </div>
                 )}
             </div>

@@ -164,7 +164,7 @@ function AdminDashboard() {
             },
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12",
+                    className: "grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-8 md:mb-12",
                     children: cards.map((card, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
                             initial: {
                                 opacity: 0,
@@ -177,13 +177,13 @@ function AdminDashboard() {
                             transition: {
                                 delay: idx * 0.1
                             },
-                            className: "glass-card p-8 border-white/5 hover:border-white/10 transition-all group",
+                            className: "glass-card p-4 md:p-8 border-white/5 hover:border-white/10 transition-all group",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex justify-between items-start mb-6",
+                                    className: "flex justify-between items-start mb-3 md:mb-6",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "p-3 bg-white/5 rounded-2xl group-hover:scale-110 transition-transform",
+                                            className: "p-2 md:p-3 bg-white/5 rounded-xl md:rounded-2xl group-hover:scale-110 transition-transform",
                                             children: card.icon
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/page.tsx",
@@ -191,8 +191,8 @@ function AdminDashboard() {
                                             columnNumber: 37
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$up$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowUpRight$3e$__["ArrowUpRight"], {
-                                            size: 16,
-                                            className: "text-gray-700 group-hover:text-white transition-colors"
+                                            size: 14,
+                                            className: "text-gray-700 group-hover:text-white transition-colors hidden md:block"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/page.tsx",
                                             lineNumber: 80,
@@ -205,7 +205,7 @@ function AdminDashboard() {
                                     columnNumber: 33
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                    className: "text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1",
+                                    className: "text-gray-500 text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-1",
                                     children: card.title
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/page.tsx",
@@ -213,7 +213,7 @@ function AdminDashboard() {
                                     columnNumber: 33
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "text-3xl font-black italic tracking-tight mb-2",
+                                    className: "text-xl md:text-3xl font-black italic tracking-tight mb-1 md:mb-2",
                                     children: card.value
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/page.tsx",
@@ -221,7 +221,7 @@ function AdminDashboard() {
                                     columnNumber: 33
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "text-[10px] font-bold text-gray-700 uppercase",
+                                    className: "text-[9px] md:text-[10px] font-bold text-gray-700 uppercase hidden md:block",
                                     children: card.sub
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/page.tsx",
@@ -240,15 +240,15 @@ function AdminDashboard() {
                     columnNumber: 21
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "grid grid-cols-1 lg:grid-cols-3 gap-6",
+                    className: "grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "lg:col-span-2 glass-card p-8 border-white/5 min-h-[400px] flex items-center justify-center",
+                            className: "lg:col-span-2 glass-card p-6 md:p-8 border-white/5 min-h-[200px] md:min-h-[400px] flex items-center justify-center",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "text-center",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trending$2d$up$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__TrendingUp$3e$__["TrendingUp"], {
-                                        size: 48,
+                                        size: 36,
                                         className: "text-zinc-900 mx-auto mb-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/page.tsx",
@@ -256,7 +256,7 @@ function AdminDashboard() {
                                         columnNumber: 33
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-gray-600 font-bold uppercase tracking-widest text-xs",
+                                        className: "text-gray-600 font-bold uppercase tracking-widest text-[10px] md:text-xs",
                                         children: "Analytics Visualization coming soon"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/page.tsx",
@@ -275,10 +275,10 @@ function AdminDashboard() {
                             columnNumber: 25
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "glass-card p-8 border-white/5 bg-zinc-950/50",
+                            className: "glass-card p-5 md:p-8 border-white/5 bg-zinc-950/50",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                    className: "text-lg font-black italic uppercase mb-6 tracking-tight",
+                                    className: "text-base md:text-lg font-black italic uppercase mb-4 md:mb-6 tracking-tight",
                                     children: "Recent Activity"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/page.tsx",
@@ -286,7 +286,7 @@ function AdminDashboard() {
                                     columnNumber: 29
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "space-y-6",
+                                    className: "space-y-4 md:space-y-6",
                                     children: [
                                         1,
                                         2,
@@ -294,11 +294,11 @@ function AdminDashboard() {
                                         4,
                                         5
                                     ].map((i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "flex gap-4 items-start border-l-2 border-[#f82506]/20 pl-4 py-1",
+                                            className: "flex gap-3 md:gap-4 items-start border-l-2 border-[#f82506]/20 pl-3 md:pl-4 py-1",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "text-xs font-bold text-gray-300 uppercase tracking-tight line-clamp-1",
+                                                        className: "text-[10px] md:text-xs font-bold text-gray-300 uppercase tracking-tight line-clamp-1",
                                                         children: "New registration for ATHLiON North"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/page.tsx",
@@ -306,7 +306,7 @@ function AdminDashboard() {
                                                         columnNumber: 45
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "text-[10px] text-gray-600 font-black uppercase tracking-widest mt-1",
+                                                        className: "text-[9px] md:text-[10px] text-gray-600 font-black uppercase tracking-widest mt-1",
                                                         children: "2 mins ago"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/page.tsx",

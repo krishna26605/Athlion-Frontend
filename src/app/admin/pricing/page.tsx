@@ -203,29 +203,29 @@ export default function AdminPricingPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
-                    <div className="flex justify-between items-end mb-12">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 md:mb-12">
                         
 
-                        <div className="flex gap-3">
+                        <div className="flex flex-wrap gap-2 md:gap-3">
                             <button
                                 onClick={() => setIsEarlyBirdModalOpen(true)}
-                                className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-black px-6 py-4 rounded-2xl font-black italic uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-amber-500/20 transition-all"
+                                className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-black px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-black italic uppercase tracking-widest text-[9px] md:text-[10px] hover:shadow-xl hover:shadow-amber-500/20 transition-all"
                             >
-                                <Zap size={16} /> Early Bird Config
+                                <Zap size={14} /> Early Bird
                             </button>
                             <button
                                 onClick={() => setIsCouponModalOpen(true)}
-                                className="flex items-center gap-2 bg-white text-black px-6 py-4 rounded-2xl font-black italic uppercase tracking-widest text-[10px] hover:bg-[#f82506] hover:text-white transition-all shadow-xl shadow-white/5"
+                                className="flex items-center gap-2 bg-white text-black px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-black italic uppercase tracking-widest text-[9px] md:text-[10px] hover:bg-[#f82506] hover:text-white transition-all shadow-xl shadow-white/5"
                             >
-                                <Plus size={16} /> Generate Coupons
+                                <Plus size={14} /> Coupons
                             </button>
                         </div>
                     </div>
 
                     {/* ═══════ EARLY BIRD CONFIGS SECTION ═══════ */}
                     <div className="mb-12">
-                        <h2 className="text-xl font-black italic uppercase tracking-tight mb-6 flex items-center gap-3">
-                            <Zap className="text-amber-500" size={20} /> Early Bird Discounts
+                        <h2 className="text-lg md:text-xl font-black italic uppercase tracking-tight mb-4 md:mb-6 flex items-center gap-3">
+                            <Zap className="text-amber-500" size={18} /> Early Bird Discounts
                         </h2>
 
                         {earlyBirdConfigs.length > 0 ? (
@@ -402,6 +402,31 @@ export default function AdminPricingPage() {
                                     )}
                                 </tbody>
                             </table>
+                        </div>
+
+                        {/* Coupon Cards - Mobile */}
+                        <div className="md:hidden space-y-3">
+                            {coupons.length > 0 ? coupons.map((c) => (
+                                <div key={c._id} className="glass-card p-4 border-white/5">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <code className="bg-zinc-900 px-2 py-1 rounded text-[#f82506] font-mono font-bold text-xs">{c.code}</code>
+                                        <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${c.usageCount > 0 ? 'bg-zinc-800 text-gray-600' : 'bg-green-500/10 text-green-500'}`}>
+                                            {c.usageCount > 0 ? 'USED' : 'ACTIVE'}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-[10px]">
+                                        <span className="text-gray-400 font-bold uppercase">{c.sponsor?.name || 'General'}</span>
+                                        <span className="font-black italic text-white">
+                                            {c.type === 'percentage' ? `${c.value}%` : `₹${c.value}`}
+                                        </span>
+                                    </div>
+                                </div>
+                            )) : (
+                                <div className="text-center py-12 border border-dashed border-white/10 rounded-2xl">
+                                    <Tag size={28} className="mx-auto text-zinc-900 mb-3" />
+                                    <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px]">No coupons generated yet.</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </motion.div>

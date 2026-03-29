@@ -44,24 +44,24 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center pt-28 pb-12 px-4 bg-black">
+        <div className="min-h-screen min-h-dvh flex items-center justify-center pt-16 md:pt-28 pb-28 md:pb-12 px-4 bg-black">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 className="w-full max-w-md"
             >
-                <div className="glass-card p-10 relative overflow-hidden">
+                <div className="glass-card p-6 md:p-10 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
                         <img src="/FINAL-ATH-LOGO.png" alt="" className="w-32 h-32 object-contain" />
                     </div>
 
-                    <div className="text-center mb-8 relative z-10">
-                        <div className="flex justify-center mb-6">
-                            <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-20 h-20 object-contain" />
+                    <div className="text-center mb-6 md:mb-8 relative z-10">
+                        <div className="flex justify-center mb-4 md:mb-6">
+                            <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
                         </div>
-                        <h1 className="text-4xl font-black italic tracking-tighter mb-2 uppercase">JOIN THE <span className="text-[#f82506]">RACE</span></h1>
-                        <p className="text-gray-400">Create your account to register for upcoming events.</p>
+                        <h1 className="text-3xl md:text-4xl font-black italic tracking-tighter mb-2 uppercase">JOIN THE <span className="text-[#f82506]">RACE</span></h1>
+                        <p className="text-gray-400 text-sm md:text-base">Create your account to register for upcoming events.</p>
                     </div>
 
                     {error && (
