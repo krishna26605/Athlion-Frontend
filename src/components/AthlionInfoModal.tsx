@@ -90,7 +90,7 @@ const stations: Station[] = [
         muscleGroup: 'Full body, Cardio',
         culturalRoots: 'Functional fitness standard',
         icon: Zap,
-        image: 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop'
+        image: '/images/stations/burpee_broad_jump.png'
     },
     {
         id: 7,
@@ -100,7 +100,7 @@ const stations: Station[] = [
         muscleGroup: 'Posterior chain, Power',
         culturalRoots: 'Bootcamp trend',
         icon: Dumbbell,
-        image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop'
+        image: '/images/stations/tire_flip.png'
     },
     {
         id: 8,
@@ -110,7 +110,7 @@ const stations: Station[] = [
         muscleGroup: 'Grip, Traps, Core',
         culturalRoots: 'Functional fitness essential',
         icon: Briefcase,
-        image: 'https://images.unsplash.com/photo-1541534741688-6078c6422736?q=80&w=2070&auto=format&fit=crop'
+        image: '/images/stations/farmers_carry.png'
     },
     {
         id: 9,
@@ -120,7 +120,7 @@ const stations: Station[] = [
         muscleGroup: 'Full body, Fear conquer',
         culturalRoots: 'OCR signature',
         icon: ArrowUpCircle,
-        image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=2070&auto=format&fit=crop'
+        image: '/images/stations/HIghtrap.png'
     },
     {
         id: 10,
@@ -130,7 +130,7 @@ const stations: Station[] = [
         muscleGroup: 'Legs, Stability, Grind',
         culturalRoots: 'ATHLiON-style load carry',
         icon: Footprints,
-        image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop'
+        image: '/images/stations/sandbag_lunges.png'
     },
     {
         id: 11,
@@ -140,7 +140,7 @@ const stations: Station[] = [
         muscleGroup: 'Legs, Power, Accuracy',
         culturalRoots: 'CrossFit-proven, measurable',
         icon: CircleDot,
-        image: 'https://images.unsplash.com/photo-1620188467120-5042ed1eb5da?q=80&w=1887&auto=format&fit=crop'
+        image: '/images/stations/wall_ball.png'
     },
     {
         id: 12,
@@ -150,7 +150,7 @@ const stations: Station[] = [
         muscleGroup: 'Core, Shoulders, Grit',
         culturalRoots: 'Military/OCR staple',
         icon: Move,
-        image: 'https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?q=80&w=2070&auto=format&fit=crop'
+        image: '/images/stations/mud-crawl.png'
     },
     {
         id: 13,
@@ -160,7 +160,7 @@ const stations: Station[] = [
         muscleGroup: 'Mental fortitude, Recovery',
         culturalRoots: 'ATHLiON signature',
         icon: Wind,
-        image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop'
+        image: '/images/stations/ice-plunge.png'
     }
 ];
 
@@ -210,8 +210,8 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
                                         key={station.id}
                                         onClick={() => setSelectedStation(station)}
                                         className={`w-full flex items-center gap-3 p-3 rounded-2xl transition-all group ${selectedStation?.id === station.id
-                                                ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20'
-                                                : 'hover:bg-white/5 text-gray-400 hover:text-white'
+                                            ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20'
+                                            : 'hover:bg-white/5 text-gray-400 hover:text-white'
                                             }`}
                                     >
                                         <div className={`p-2 rounded-xl bg-zinc-900 group-hover:scale-110 transition-transform ${selectedStation?.id === station.id ? 'bg-white/20' : ''

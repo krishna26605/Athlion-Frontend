@@ -31,11 +31,11 @@ const stations: Station[] = [
     { id: 6, name: 'Burpee Broad Jump', description: 'Burpee → explosive forward jump', distanceReps: '80m total (10m x 8 reps)', muscleGroup: 'Full body, Cardio', culturalRoots: 'Functional fitness standard', icon: Zap, image: '/images/stations/burpee_broad_jump.png' },
     { id: 7, name: 'Tire Flip', description: 'Lift and flip heavy tractor tire', distanceReps: '10 flips (20m total)', muscleGroup: 'Posterior chain, Power', culturalRoots: 'Bootcamp trend', icon: Dumbbell, image: '/images/stations/tire_flip.png' },
     { id: 8, name: "Farmer's Carry", description: 'Heavy kettlebell/dumbbell walk', distanceReps: '100m (50m out/back)', muscleGroup: 'Grip, Traps, Core', culturalRoots: 'Functional fitness essential', icon: Briefcase, image: '/images/stations/farmers_carry.png' },
-    { id: 9, name: 'Height Net Trap', description: 'Climb 12ft cargo net, descend other side', distanceReps: '1 ascent/descent', muscleGroup: 'Full body, Fear conquer', culturalRoots: 'OCR signature', icon: ArrowUpCircle, image: 'images/stations/HIghtrap.png' },
+    { id: 9, name: 'Height Net Trap', description: 'Climb 12ft cargo net, descend other side', distanceReps: '1 ascent/descent', muscleGroup: 'Full body, Fear conquer', culturalRoots: 'OCR signature', icon: ArrowUpCircle, image: '/images/stations/HIghtrap.png' },
     { id: 10, name: 'Sandbag Lunges', description: 'Walking lunges with sandbag on shoulders', distanceReps: '100m', muscleGroup: 'Legs, Stability, Grind', culturalRoots: 'ATHLiON-style load carry', icon: Footprints, image: '/images/stations/sandbag_lunges.png' },
     { id: 11, name: 'Wall Ball', description: 'Squat + throw medicine ball to target', distanceReps: '30 reps (9kg men / 6kg women)', muscleGroup: 'Legs, Power, Accuracy', culturalRoots: 'CrossFit-proven, measurable', icon: CircleDot, image: '/images/stations/wall_ball.png' },
-    { id: 12, name: 'Low Mud Crawl', description: 'Army crawl under netting/barbed wire', distanceReps: '30m', muscleGroup: 'Core, Shoulders, Grit', culturalRoots: 'Military/OCR staple', icon: Move, image: '/images/stations/add_mud_in_202603291034.png' },
-    { id: 13, name: 'Ice Plunge', description: 'Submerge and traverse ice water channel', distanceReps: '10m wade + 2min immersion', muscleGroup: 'Mental fortitude, Recovery', culturalRoots: 'ATHLiON signature', icon: Wind, image: '/images/stations/ice_pool.png' },
+    { id: 12, name: 'Low Mud Crawl', description: 'Army crawl under netting/barbed wire', distanceReps: '30m', muscleGroup: 'Core, Shoulders, Grit', culturalRoots: 'Military/OCR staple', icon: Move, image: '/images/stations/mud-crawl.png' },
+    { id: 13, name: 'Ice Plunge', description: 'Submerge and traverse ice water channel', distanceReps: '10m wade + 2min immersion', muscleGroup: 'Mental fortitude, Recovery', culturalRoots: 'ATHLiON signature', icon: Wind, image: '/images/stations/ice-plunge.png' },
 ];
 
 export default function AthlionStationsSection() {
@@ -61,7 +61,7 @@ export default function AthlionStationsSection() {
             const selectedIdx = stations.findIndex(s => s.id === selectedStation.id);
             const buttons = scrollRef.current.querySelectorAll<HTMLButtonElement>('[data-station-btn]');
             const selectedButton = buttons[selectedIdx];
-            
+
             if (selectedButton) {
                 const container = scrollRef.current;
                 const scrollLeft = selectedButton.offsetLeft - (container.offsetWidth / 2) + (selectedButton.offsetWidth / 2);
@@ -100,11 +100,10 @@ export default function AthlionStationsSection() {
                                         key={station.id}
                                         data-station-btn
                                         onClick={() => setSelectedStation(station)}
-                                        className={`flex items-center gap-2 px-3 py-2 rounded-xl transition-all whitespace-nowrap flex-shrink-0 text-xs font-bold ${
-                                            selectedStation?.id === station.id
-                                                ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20'
-                                                : 'bg-white/5 text-gray-400'
-                                        }`}
+                                        className={`flex items-center gap-2 px-3 py-2 rounded-xl transition-all whitespace-nowrap flex-shrink-0 text-xs font-bold ${selectedStation?.id === station.id
+                                            ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20'
+                                            : 'bg-white/5 text-gray-400'
+                                            }`}
                                     >
                                         <station.icon size={14} />
                                         <span className="truncate max-w-[100px]">{station.name}</span>
@@ -154,8 +153,8 @@ export default function AthlionStationsSection() {
                                         className="absolute inset-0 z-0 bg-cover bg-center"
                                         style={{ backgroundImage: `url(${selectedStation.image})` }}
                                     >
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
-                                        <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                                        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
                                     </motion.div>
                                 )}
                             </AnimatePresence>

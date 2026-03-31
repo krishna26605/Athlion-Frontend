@@ -6,12 +6,13 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import MobileNavCapsule from "@/components/layout/MobileNavCapsule";
 import NotificationStack from '@/components/shared/NotificationStack';
+import ChatWidget from '@/components/ChatWidget';
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "ATHLiON | The Ultimate Fitness Competition",
-  description: "Register for India's premier fitness racing series. 8KM Run. 8 Workouts. No Limits. Challenge yourself across strength and endurance.",
+  description: "Register for India's premier fitness racing series. 1KM Run. 13 Stations. No Limits. Challenge yourself across strength and endurance.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -54,6 +55,7 @@ export default function RootLayout({
             <NotificationStack />
             <Footer />
             <MobileNavCapsule />
+            <ChatWidget />
           </div>
         </AuthProvider>
         <script
