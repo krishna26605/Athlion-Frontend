@@ -6,6 +6,43 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, Users, ArrowRight, Loader2, Search, Trophy } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/utils/utils';
+import { Timer } from 'lucide-react';
+
+const CountdownTimer = () => {
+    const [timeLeft, setTimeLeft] = useState('');
+
+    useEffect(() => {
+        const calculateTimeLeft = () => {
+            const threeHoursInMs = 3 * 60 * 60 * 1000;
+            const now = new Date().getTime();
+            const timeInCurrentCycle = now % threeHoursInMs;
+            const remaining = threeHoursInMs - timeInCurrentCycle;
+
+            const hours = Math.floor((remaining / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((remaining / 1000 / 60) % 60);
+            const seconds = Math.floor((remaining / 1000) % 60);
+
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        };
+
+        const timer = setInterval(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+
+        setTimeLeft(calculateTimeLeft());
+
+        return () => clearInterval(timer);
+    }, []);
+
+    return (
+        <div className="flex items-center gap-2 bg-[#f82506]/10 backdrop-blur-xl px-3 py-1.5 rounded-lg border border-[#f82506]/50 shadow-[0_0_15px_rgba(248,37,6,0.2)] animate-pulse">
+            <Timer size={14} className="text-[#f82506]" />
+            <span className="text-[10px] md:text-xs font-black tracking-widest text-white uppercase italic">
+                Ends In: <span className="text-[#f82506] font-mono text-xs md:text-sm">{timeLeft}</span>
+            </span>
+        </div>
+    );
+};
 
 interface Event {
     _id: string;
@@ -18,6 +55,9 @@ interface Event {
     date: string;
     startTime: string;
     price: number;
+    discountedPrice?: number;
+    discountLabel?: string;
+    image?: string;
     currentParticipants: number;
     maxParticipants: number;
     status: string;
@@ -86,13 +126,28 @@ export default function EventsPage() {
                                 transition={{ delay: i * 0.1 }}
                                 className="glass-card overflow-hidden group hover:border-[#f82506]/30 transition-all"
                             >
-                                <div className="h-32 md:h-48 bg-zinc-900 relative overflow-hidden">
-                                    <div className="absolute top-3 right-3 md:top-4 md:right-4 z-10">
+                                <div className="h-40 md:h-56 bg-zinc-900 relative overflow-hidden">
+                                    <img 
+                                        src={event.image || 'https://images.unsplash.com/photo-1594882645126-14020914d58d?q=80&w=2085&auto=format&fit=crop'} 
+                                        alt={event.name}
+                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                    <div className="absolute top-3 right-3 md:top-4 md:right-4 z-10 flex flex-col gap-2 items-end">
                                         <span className="bg-white text-black px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-wider flex items-center gap-1">
                                             <div className="w-1 h-1 rounded-full bg-green-600 animate-pulse" /> {event.status}
                                         </span>
+                                        {event.discountLabel && (
+                                            <span className="bg-[#f82506] text-white px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-wider shadow-lg">
+                                                {event.discountLabel}
+                                            </span>
+                                        )}
                                     </div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
+                                    <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10">
+                                        {event.discountLabel && event.discountLabel.toLowerCase().includes('super early') && (
+                                            <CountdownTimer />
+                                        )}
+                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
                                     <div className="absolute bottom-3 left-4 md:bottom-4 md:left-6 pr-4">
                                         <h3 className="text-lg md:text-2xl font-black italic tracking-tighter leading-[1.1] uppercase break-words line-clamp-2">{event.name}</h3>
                                     </div>
@@ -117,9 +172,22 @@ export default function EventsPage() {
                                     <div className="flex items-center justify-between pt-4 md:pt-6 border-t border-white/5">
                                         <div>
                                             <span className="text-[8px] md:text-xs text-gray-500 font-bold uppercase tracking-widest block mb-0.5">Entry Pass</span>
-                                            <span className="text-base md:text-xl font-black italic text-white flex items-center gap-1">
-                                                <Trophy size={14} className="text-[#f82506]" /> {formatCurrency(event.price)}
-                                            </span>
+                                            <div className="flex flex-col">
+                                                {event.discountedPrice !== undefined && event.discountedPrice < event.price ? (
+                                                    <>
+                                                        <span className="text-[10px] md:text-xs text-gray-500 line-through font-bold">
+                                                            {formatCurrency(event.price)}
+                                                        </span>
+                                                        <span className="text-base md:text-xl font-black italic text-[#f82506] flex items-center gap-1">
+                                                            <Trophy size={14} className="text-[#f82506]" /> {formatCurrency(event.discountedPrice)}
+                                                        </span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-base md:text-xl font-black italic text-white flex items-center gap-1">
+                                                        <Trophy size={14} className="text-[#f82506]" /> {formatCurrency(event.price)}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                         <Link href={`/events/${event._id}`} className="px-4 py-2 md:p-3 bg-white text-black rounded-lg md:rounded-full group-hover:bg-[#f82506] group-hover:text-white transition-all text-xs font-black uppercase italic flex items-center gap-2">
                                             <span className="md:hidden">Join Now</span>

@@ -117,9 +117,11 @@ export default function AdminEventsPage() {
                             <div className="flex items-center justify-between border-t border-white/5 pt-4">
                                 <div className="font-black italic text-base">{formatCurrency(event.price)}</div>
                                 <div className="flex gap-2">
-                                    <button className="p-2.5 bg-zinc-900 text-gray-400 rounded-xl hover:text-white transition-all">
-                                        <Edit size={16} />
-                                    </button>
+                                    <Link href={`/admin/events/${event._id}`}>
+                                        <button className="p-2.5 bg-zinc-900 text-gray-400 rounded-xl hover:text-white transition-all">
+                                            <Edit size={16} />
+                                        </button>
+                                    </Link>
                                     <button
                                         onClick={() => deleteEvent(event._id)}
                                         className="p-2.5 bg-zinc-900 text-[#f82506] rounded-xl hover:bg-[#f82506]/10 transition-all"
@@ -185,9 +187,11 @@ export default function AdminEventsPage() {
                                     </td>
                                     <td className="py-8 pr-8 text-right">
                                         <div className="flex justify-end gap-2">
-                                            <button className="p-3 bg-zinc-900 text-gray-400 rounded-xl hover:text-white transition-all opacity-0 group-hover:opacity-100">
-                                                <Edit size={16} />
-                                            </button>
+                                            <Link href={`/admin/events/${event._id}`}>
+                                                <button className="p-3 bg-zinc-900 text-gray-400 rounded-xl hover:text-white transition-all opacity-0 group-hover:opacity-100">
+                                                    <Edit size={16} />
+                                                </button>
+                                            </Link>
                                             <button
                                                 onClick={() => deleteEvent(event._id)}
                                                 className="p-3 bg-zinc-900 text-gray-400 rounded-xl hover:bg-red-500/10 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100"

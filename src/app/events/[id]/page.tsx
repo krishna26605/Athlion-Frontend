@@ -8,6 +8,43 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Calendar, Clock, Trophy, ArrowLeft, Loader2, CheckCircle, ShieldCheck, Tag, Zap, X } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/utils/utils';
 import Script from 'next/script';
+import { Timer } from 'lucide-react';
+
+const CountdownTimer = () => {
+    const [timeLeft, setTimeLeft] = useState('');
+
+    useEffect(() => {
+        const calculateTimeLeft = () => {
+            const threeHoursInMs = 3 * 60 * 60 * 1000;
+            const now = new Date().getTime();
+            const timeInCurrentCycle = now % threeHoursInMs;
+            const remaining = threeHoursInMs - timeInCurrentCycle;
+
+            const hours = Math.floor((remaining / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((remaining / 1000 / 60) % 60);
+            const seconds = Math.floor((remaining / 1000) % 60);
+
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        };
+
+        const timer = setInterval(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+
+        setTimeLeft(calculateTimeLeft());
+
+        return () => clearInterval(timer);
+    }, []);
+
+    return (
+        <div className="flex items-center gap-3 bg-[#f82506]/10 backdrop-blur-xl px-5 py-2.5 rounded-xl border border-[#f82506]/50 shadow-[0_0_20px_rgba(248,37,6,0.3)] animate-pulse w-fit">
+            <Timer size={20} className="text-[#f82506]" />
+            <span className="text-xs md:text-sm font-black tracking-[0.2em] text-white uppercase italic">
+                Ends In: <span className="text-[#f82506] font-mono text-sm md:text-base">{timeLeft}</span>
+            </span>
+        </div>
+    );
+};
 
 interface Event {
     _id: string;
@@ -25,6 +62,9 @@ interface Event {
     currentParticipants: number;
     maxParticipants: number;
     status: string;
+    discountedPrice?: number;
+    discountLabel?: string;
+    image?: string;
 }
 
 interface DiscountInfo {
@@ -180,6 +220,9 @@ export default function EventDetailPage() {
         if (discountInfo && discountInfo.value > 0) {
             return Math.max(event.price - discountInfo.value, 0);
         }
+        if (event.discountedPrice !== undefined) {
+            return event.discountedPrice;
+        }
         return event.price;
     };
 
@@ -301,9 +344,30 @@ export default function EventDetailPage() {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                         >
-                            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-black italic tracking-tighter uppercase mb-4 md:mb-8 leading-[0.9] break-words">
+                            <h1 className="relative text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-black italic tracking-tighter uppercase mb-4 md:mb-8 leading-[0.9] break-words z-10">
                                 {event.name?.split(' ')[0]} <span className="text-[#f82506]">{event.name?.split(' ').slice(1).join(' ')}</span>
                             </h1>
+
+                            <div className="relative h-48 md:h-80 w-full mb-8 md:mb-12 rounded-2xl md:rounded-3xl overflow-hidden group z-10">
+                                <img 
+                                    src={event.image || 'https://images.unsplash.com/photo-1594882645126-14020914d58d?q=80&w=2085&auto=format&fit=crop'} 
+                                    alt={event.name}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+                                {event.discountLabel && (
+                                    <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
+                                        <div className="bg-[#f82506] text-white px-4 py-2 rounded-full text-xs md:text-sm font-black uppercase tracking-[0.2em] shadow-xl">
+                                            {event.discountLabel}
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="absolute top-4 left-4">
+                                    {event.discountLabel && event.discountLabel.toLowerCase().includes('super early') && (
+                                        <CountdownTimer />
+                                    )}
+                                </div>
+                            </div>
 
                             <div className="flex flex-wrap gap-2 md:gap-4 mb-6 md:mb-12">
                                 <div className="flex items-center gap-2 bg-white/5 px-3 md:px-4 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-300">
@@ -524,7 +588,7 @@ export default function EventDetailPage() {
                                             <div className="space-y-2">
                                                 <div className="flex justify-between items-center">
                                                     <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Entry Fee</span>
-                                                    <span className={`text-lg font-black italic ${discountInfo && discountInfo.value > 0 ? 'text-gray-500 line-through' : 'text-white'}`}>
+                                                    <span className={`text-lg font-black italic ${((discountInfo && discountInfo.value > 0) || (event.discountedPrice !== undefined && event.discountedPrice < event.price)) ? 'text-gray-500 line-through' : 'text-white'}`}>
                                                         {formatCurrency(event.price)}
                                                     </span>
                                                 </div>
