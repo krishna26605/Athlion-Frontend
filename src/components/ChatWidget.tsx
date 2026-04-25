@@ -25,31 +25,40 @@ export default function ChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { user, login } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading]);
+    if (mounted) {
+      scrollToBottom();
+    }
+  }, [messages, isLoading, mounted]);
 
   useEffect(() => {
-    if (isOpen && inputRef.current) {
+    if (mounted && isOpen && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [isOpen]);
+  }, [isOpen, mounted]);
 
   // Load Razorpay script dynamically
   useEffect(() => {
-    if (!document.getElementById('razorpay-script')) {
+    if (mounted && !document.getElementById('razorpay-script')) {
       const script = document.createElement('script');
       script.id = 'razorpay-script';
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.async = true;
       document.body.appendChild(script);
     }
-  }, []);
+  }, [mounted]);
+
+  if (!mounted) return null;
 
   // ─── RAZORPAY PAYMENT HANDLER ──────────────────────────────────────
   const handlePayment = (paymentData: any) => {

@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "ATHLiON | The Ultimate Fitness Competition",
-  description: "Register for India's premier fitness racing series. 1KM Run. 13 Stations. No Limits. Challenge yourself across strength and endurance.",
+  description: "Register for India's premier fitness racing series. 2KM Run. 11 Stations. No Limits. Challenge yourself across strength and endurance.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

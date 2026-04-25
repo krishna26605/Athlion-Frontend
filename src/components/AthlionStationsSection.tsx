@@ -22,20 +22,17 @@ interface Station {
 }
 
 const stations: Station[] = [
-    { id: 'Start', name: '1km Run', description: 'Opening sprint to spread field', distanceReps: '1km', muscleGroup: 'Cardio, Legs', culturalRoots: 'Standard hybrid race opener', icon: Activity, image: '/images/stations/run_1km.png' },
-    { id: 1, name: 'Mudgar Ritual', description: '360° mace swings in controlled pattern', distanceReps: '25 reps each direction (50 total)', muscleGroup: 'Shoulders, Grip, Core rotation', culturalRoots: 'Ancient Indian warrior training', icon: RotateCw, image: '/images/stations/mudgar_ritual.png' },
-    { id: 2, name: 'Balance Beam', description: 'Traverse narrow beam (6" wide) without falling', distanceReps: '20m length', muscleGroup: 'Core, Stabilizers, Focus', culturalRoots: 'Gymnastics/Mallakhamb influence', icon: Target, image: '/images/stations/balance_beam.png' },
-    { id: 3, name: 'Sled Push', description: 'Drive weighted sled on turf/ground', distanceReps: '50m', muscleGroup: 'Legs, Power, Mental grit', culturalRoots: 'ATHLiON-proven staple', icon: ArrowUpCircle, image: '/images/stations/sled_push.png' },
-    { id: 4, name: 'Sled Pull', description: 'Rope-drag weighted sled backward', distanceReps: '50m', muscleGroup: 'Back, Arms, Endurance', culturalRoots: 'ATHLiON-proven staple', icon: RefreshCcw, image: '/images/stations/sled_pull.png' },
-    { id: 5, name: 'Monkey Bar Traverse', description: 'Horizontal ladder crossing (no swinging)', distanceReps: '15m length', muscleGroup: 'Grip, Lats, Core', culturalRoots: 'OCR classic', icon: Move, image: '/images/stations/monkey_bar.png' },
-    { id: 6, name: 'Burpee Broad Jump', description: 'Burpee → explosive forward jump', distanceReps: '80m total (10m x 8 reps)', muscleGroup: 'Full body, Cardio', culturalRoots: 'Functional fitness standard', icon: Zap, image: '/images/stations/burpee_broad_jump.png' },
-    { id: 7, name: 'Tire Flip', description: 'Lift and flip heavy tractor tire', distanceReps: '10 flips (20m total)', muscleGroup: 'Posterior chain, Power', culturalRoots: 'Bootcamp trend', icon: Dumbbell, image: '/images/stations/tire_flip.png' },
-    { id: 8, name: "Farmer's Carry", description: 'Heavy kettlebell/dumbbell walk', distanceReps: '100m (50m out/back)', muscleGroup: 'Grip, Traps, Core', culturalRoots: 'Functional fitness essential', icon: Briefcase, image: '/images/stations/farmers_carry.png' },
-    { id: 9, name: 'Height Net Trap', description: 'Climb 12ft cargo net, descend other side', distanceReps: '1 ascent/descent', muscleGroup: 'Full body, Fear conquer', culturalRoots: 'OCR signature', icon: ArrowUpCircle, image: '/images/stations/HIghtrap.png' },
-    { id: 10, name: 'Sandbag Lunges', description: 'Walking lunges with sandbag on shoulders', distanceReps: '100m', muscleGroup: 'Legs, Stability, Grind', culturalRoots: 'ATHLiON-style load carry', icon: Footprints, image: '/images/stations/sandbag_lunges.png' },
-    { id: 11, name: 'Wall Ball', description: 'Squat + throw medicine ball to target', distanceReps: '30 reps (9kg men / 6kg women)', muscleGroup: 'Legs, Power, Accuracy', culturalRoots: 'CrossFit-proven, measurable', icon: CircleDot, image: '/images/stations/wall_ball.png' },
-    { id: 12, name: 'Low Mud Crawl', description: 'Army crawl under netting/barbed wire', distanceReps: '30m', muscleGroup: 'Core, Shoulders, Grit', culturalRoots: 'Military/OCR staple', icon: Move, image: '/images/stations/mud-crawl.png' },
-    { id: 13, name: 'Ice Plunge', description: 'Submerge and traverse ice water channel', distanceReps: '10m wade + 2min immersion', muscleGroup: 'Mental fortitude, Recovery', culturalRoots: 'ATHLiON signature', icon: Wind, image: '/images/stations/ice-plunge.png' },
+    { id: 1, name: '2km Run', description: 'Opening endurance test to set the pace.', distanceReps: '2km', muscleGroup: 'Cardio, Legs', culturalRoots: 'Standard hybrid race opener', icon: Activity, image: '/images/stations/run_1km.png' },
+    { id: 2, name: 'Mudgar Ritual', description: '360° mace swings in controlled pattern.', distanceReps: '25 reps each direction (50 total)', muscleGroup: 'Shoulders, Grip, Core rotation', culturalRoots: 'Ancient Indian warrior training', icon: RotateCw, image: '/images/stations/mudgar_ritual.png' },
+    { id: 3, name: 'Sled Push', description: 'Drive weighted sled on turf/ground with explosive power.', distanceReps: '50m', muscleGroup: 'Legs, Power, Mental grit', culturalRoots: 'ATHLiON-proven staple', icon: ArrowUpCircle, image: '/images/stations/sled_push.png' },
+    { id: 4, name: 'Monkey Crawl', description: 'Low-profile locomotive movement for agility and coordination.', distanceReps: '30m', muscleGroup: 'Full Body, Coordination, Grit', culturalRoots: 'Primal movement training', icon: Move, image: '/images/stations/monkey_bar.png' },
+    { id: 5, name: 'Burpee Broad Jump', description: 'Burpee combined with an explosive forward jump.', distanceReps: '80m total (10m x 8 reps)', muscleGroup: 'Full body, Cardio', culturalRoots: 'Functional fitness standard', icon: Zap, image: '/images/stations/burpee_broad_jump.png' },
+    { id: 6, name: 'Tire Flip', description: 'Lift and flip a heavy tractor tire across the field.', distanceReps: '10 flips (20m total)', muscleGroup: 'Posterior chain, Power', culturalRoots: 'Bootcamp trend', icon: Dumbbell, image: '/images/stations/tire_flip.png' },
+    { id: 7, name: "Farmer's Carry", description: 'Maintain grip strength while walking with heavy weights.', distanceReps: '100m (50m out/back)', muscleGroup: 'Grip, Traps, Core', culturalRoots: 'Functional fitness essential', icon: Briefcase, image: '/images/stations/farmers_carry.png' },
+    { id: 8, name: 'Wall Shot', description: 'Squat and throw a medicine ball to hit the target overhead.', distanceReps: '30 reps (9kg men / 6kg women)', muscleGroup: 'Legs, Power, Accuracy', culturalRoots: 'CrossFit-proven, measurable', icon: CircleDot, image: '/images/stations/wall_ball.png' },
+    { id: 9, name: 'Low Mud Crawl', description: 'Army crawl under netting and barbed wire through the mud.', distanceReps: '30m', muscleGroup: 'Core, Shoulders, Grit', culturalRoots: 'Military/OCR staple', icon: Move, image: '/images/stations/mud-crawl.png' },
+    { id: 10, name: '20ft Height Net Trap', description: 'Scale a 20ft cargo net and descend safely on the other side.', distanceReps: '1 ascent/descent', muscleGroup: 'Full body, Fear conquer', culturalRoots: 'OCR signature', icon: ArrowUpCircle, image: '/images/stations/HIghtrap.png' },
+    { id: 11, name: 'Ice Pool Slide', description: 'Brave the freezing ice water with a slide entry and traverse.', distanceReps: '10m wade + 2min immersion', muscleGroup: 'Mental fortitude, Recovery', culturalRoots: 'ATHLiON signature', icon: Wind, image: '/images/stations/ice-plunge.png' },
 ];
 
 export default function AthlionStationsSection() {
@@ -75,7 +72,7 @@ export default function AthlionStationsSection() {
             <div className="max-w-7xl mx-auto px-4">
                 <div className="text-center mb-10 md:mb-16">
                     <h2 className="text-3xl sm:text-4xl md:text-6xl font-black italic tracking-tighter uppercase mb-3 md:mb-4">ATHLiON <span className="text-[#f82506]">CHALLENGES</span></h2>
-                    <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] md:text-xs mt-3 md:mt-4">Master the ritual. Explore the 8 challenges.</p>
+                    <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] md:text-xs mt-3 md:mt-4">Master the ritual. Explore the 11 challenges.</p>
                 </div>
 
                 <div className="flex justify-center w-full">

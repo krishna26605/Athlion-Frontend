@@ -42,7 +42,7 @@ export default function Home() {
                 ARE YOU <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">ATHLION?</span>
               </h1>
               <p className="max-w-2xl mx-auto text-gray-400 text-sm md:text-lg lg:text-xl mb-8 md:mb-[10vh] leading-relaxed uppercase font-black italic px-4 md:px-0">
-                The standardized format of fitness racing hits India. 1KM RUN. 13 STATIONS. NO LIMITS.
+                The standardized format of fitness racing hits India. 2KM RUN. 11 STATIONS. NO LIMITS.
               </p>
 
               <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 px-4 md:px-0">
@@ -92,8 +92,8 @@ export default function Home() {
             Athlion is India's answer to the global fitness racing revolution. We bring a standardized format that combines elite-level endurance with functional strength. Whether you're a first-timer or a pro, Athlion tests your heart, grit, and physical power in a high-octane stadium environment.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-12 md:mt-16 font-black italic uppercase">
-            <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">1KM</span><span className="text-[10px] md:text-xs text-gray-600">Total Running</span></div>
-            <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">13</span><span className="text-[10px] md:text-xs text-gray-600">Stations</span></div>
+            <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">2KM</span><span className="text-[10px] md:text-xs text-gray-600">Total Running</span></div>
+            <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">11</span><span className="text-[10px] md:text-xs text-gray-600">Stations</span></div>
             <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">1</span><span className="text-[10px] md:text-xs text-gray-600">Winner</span></div>
             <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">550+</span><span className="text-[10px] md:text-xs text-gray-600">ATHLETES</span></div>
           </div>
