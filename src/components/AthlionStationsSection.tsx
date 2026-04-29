@@ -32,7 +32,7 @@ const stations: Station[] = [
     { id: 8, name: 'Wall Shot', description: 'Squat and throw a medicine ball to hit the target overhead.', distanceReps: '30 reps (9kg men / 6kg women)', muscleGroup: 'Legs, Power, Accuracy', culturalRoots: 'CrossFit-proven, measurable', icon: CircleDot, image: '/images/stations/wall_ball.png' },
     { id: 9, name: 'Low Mud Crawl', description: 'Army crawl under netting and barbed wire through the mud.', distanceReps: '30m', muscleGroup: 'Core, Shoulders, Grit', culturalRoots: 'Military/OCR staple', icon: Move, image: '/images/stations/mud-crawl.png' },
     { id: 10, name: '20ft Height Net Trap', description: 'Scale a 20ft cargo net and descend safely on the other side.', distanceReps: '1 ascent/descent', muscleGroup: 'Full body, Fear conquer', culturalRoots: 'OCR signature', icon: ArrowUpCircle, image: '/images/stations/HIghtrap.png' },
-    { id: 11, name: 'Ice Pool Slide', description: 'Brave the freezing ice water with a slide entry and traverse.', distanceReps: '10m wade + 2min immersion', muscleGroup: 'Mental fortitude, Recovery', culturalRoots: 'ATHLiON signature', icon: Wind, image: '/images/stations/ice-plunge.png' },
+    { id: 11, name: 'Ice Pool Slide', description: 'Brave the freezing ice water with a slide entry and traverse.', distanceReps: '10m wade + 2min immersion', muscleGroup: 'Mental fortitude, Recovery', culturalRoots: 'ATHLiON signature', icon: Wind, image: '/images/stations/ice-pool-slide-new.jpg' },
 ];
 
 export default function AthlionStationsSection() {

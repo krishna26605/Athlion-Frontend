@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import apiClient from '@/api/client';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Loader2, Save, MapPin, Calendar, Clock, Trophy, Info, DollarSign, Users } from 'lucide-react';
+import { ArrowLeft, Loader2, Save, MapPin, Calendar, Clock, Trophy, Info, DollarSign, Users, Image as ImageIcon, X } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 
 
@@ -27,7 +27,8 @@ export default function EditEventPage() {
         gapBetweenBatches: 15,
         maxParticipants: 500,
         price: 0,
-        status: 'upcoming'
+        status: 'upcoming',
+        image: ''
     });
 
     useEffect(() => {
@@ -59,6 +60,21 @@ export default function EditEventPage() {
         if (id) fetchEvent();
     }, [id, router]);
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData(prev => ({ ...prev, image: reader.result as string }));
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeImage = () => {
+        setFormData(prev => ({ ...prev, image: '' }));
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         if (name.includes('.')) {
@@ -82,7 +98,9 @@ export default function EditEventPage() {
         e.preventDefault();
         setLoading(true);
         try {
-            await apiClient.put(`events/${id}`, formData);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { _id, __v, createdAt, updatedAt, createdBy, ...updateData } = formData as any;
+            await apiClient.put(`events/${id}`, updateData);
             router.push('/admin/events');
         } catch (err: any) {
             console.error('Failed to update event', err);
@@ -151,6 +169,55 @@ export default function EditEventPage() {
                                     className="w-full bg-zinc-900 border border-white/5 rounded-xl p-3 md:p-4 focus:border-[#f82506]/50 transition-all outline-none text-xs md:text-sm font-medium"
                                 />
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Section 2: Event Media */}
+                    <div className="glass-card p-5 md:p-8 border-white/5 space-y-5 md:space-y-6">
+                        <h3 className="text-base md:text-lg font-black italic uppercase tracking-tight flex items-center gap-3 border-b border-white/5 pb-4">
+                            <ImageIcon className="text-[#f82506]" size={16} /> Event Media
+                        </h3>
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Event Cover Image</label>
+                            
+                            {formData.image ? (
+                                <div className="relative aspect-video w-full max-w-xl rounded-2xl overflow-hidden border border-white/10 group">
+                                    <img 
+                                        src={formData.image} 
+                                        alt="Preview" 
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <button 
+                                            type="button"
+                                            onClick={removeImage}
+                                            className="bg-red-500 text-white p-3 rounded-full hover:scale-110 transition-transform"
+                                        >
+                                            <X size={20} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <label className="flex flex-col items-center justify-center w-full max-w-xl aspect-video rounded-2xl border-2 border-dashed border-white/5 hover:border-[#f82506]/30 hover:bg-white/5 transition-all cursor-pointer group">
+                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <div className="p-4 bg-zinc-900 rounded-2xl mb-4 group-hover:scale-110 transition-transform">
+                                            <ImageIcon className="text-gray-500 group-hover:text-[#f82506]" size={32} />
+                                        </div>
+                                        <p className="mb-2 text-sm text-gray-400 font-bold italic">
+                                            Click to <span className="text-white">upload race image</span>
+                                        </p>
+                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest">
+                                            PNG, JPG or WebP (Max. 5MB)
+                                        </p>
+                                    </div>
+                                    <input 
+                                        type="file" 
+                                        className="hidden" 
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                    />
+                                </label>
+                            )}
                         </div>
                     </div>
 
