@@ -10,12 +10,15 @@ import CardFlip from '@/components/ui/flip-card';
 import { useState, useEffect } from 'react';
 import { HeroFuturistic } from '@/components/ui/hero-futuristic';
 import apiClient from '@/api/client';
+import WhatsAppDiscountWidget from '@/components/WhatsAppDiscountWidget';
 
 export default function Home() {
   const { user } = useAuth();
   const [sponsors, setSponsors] = useState<any[]>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     apiClient.get('sponsors')
       .then(res => setSponsors(res.data.data || res.data))
       .catch(console.error);
@@ -72,13 +75,21 @@ export default function Home() {
         {/* Dynamic Sponsor Flow Strip */}
         <div className="w-full overflow-hidden bg-[#0a0a0a] border-y border-white/5 py-4 md:py-6 z-40 relative flex-shrink-0">
           <div className="flex animate-marquee gap-8 md:gap-12 items-center min-w-max">
-            {[...sponsors, ...sponsors, ...sponsors, ...sponsors, { name: 'ATHLION' }, { name: 'HYROX' }].map((s, i) => (
-              <Link key={i} href="/sponsors" className="hover:scale-105 transition-transform">
+            {!mounted ? (
+              <Link href="/sponsors" className="hover:scale-105 transition-transform">
                 <span className="text-lg md:text-2xl font-black italic text-gray-500 uppercase px-4 md:px-8 opacity-50 whitespace-nowrap leading-normal py-1 pr-4">
-                  {s?.name || 'PARTNER'}
+                  ATHLION
                 </span>
               </Link>
-            ))}
+            ) : (
+              [...sponsors, ...sponsors, ...sponsors, ...sponsors, { name: 'ATHLION' }].map((s, i) => (
+                <Link key={i} href="/sponsors" className="hover:scale-105 transition-transform">
+                  <span className="text-lg md:text-2xl font-black italic text-gray-500 uppercase px-4 md:px-8 opacity-50 whitespace-nowrap leading-normal py-1 pr-4">
+                    {s?.name || 'PARTNER'}
+                  </span>
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -174,6 +185,7 @@ export default function Home() {
         </div>
       </section>
 
+      <WhatsAppDiscountWidget />
     </div>
   );
 }
