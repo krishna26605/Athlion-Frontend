@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
+
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -31,6 +33,7 @@ const CountdownTimer = () => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
 
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setTimeLeft(calculateTimeLeft());
 
         return () => clearInterval(timer);
@@ -149,7 +152,7 @@ export default function EventDetailPage() {
 
     const generateWaveTimes = () => {
         const times = [];
-        let current = new Date();
+        const current = new Date();
         current.setHours(9, 0, 0, 0);
         const end = new Date();
         end.setHours(17, 0, 0, 0);
