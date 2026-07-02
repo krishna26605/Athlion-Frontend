@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/context/AuthContext';
 
 export default function WhatsAppDiscountWidget() {
   const [mounted, setMounted] = useState(false);
   const [showTooltip, setShowTooltip] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     setMounted(true);
@@ -16,7 +18,7 @@ export default function WhatsAppDiscountWidget() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted || user) return null;
 
   const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919579680332';
   const sanitizedNumber = number.replace(/[^0-9]/g, '');
