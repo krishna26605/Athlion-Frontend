@@ -8,9 +8,9 @@ import { useAuth } from '@/context/AuthContext';
 import AthlionStationsSection from '@/components/AthlionStationsSection';
 import CardFlip from '@/components/ui/flip-card';
 import { useState, useEffect } from 'react';
-import { HeroFuturistic } from '@/components/ui/hero-futuristic';
 import apiClient from '@/api/client';
 import WhatsAppDiscountWidget from '@/components/WhatsAppDiscountWidget';
+import { HeroFuturistic } from '@/components/ui/hero-futuristic';
 
 export default function Home() {
   const { user } = useAuth();

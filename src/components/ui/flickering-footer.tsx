@@ -78,24 +78,9 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       rows: number,
       squares: Float32Array,
       dpr: number,
+      hasTextArray: Uint8Array,
     ) => {
       ctx.clearRect(0, 0, width, height);
-      const maskCanvas = document.createElement("canvas");
-      maskCanvas.width = width;
-      maskCanvas.height = height;
-      const maskCtx = maskCanvas.getContext("2d", { willReadFrequently: true });
-      if (!maskCtx) return;
-
-      if (text) {
-        maskCtx.save();
-        maskCtx.scale(dpr, dpr);
-        maskCtx.fillStyle = "white";
-        maskCtx.font = `${fontWeight} ${fontSize}px sans-serif`;
-        maskCtx.textAlign = "center";
-        maskCtx.textBaseline = "middle";
-        maskCtx.fillText(text, width / (2 * dpr), height / (2 * dpr));
-        maskCtx.restore();
-      }
 
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
@@ -104,10 +89,10 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
           const squareWidth = squareSize * dpr;
           const squareHeight = squareSize * dpr;
 
-          const maskData = maskCtx.getImageData(x, y, 1, 1).data;
-          const hasText = maskData[0] > 0;
+          const idx = i * rows + j;
+          const hasText = hasTextArray ? hasTextArray[idx] === 1 : false;
 
-          const opacity = squares[i * rows + j];
+          const opacity = squares[idx];
           const finalOpacity = hasText ? Math.min(1, opacity * 3 + 0.4) : opacity;
 
           ctx.fillStyle = colorWithOpacity(memoizedColor, finalOpacity);
@@ -115,7 +100,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         }
       }
     },
-    [memoizedColor, squareSize, gridGap, text, fontSize, fontWeight],
+    [memoizedColor, squareSize, gridGap],
   );
 
   const setupCanvas = useCallback(
@@ -129,9 +114,48 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       const rows = Math.ceil(height / (squareSize + gridGap));
       const squares = new Float32Array(cols * rows);
       for (let i = 0; i < squares.length; i++) squares[i] = Math.random() * maxOpacity;
-      return { cols, rows, squares, dpr };
+
+      const hasTextArray = new Uint8Array(cols * rows);
+      if (text) {
+        const maskCanvas = document.createElement("canvas");
+        maskCanvas.width = canvas.width;
+        maskCanvas.height = canvas.height;
+        const maskCtx = maskCanvas.getContext("2d", { willReadFrequently: true });
+        if (maskCtx) {
+          maskCtx.save();
+          maskCtx.scale(dpr, dpr);
+          maskCtx.fillStyle = "white";
+          maskCtx.font = `${fontWeight} ${fontSize}px sans-serif`;
+          maskCtx.textAlign = "center";
+          maskCtx.textBaseline = "middle";
+          maskCtx.fillText(text, width / 2, height / 2);
+          maskCtx.restore();
+
+          try {
+            const imgData = maskCtx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
+            const data = imgData.data;
+
+            for (let i = 0; i < cols; i++) {
+              for (let j = 0; j < rows; j++) {
+                const x = Math.floor(i * (squareSize + gridGap) * dpr);
+                const y = Math.floor(j * (squareSize + gridGap) * dpr);
+                if (x < maskCanvas.width && y < maskCanvas.height) {
+                  const pixelIndex = (y * maskCanvas.width + x) * 4;
+                  if (data[pixelIndex] > 0 || data[pixelIndex + 3] > 0) {
+                    hasTextArray[i * rows + j] = 1;
+                  }
+                }
+              }
+            }
+          } catch (e) {
+            console.error("Failed to read image data for FlickeringGrid text mask:", e);
+          }
+        }
+      }
+
+      return { cols, rows, squares, dpr, hasTextArray };
     },
-    [squareSize, gridGap, maxOpacity],
+    [squareSize, gridGap, maxOpacity, text, fontSize, fontWeight],
   );
 
   const updateSquares = useCallback(
@@ -166,8 +190,19 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       if (!isInView) return;
       const deltaTime = (time - lastTime) / 1000;
       lastTime = time;
-      updateSquares(gridParams.squares, deltaTime);
-      drawGrid(ctx, canvas.width, canvas.height, gridParams.cols, gridParams.rows, gridParams.squares, gridParams.dpr);
+      if (gridParams) {
+        updateSquares(gridParams.squares, deltaTime);
+        drawGrid(
+          ctx,
+          canvas.width,
+          canvas.height,
+          gridParams.cols,
+          gridParams.rows,
+          gridParams.squares,
+          gridParams.dpr,
+          gridParams.hasTextArray,
+        );
+      }
       animationFrameId = requestAnimationFrame(animate);
     };
 
