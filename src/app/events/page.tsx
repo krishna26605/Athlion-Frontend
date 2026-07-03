@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { MapPin, Calendar, Users, ArrowRight, Loader2, Search, Trophy } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/utils/utils';
 import { Timer } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 const CountdownTimer = () => {
     const [timeLeft, setTimeLeft] = useState('');
@@ -64,9 +65,11 @@ interface Event {
 }
 
 export default function EventsPage() {
+    const { user } = useAuth();
     const [events, setEvents] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [registeredEventIds, setRegisteredEventIds] = useState<Set<string>>(new Set());
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -81,6 +84,25 @@ export default function EventsPage() {
         };
         fetchEvents();
     }, []);
+
+    useEffect(() => {
+        const fetchMyRegistrations = async () => {
+            if (!user) {
+                setRegisteredEventIds(new Set());
+                return;
+            }
+            try {
+                const res = await apiClient.get('registrations/my');
+                const ids = new Set<string>(
+                    res.data.data.map((reg: any) => reg.event?._id || reg.event)
+                );
+                setRegisteredEventIds(ids);
+            } catch (err) {
+                console.error('Failed to fetch user registrations', err);
+            }
+        };
+        fetchMyRegistrations();
+    }, [user]);
 
     const filteredEvents = events.filter(event =>
         event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -118,85 +140,103 @@ export default function EventsPage() {
                     </div>
                 ) : filteredEvents.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                        {filteredEvents.map((event, i) => (
-                            <motion.div
-                                key={event._id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                                className="glass-card overflow-hidden group hover:border-[#f82506]/30 transition-all"
-                            >
-                                <div className="h-40 md:h-56 bg-zinc-900 relative overflow-hidden">
-                                    <img 
-                                        src={event.image || 'https://images.unsplash.com/photo-1594882645126-14020914d58d?q=80&w=2085&auto=format&fit=crop'} 
-                                        alt={event.name}
-                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                    />
-                                    <div className="absolute top-3 right-3 md:top-4 md:right-4 z-10 flex flex-col gap-2 items-end">
-                                        <span className="bg-white text-black px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-wider flex items-center gap-1">
-                                            <div className="w-1 h-1 rounded-full bg-green-600 animate-pulse" /> {event.status}
-                                        </span>
-                                        {event.discountLabel && (
-                                            <span className="bg-[#f82506] text-white px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-wider shadow-lg">
-                                                {event.discountLabel}
+                        {filteredEvents.map((event, i) => {
+                            const isRegistered = registeredEventIds.has(event._id);
+                            return (
+                                <motion.div
+                                    key={event._id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.1 }}
+                                    className="glass-card overflow-hidden group hover:border-[#f82506]/30 transition-all"
+                                >
+                                    <div className="h-40 md:h-56 bg-zinc-900 relative overflow-hidden">
+                                        <img 
+                                            src={event.image || 'https://images.unsplash.com/photo-1594882645126-14020914d58d?q=80&w=2085&auto=format&fit=crop'} 
+                                            alt={event.name}
+                                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        />
+                                        <div className="absolute top-3 right-3 md:top-4 md:right-4 z-10 flex flex-col gap-2 items-end">
+                                            <span className="bg-white text-black px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-wider flex items-center gap-1 shadow-lg">
+                                                <div className="w-1 h-1 rounded-full bg-green-600 animate-pulse" /> {event.status}
                                             </span>
-                                        )}
-                                    </div>
-                                    <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10">
-                                        {event.discountLabel && event.discountLabel.toLowerCase().includes('super early') && (
-                                            <CountdownTimer />
-                                        )}
-                                    </div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
-                                    <div className="absolute bottom-3 left-4 md:bottom-4 md:left-6 pr-4">
-                                        <h3 className="text-lg md:text-2xl font-black italic tracking-tighter leading-[1.1] uppercase break-words line-clamp-2">{event.name}</h3>
-                                    </div>
-                                </div>
-
-                                <div className="p-4 md:p-6 bg-zinc-950/20">
-                                    <div className="grid grid-cols-1 gap-2.5 md:gap-4 mb-5 md:mb-8">
-                                        <div className="flex items-center gap-2 text-gray-400">
-                                            <MapPin size={12} className="text-[#f82506] shrink-0" />
-                                            <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight truncate line-clamp-1">{event.venue.address}</span>
+                                            {isRegistered && (
+                                                <span className="bg-green-600 text-white px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-wider shadow-lg flex items-center gap-1">
+                                                    <div className="w-1 h-1 rounded-full bg-white animate-pulse" /> Already Registered
+                                                </span>
+                                            )}
+                                            {event.discountLabel && !isRegistered && (
+                                                <span className="bg-[#f82506] text-white px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-wider shadow-lg">
+                                                    {event.discountLabel}
+                                                </span>
+                                            )}
                                         </div>
-                                        <div className="flex items-center gap-2 text-gray-400">
-                                            <Calendar size={12} className="text-[#f82506] shrink-0" />
-                                            <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight">{formatDate(event.date)} @ {event.startTime}</span>
+                                        <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10">
+                                            {event.discountLabel && event.discountLabel.toLowerCase().includes('super early') && !isRegistered && (
+                                                <CountdownTimer />
+                                            )}
                                         </div>
-                                        <div className="flex items-center gap-2 text-gray-400">
-                                            <Users size={12} className="text-[#f82506] shrink-0" />
-                                            <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight">Spots: {event.currentParticipants}/{event.maxParticipants} Full</span>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
+                                        <div className="absolute bottom-3 left-4 md:bottom-4 md:left-6 pr-4">
+                                            <h3 className="text-lg md:text-2xl font-black italic tracking-tighter leading-[1.1] uppercase break-words line-clamp-2">{event.name}</h3>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center justify-between pt-4 md:pt-6 border-t border-white/5">
-                                        <div>
-                                            <span className="text-[8px] md:text-xs text-gray-500 font-bold uppercase tracking-widest block mb-0.5">Entry Pass</span>
-                                            <div className="flex flex-col">
-                                                {event.discountedPrice !== undefined && event.discountedPrice < event.price ? (
-                                                    <>
-                                                        <span className="text-[10px] md:text-xs text-gray-500 line-through font-bold">
-                                                            {formatCurrency(event.price)}
-                                                        </span>
-                                                        <span className="text-base md:text-xl font-black italic text-[#f82506] flex items-center gap-1">
-                                                            <Trophy size={14} className="text-[#f82506]" /> {formatCurrency(event.discountedPrice)}
-                                                        </span>
-                                                    </>
-                                                ) : (
-                                                    <span className="text-base md:text-xl font-black italic text-white flex items-center gap-1">
-                                                        <Trophy size={14} className="text-[#f82506]" /> {formatCurrency(event.price)}
-                                                    </span>
-                                                )}
+                                    <div className="p-4 md:p-6 bg-zinc-950/20">
+                                        <div className="grid grid-cols-1 gap-2.5 md:gap-4 mb-5 md:mb-8">
+                                            <div className="flex items-center gap-2 text-gray-400">
+                                                <MapPin size={12} className="text-[#f82506] shrink-0" />
+                                                <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight truncate line-clamp-1">{event.venue.address}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-gray-400">
+                                                <Calendar size={12} className="text-[#f82506] shrink-0" />
+                                                <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight">{formatDate(event.date)} @ {event.startTime}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-gray-400">
+                                                <Users size={12} className="text-[#f82506] shrink-0" />
+                                                <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight">Spots: {event.currentParticipants}/{event.maxParticipants} Full</span>
                                             </div>
                                         </div>
-                                        <Link href={`/events/${event._id}`} className="px-4 py-2 md:p-3 bg-white text-black rounded-lg md:rounded-full group-hover:bg-[#f82506] group-hover:text-white transition-all text-xs font-black uppercase italic flex items-center gap-2">
-                                            <span className="md:hidden">Join Now</span>
-                                            <ArrowRight size={14} />
-                                        </Link>
+
+                                        <div className="flex items-center justify-between pt-4 md:pt-6 border-t border-white/5">
+                                            <div>
+                                                <span className="text-[8px] md:text-xs text-gray-500 font-bold uppercase tracking-widest block mb-0.5">Entry Pass</span>
+                                                <div className="flex flex-col">
+                                                    {event.discountedPrice !== undefined && event.discountedPrice < event.price ? (
+                                                        <>
+                                                            <span className="text-[10px] md:text-xs text-gray-500 line-through font-bold">
+                                                                {formatCurrency(event.price)}
+                                                            </span>
+                                                            <span className="text-base md:text-xl font-black italic text-[#f82506] flex items-center gap-1">
+                                                                <Trophy size={14} className="text-[#f82506]" /> {formatCurrency(event.discountedPrice)}
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-base md:text-xl font-black italic text-white flex items-center gap-1">
+                                                            <Trophy size={14} className="text-[#f82506]" /> {formatCurrency(event.price)}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            {isRegistered ? (
+                                                <button 
+                                                    disabled 
+                                                    className="px-4 py-2 md:p-3 bg-green-950/30 text-green-500/50 border border-green-500/20 rounded-lg md:rounded-full text-xs font-black uppercase italic flex items-center gap-2 cursor-not-allowed"
+                                                >
+                                                    <span>Already Registered</span>
+                                                    <ArrowRight size={14} />
+                                                </button>
+                                            ) : (
+                                                <Link href={`/events/${event._id}`} className="px-4 py-2 md:p-3 bg-white text-black rounded-lg md:rounded-full group-hover:bg-[#f82506] group-hover:text-white transition-all text-xs font-black uppercase italic flex items-center gap-2">
+                                                    <span className="md:hidden">Join Now</span>
+                                                    <ArrowRight size={14} />
+                                                </Link>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 ) : (
                     <div className="text-center py-20 md:py-24 border border-dashed border-white/10 rounded-3xl">

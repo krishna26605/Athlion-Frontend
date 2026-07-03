@@ -11,6 +11,8 @@ import { MapPin, Calendar, Clock, Trophy, ArrowLeft, Loader2, CheckCircle, Shiel
 import { formatDate, formatCurrency } from '@/utils/utils';
 import Script from 'next/script';
 import { Timer } from 'lucide-react';
+import Link from 'next/link';
+import { QRCodeSVG } from 'qrcode.react';
 
 const CountdownTimer = () => {
     const [timeLeft, setTimeLeft] = useState('');
@@ -85,7 +87,7 @@ declare global {
 export default function EventDetailPage() {
     const { id } = useParams();
     const router = useRouter();
-    const { user } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     // --- ATHLION REGISTRATION STATE ---
     const [event, setEvent] = useState<Event | null>(null);
     const [loading, setLoading] = useState(true);
@@ -99,6 +101,17 @@ export default function EventDetailPage() {
         category: 'Single',
         batchTime: ''
     });
+
+    const [existingRegistration, setExistingRegistration] = useState<any | null>(null);
+    const [checkingReg, setCheckingReg] = useState(true);
+
+    const goToStep = (nextStep: number) => {
+        if (existingRegistration && nextStep > step) {
+            alert('You are already registered for this event');
+            return;
+        }
+        setStep(nextStep);
+    };
 
     // --- DISCOUNT STATE ---
     const [discountInfo, setDiscountInfo] = useState<DiscountInfo | null>(null);
@@ -122,6 +135,33 @@ export default function EventDetailPage() {
 
         if (id) fetchEvent();
     }, [id]);
+
+    useEffect(() => {
+        const checkUserRegistration = async () => {
+            if (authLoading) return;
+            if (!user) {
+                setCheckingReg(false);
+                return;
+            }
+            if (!id) return;
+            try {
+                setCheckingReg(true);
+                const res = await apiClient.get('registrations/my');
+                const userReg = res.data.data.find((reg: any) => {
+                    const regEventId = reg.event?._id || reg.event;
+                    return regEventId === id;
+                });
+                if (userReg) {
+                    setExistingRegistration(userReg);
+                }
+            } catch (err) {
+                console.error('Failed to check user registration status', err);
+            } finally {
+                setCheckingReg(false);
+            }
+        };
+        checkUserRegistration();
+    }, [user, id, authLoading]);
 
     // Fetch early bird discount info when user reaches payment step
     useEffect(() => {
@@ -309,7 +349,7 @@ export default function EventDetailPage() {
         }
     };
 
-    if (loading) return (
+    if (loading || authLoading || (user && checkingReg)) return (
         <div className="min-h-screen flex items-center justify-center bg-black">
             <Loader2 className="animate-spin text-[#f82506]" size={40} />
         </div>
@@ -410,229 +450,282 @@ export default function EventDetailPage() {
                             animate={{ opacity: 1, y: 0 }}
                             className="sticky top-24 md:top-32 glass-card p-5 md:p-8 lg:p-10 border-[#f82506]/20 bg-zinc-950/80"
                         >
-                            {/* Progress Header */}
-                            <div className="flex justify-between items-center mb-6 md:mb-10">
-                                {steps.map((s) => (
-                                    <div key={s.id} className="flex flex-col items-center gap-1 md:gap-2">
-                                        <div className={`w-8 h-1 md:w-16 rounded-full transition-all duration-500 ${step >= s.id ? 'bg-[#f82506]' : 'bg-gray-800'}`} />
-                                        <span className={`text-[7px] md:text-[8px] font-black tracking-tighter ${step === s.id ? 'text-[#f82506]' : 'text-gray-600'}`}>{s.title}</span>
+                            {existingRegistration ? (
+                                <div className="space-y-6 text-center">
+                                    <div className="mx-auto w-16 h-16 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center text-green-500 mb-4 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+                                        <Trophy size={32} />
                                     </div>
-                                ))}
-                            </div>
-
-                            <form onSubmit={(e) => e.preventDefault()}>
-                                {/* STEP 1: LEVEL */}
-                                {step === 1 && (
-                                    <div className="space-y-5 md:space-y-6">
-                                        <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PICK YOUR <span className="text-[#f82506]">LEVEL</span></h3>
-                                        <div className="grid grid-cols-1 gap-4">
-                                            {[
-                                                { id: 'elite', label: 'Elite (VIP)', desc: 'For experienced athletes' },
-                                                { id: 'classical', label: 'Classical (regular)', desc: 'For regular fitness enthusiasts' }
-                                            ].map((lvl) => (
-                                                <button
-                                                    key={lvl.id}
-                                                    type="button"
-                                                    onClick={() => { setRegData({ ...regData, level: lvl.id }); setStep(2); }}
-                                                    className={`glass-card-hover p-4 md:p-6 rounded-xl md:rounded-2xl text-left border transition-all ${regData.level === lvl.id ? 'border-[#f82506] bg-[#f82506]/10' : 'border-white/5'}`}
-                                                >
-                                                    <span className="block text-lg md:text-xl font-black italic uppercase">{lvl.label}</span>
-                                                    <span className="text-[10px] md:text-xs text-gray-500 uppercase font-bold tracking-widest">{lvl.desc}</span>
-                                                </button>
-                                            ))}
+                                    <h3 className="text-2xl md:text-3xl font-black italic uppercase tracking-tighter text-green-500">
+                                        ALREADY REGISTERED!
+                                    </h3>
+                                    <p className="text-gray-400 text-xs md:text-sm">
+                                        You have successfully secured your spot for this event. Below are your registration details.
+                                    </p>
+                                    
+                                    <div className="border-y border-white/5 py-4 space-y-3 text-left">
+                                        <div className="flex justify-between items-center text-sm">
+                                            <span className="text-gray-500 uppercase font-black text-xs">Level</span>
+                                            <span className="text-white font-black uppercase italic text-sm">{existingRegistration.level || 'N/A'}</span>
                                         </div>
-                                    </div>
-                                )}
-
-                                {/* STEP 2: PHYSICAL DETAILS */}
-                                {step === 2 && (
-                                    <div className="space-y-5 md:space-y-6">
-                                        <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PHYSICAL <span className="text-[#f82506]">DETAILS</span></h3>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Height (CM)</label>
-                                                <input
-                                                    type="number"
-                                                    placeholder="175"
-                                                    value={regData.height}
-                                                    onChange={(e) => setRegData({ ...regData, height: e.target.value })}
-                                                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 focus:border-[#f82506] transition-all outline-none text-sm"
-                                                />
+                                        <div className="flex justify-between items-center text-sm">
+                                            <span className="text-gray-500 uppercase font-black text-xs">Category</span>
+                                            <span className="text-white font-black uppercase italic text-sm">{existingRegistration.category || 'Single'}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center text-sm">
+                                            <span className="text-gray-500 uppercase font-black text-xs">Wave Time</span>
+                                            <span className="text-[#f82506] font-black uppercase italic text-sm">{existingRegistration.batchTime || 'N/A'}</span>
+                                        </div>
+                                        {existingRegistration.verificationCode && (
+                                            <div className="flex justify-between items-center text-sm">
+                                                <span className="text-gray-500 uppercase font-black text-xs">Verification Code</span>
+                                                <span className="text-white font-mono font-bold text-sm tracking-wider">{existingRegistration.verificationCode}</span>
                                             </div>
-                                            <div>
-                                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Weight (KG)</label>
-                                                <input
-                                                    type="number"
-                                                    placeholder="70"
-                                                    value={regData.weight}
-                                                    onChange={(e) => setRegData({ ...regData, weight: e.target.value })}
-                                                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 focus:border-[#f82506] transition-all outline-none text-sm"
-                                                />
+                                        )}
+                                    </div>
+
+                                    {existingRegistration.qrCode && (
+                                        <div className="bg-white p-4 rounded-2xl w-fit mx-auto flex flex-col items-center shadow-lg">
+                                            <QRCodeSVG value={existingRegistration.qrCode} size={130} level="H" />
+                                            <span className="mt-2 text-[9px] font-black uppercase text-black italic tracking-widest opacity-60">
+                                                SCAN AT VENUE
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    <Link 
+                                        href="/dashboard" 
+                                        className="w-full btn-primary py-4 font-black italic tracking-widest flex items-center justify-center gap-2 mt-4"
+                                    >
+                                        GO TO DASHBOARD
+                                    </Link>
+                                </div>
+                            ) : (
+                                <>
+                                    {/* Progress Header */}
+                                    <div className="flex justify-between items-center mb-6 md:mb-10">
+                                        {steps.map((s) => (
+                                            <div key={s.id} className="flex flex-col items-center gap-1 md:gap-2">
+                                                <div className={`w-8 h-1 md:w-16 rounded-full transition-all duration-500 ${step >= s.id ? 'bg-[#f82506]' : 'bg-gray-800'}`} />
+                                                <span className={`text-[7px] md:text-[8px] font-black tracking-tighter ${step === s.id ? 'text-[#f82506]' : 'text-gray-600'}`}>{s.title}</span>
                                             </div>
-                                        </div>
-                                        <div className="flex gap-4">
-                                            <button onClick={() => setStep(1)} className="flex-1 p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
-                                            <button
-                                                disabled={!regData.height || !regData.weight}
-                                                onClick={() => setStep(3)}
-                                                className="flex-[2] btn-primary p-4 disabled:bg-zinc-800 disabled:text-zinc-500 py-4 font-black italic tracking-widest"
-                                            >
-                                                CONTINUE
-                                            </button>
-                                        </div>
+                                        ))}
                                     </div>
-                                )}
 
-                                {/* STEP 3: CATEGORY */}
-                                {step === 3 && (
-                                    <div className="space-y-5 md:space-y-6">
-                                        <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PICK <span className="text-[#f82506]">CATEGORY</span></h3>
-                                        <button
-                                            type="button"
-                                            onClick={() => setStep(4)}
-                                            className="w-full glass-card-hover p-6 md:p-10 rounded-xl md:rounded-2xl text-center border border-[#f82506] bg-[#f82506]/10 transition-all group"
-                                        >
-                                            <Trophy className="mx-auto mb-3 md:mb-4 text-[#f82506] group-hover:scale-110 transition-transform" size={40} />
-                                            <span className="block text-2xl md:text-4xl font-black italic uppercase tracking-tighter mb-2">SINGLE</span>
-                                            <span className="text-[10px] md:text-xs text-gray-300 uppercase font-black tracking-[0.2em]">Standard Solo Entry</span>
-                                        </button>
-                                        <button onClick={() => setStep(2)} className="w-full p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
-                                    </div>
-                                )}
+                                    <form onSubmit={(e) => e.preventDefault()}>
+                                        {/* STEP 1: LEVEL */}
+                                        {step === 1 && (
+                                            <div className="space-y-5 md:space-y-6">
+                                                <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PICK YOUR <span className="text-[#f82506]">LEVEL</span></h3>
+                                                <div className="grid grid-cols-1 gap-4">
+                                                    {[
+                                                        { id: 'elite', label: 'Elite (VIP)', desc: 'For experienced athletes' },
+                                                        { id: 'classical', label: 'Classical (regular)', desc: 'For regular fitness enthusiasts' }
+                                                    ].map((lvl) => (
+                                                        <button
+                                                            key={lvl.id}
+                                                            type="button"
+                                                            onClick={() => { setRegData({ ...regData, level: lvl.id }); goToStep(2); }}
+                                                            className={`glass-card-hover p-4 md:p-6 rounded-xl md:rounded-2xl text-left border transition-all ${regData.level === lvl.id ? 'border-[#f82506] bg-[#f82506]/10' : 'border-white/5'}`}
+                                                        >
+                                                            <span className="block text-lg md:text-xl font-black italic uppercase">{lvl.label}</span>
+                                                            <span className="text-[10px] md:text-xs text-gray-500 uppercase font-bold tracking-widest">{lvl.desc}</span>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
 
-                                {/* STEP 4: WAVE SELECTION + COUPON + PAYMENT */}
-                                {step === 4 && (
-                                    <div className="space-y-5 md:space-y-6">
-                                        <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">WAVE <span className="text-[#f82506]">SELECTION</span></h3>
-                                        <div className="grid grid-cols-4 md:grid-cols-3 gap-2 md:gap-3 max-h-52 md:max-h-60 overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
-                                            {generateWaveTimes().map((wave) => (
+                                        {/* STEP 2: PHYSICAL DETAILS */}
+                                        {step === 2 && (
+                                            <div className="space-y-5 md:space-y-6">
+                                                <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PHYSICAL <span className="text-[#f82506]">DETAILS</span></h3>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Height (CM)</label>
+                                                        <input
+                                                            type="number"
+                                                            placeholder="175"
+                                                            value={regData.height}
+                                                            onChange={(e) => setRegData({ ...regData, height: e.target.value })}
+                                                            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 focus:border-[#f82506] transition-all outline-none text-sm"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Weight (KG)</label>
+                                                        <input
+                                                            type="number"
+                                                            placeholder="70"
+                                                            value={regData.weight}
+                                                            onChange={(e) => setRegData({ ...regData, weight: e.target.value })}
+                                                            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 focus:border-[#f82506] transition-all outline-none text-sm"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-4">
+                                                    <button onClick={() => goToStep(1)} className="flex-1 p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
+                                                    <button
+                                                        disabled={!regData.height || !regData.weight}
+                                                        onClick={() => goToStep(3)}
+                                                        className="flex-[2] btn-primary p-4 disabled:bg-zinc-800 disabled:text-zinc-500 py-4 font-black italic tracking-widest"
+                                                    >
+                                                        CONTINUE
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* STEP 3: CATEGORY */}
+                                        {step === 3 && (
+                                            <div className="space-y-5 md:space-y-6">
+                                                <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PICK <span className="text-[#f82506]">CATEGORY</span></h3>
                                                 <button
-                                                    key={wave.time}
                                                     type="button"
-                                                    disabled={wave.isSoldOut}
-                                                    onClick={() => setRegData({ ...regData, batchTime: wave.time })}
-                                                    className={`p-3 rounded-lg text-xs font-black italic transition-all border ${wave.isSoldOut ? 'bg-zinc-900 border-white/5 text-zinc-700 cursor-not-allowed opacity-50' :
-                                                        regData.batchTime === wave.time ? 'bg-[#f82506] border-[#f82506] text-white' :
-                                                            'bg-white/5 border-white/10 text-gray-400 hover:border-[#f82506]/50'
-                                                        }`}
+                                                    onClick={() => goToStep(4)}
+                                                    className="w-full glass-card-hover p-6 md:p-10 rounded-xl md:rounded-2xl text-center border border-[#f82506] bg-[#f82506]/10 transition-all group"
                                                 >
-                                                    {wave.time}
-                                                    {wave.isSoldOut && <span className="block text-[8px] mt-1 text-red-900">SOLD OUT</span>}
+                                                    <Trophy className="mx-auto mb-3 md:mb-4 text-[#f82506] group-hover:scale-110 transition-transform" size={40} />
+                                                    <span className="block text-2xl md:text-4xl font-black italic uppercase tracking-tighter mb-2">SINGLE</span>
+                                                    <span className="text-[10px] md:text-xs text-gray-300 uppercase font-black tracking-[0.2em]">Standard Solo Entry</span>
                                                 </button>
-                                            ))}
-                                        </div>
+                                                <button onClick={() => goToStep(2)} className="w-full p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
+                                            </div>
+                                        )}
 
-                                        {/* ═══════ COUPON CODE INPUT ═══════ */}
-                                        <div className="pt-4 border-t border-white/5">
-                                            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">
-                                                <Tag size={12} className="inline mr-1" /> Have a Coupon Code?
-                                            </label>
-                                            {couponApplied ? (
-                                                <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 rounded-xl p-4">
-                                                    <div className="flex items-center gap-3">
-                                                        <CheckCircle size={18} className="text-green-500" />
-                                                        <div>
-                                                            <code className="text-green-400 font-mono font-bold text-sm">{couponCode.toUpperCase()}</code>
-                                                            <p className="text-[10px] text-green-500/70 font-bold">Coupon applied successfully!</p>
+                                        {/* STEP 4: WAVE SELECTION + COUPON + PAYMENT */}
+                                        {step === 4 && (
+                                            <div className="space-y-5 md:space-y-6">
+                                                <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">WAVE <span className="text-[#f82506]">SELECTION</span></h3>
+                                                <div className="grid grid-cols-4 md:grid-cols-3 gap-2 md:gap-3 max-h-52 md:max-h-60 overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
+                                                    {generateWaveTimes().map((wave) => (
+                                                        <button
+                                                            key={wave.time}
+                                                            type="button"
+                                                            disabled={wave.isSoldOut}
+                                                            onClick={() => setRegData({ ...regData, batchTime: wave.time })}
+                                                            className={`p-3 rounded-lg text-xs font-black italic transition-all border ${wave.isSoldOut ? 'bg-zinc-900 border-white/5 text-zinc-700 cursor-not-allowed opacity-50' :
+                                                                regData.batchTime === wave.time ? 'bg-[#f82506] border-[#f82506] text-white' :
+                                                                    'bg-white/5 border-white/10 text-gray-400 hover:border-[#f82506]/50'
+                                                                }`}
+                                                        >
+                                                            {wave.time}
+                                                            {wave.isSoldOut && <span className="block text-[8px] mt-1 text-red-900">SOLD OUT</span>}
+                                                        </button>
+                                                    ))}
+                                                </div>
+
+                                                {/* ═══════ COUPON CODE INPUT ═══════ */}
+                                                <div className="pt-4 border-t border-white/5">
+                                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">
+                                                        <Tag size={12} className="inline mr-1" /> Have a Coupon Code?
+                                                    </label>
+                                                    {couponApplied ? (
+                                                        <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 rounded-xl p-4">
+                                                            <div className="flex items-center gap-3">
+                                                                <CheckCircle size={18} className="text-green-500" />
+                                                                <div>
+                                                                    <code className="text-green-400 font-mono font-bold text-sm">{couponCode.toUpperCase()}</code>
+                                                                    <p className="text-[10px] text-green-500/70 font-bold">Coupon applied successfully!</p>
+                                                                </div>
+                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                onClick={handleRemoveCoupon}
+                                                                className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-500 hover:text-red-500"
+                                                            >
+                                                                <X size={16} />
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="flex gap-2">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Enter coupon code..."
+                                                                value={couponCode}
+                                                                onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setCouponError(''); }}
+                                                                className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-sm uppercase font-mono outline-none focus:border-[#f82506] transition-all"
+                                                            />
+                                                            <button
+                                                                type="button"
+                                                                onClick={handleApplyCoupon}
+                                                                disabled={couponLoading || !couponCode.trim()}
+                                                                className="px-6 py-3 rounded-xl bg-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#f82506] transition-all disabled:opacity-50"
+                                                            >
+                                                                {couponLoading ? <Loader2 size={14} className="animate-spin" /> : 'Apply'}
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                    {couponError && (
+                                                        <p className="text-red-500 text-[10px] font-bold mt-2 uppercase tracking-wider">{couponError}</p>
+                                                    )}
+                                                </div>
+
+                                                {/* ═══════ PRICE BREAKDOWN ═══════ */}
+                                                <div className="pt-6 border-t border-white/5 space-y-4">
+                                                    {/* Early Bird Badge */}
+                                                    {discountInfo && discountInfo.type !== 'none' && discountInfo.type !== 'coupon' && (
+                                                        <motion.div
+                                                            initial={{ opacity: 0, y: -10 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-3"
+                                                        >
+                                                            <Zap size={16} className="text-amber-500" />
+                                                            <div>
+                                                                <span className="text-amber-400 text-[10px] font-black uppercase tracking-widest">{discountInfo.label}</span>
+                                                                {spotsRemaining !== null && (
+                                                                    <p className="text-amber-500/50 text-[9px] font-bold">{spotsRemaining} super early spot{spotsRemaining !== 1 ? 's' : ''} remaining!</p>
+                                                                )}
+                                                            </div>
+                                                        </motion.div>
+                                                    )}
+
+                                                    {/* Price Lines */}
+                                                    <div className="space-y-2">
+                                                        <div className="flex justify-between items-center">
+                                                            <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Entry Fee</span>
+                                                            <span className={`text-lg font-black italic ${((discountInfo && discountInfo.value > 0) || (event.discountedPrice !== undefined && event.discountedPrice < event.price)) ? 'text-gray-500 line-through' : 'text-white'}`}>
+                                                                {formatCurrency(event.price)}
+                                                            </span>
+                                                        </div>
+
+                                                        {discountInfo && discountInfo.value > 0 && (
+                                                            <motion.div
+                                                                initial={{ opacity: 0, x: 20 }}
+                                                                animate={{ opacity: 1, x: 0 }}
+                                                                className="flex justify-between items-center"
+                                                            >
+                                                                <span className="text-xs font-bold text-green-500 uppercase tracking-widest flex items-center gap-1">
+                                                                    <Tag size={12} /> Discount
+                                                                </span>
+                                                                <span className="text-lg font-black italic text-green-500">- {formatCurrency(discountInfo.value)}</span>
+                                                            </motion.div>
+                                                        )}
+
+                                                        <div className="flex justify-between items-end pt-3 border-t border-white/5">
+                                                            <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Total</span>
+                                                            <span className="text-2xl md:text-4xl font-black italic text-white">{formatCurrency(getFinalPrice())}</span>
                                                         </div>
                                                     </div>
-                                                    <button
-                                                        type="button"
-                                                        onClick={handleRemoveCoupon}
-                                                        className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-500 hover:text-red-500"
-                                                    >
-                                                        <X size={16} />
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <div className="flex gap-2">
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Enter coupon code..."
-                                                        value={couponCode}
-                                                        onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setCouponError(''); }}
-                                                        className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-sm uppercase font-mono outline-none focus:border-[#f82506] transition-all"
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        onClick={handleApplyCoupon}
-                                                        disabled={couponLoading || !couponCode.trim()}
-                                                        className="px-6 py-3 rounded-xl bg-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#f82506] transition-all disabled:opacity-50"
-                                                    >
-                                                        {couponLoading ? <Loader2 size={14} className="animate-spin" /> : 'Apply'}
-                                                    </button>
-                                                </div>
-                                            )}
-                                            {couponError && (
-                                                <p className="text-red-500 text-[10px] font-bold mt-2 uppercase tracking-wider">{couponError}</p>
-                                            )}
-                                        </div>
 
-                                        {/* ═══════ PRICE BREAKDOWN ═══════ */}
-                                        <div className="pt-6 border-t border-white/5 space-y-4">
-                                            {/* Early Bird Badge */}
-                                            {discountInfo && discountInfo.type !== 'none' && discountInfo.type !== 'coupon' && (
-                                                <motion.div
-                                                    initial={{ opacity: 0, y: -10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-3"
-                                                >
-                                                    <Zap size={16} className="text-amber-500" />
-                                                    <div>
-                                                        <span className="text-amber-400 text-[10px] font-black uppercase tracking-widest">{discountInfo.label}</span>
-                                                        {spotsRemaining !== null && (
-                                                            <p className="text-amber-500/50 text-[9px] font-bold">{spotsRemaining} super early spot{spotsRemaining !== 1 ? 's' : ''} remaining!</p>
-                                                        )}
+                                                    <div className="flex gap-4">
+                                                        <button onClick={() => goToStep(3)} className="flex-1 p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
+                                                        <button
+                                                            onClick={handleBooking}
+                                                            disabled={bookingLoading || !regData.batchTime}
+                                                            className="flex-[2] btn-primary p-3 md:p-4 py-3 md:py-4 font-black italic tracking-widest text-sm md:text-lg disabled:bg-zinc-800 disabled:text-zinc-500"
+                                                        >
+                                                            {bookingLoading ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'PAY & REGISTER'}
+                                                        </button>
                                                     </div>
-                                                </motion.div>
-                                            )}
-
-                                            {/* Price Lines */}
-                                            <div className="space-y-2">
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Entry Fee</span>
-                                                    <span className={`text-lg font-black italic ${((discountInfo && discountInfo.value > 0) || (event.discountedPrice !== undefined && event.discountedPrice < event.price)) ? 'text-gray-500 line-through' : 'text-white'}`}>
-                                                        {formatCurrency(event.price)}
-                                                    </span>
-                                                </div>
-
-                                                {discountInfo && discountInfo.value > 0 && (
-                                                    <motion.div
-                                                        initial={{ opacity: 0, x: 20 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        className="flex justify-between items-center"
-                                                    >
-                                                        <span className="text-xs font-bold text-green-500 uppercase tracking-widest flex items-center gap-1">
-                                                            <Tag size={12} /> Discount
-                                                        </span>
-                                                        <span className="text-lg font-black italic text-green-500">- {formatCurrency(discountInfo.value)}</span>
-                                                    </motion.div>
-                                                )}
-
-                                                <div className="flex justify-between items-end pt-3 border-t border-white/5">
-                                                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Total</span>
-                                                    <span className="text-2xl md:text-4xl font-black italic text-white">{formatCurrency(getFinalPrice())}</span>
                                                 </div>
                                             </div>
+                                        )}
+                                    </form>
 
-                                            <div className="flex gap-4">
-                                                <button onClick={() => setStep(3)} className="flex-1 p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
-                                                <button
-                                                    onClick={handleBooking}
-                                                    disabled={bookingLoading || !regData.batchTime}
-                                                    className="flex-[2] btn-primary p-3 md:p-4 py-3 md:py-4 font-black italic tracking-widest text-sm md:text-lg disabled:bg-zinc-800 disabled:text-zinc-500"
-                                                >
-                                                    {bookingLoading ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'PAY & REGISTER'}
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div className="mt-8 flex items-center justify-center gap-2 text-gray-500 text-[9px] font-black uppercase tracking-widest">
+                                        <ShieldCheck size={14} /> Official Athlion Payment Gateway
                                     </div>
-                                )}
-                            </form>
-
-                            <div className="mt-8 flex items-center justify-center gap-2 text-gray-500 text-[9px] font-black uppercase tracking-widest">
-                                <ShieldCheck size={14} /> Official Athlion Payment Gateway
-                            </div>
+                                </>
+                            )}
                         </motion.div>
                     </div>
                 </div>
