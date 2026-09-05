@@ -4,13 +4,19 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Menu, X, Trophy, LogOut, User as UserIcon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { LogOut, User as UserIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const NAV_LINKS = [
+    { name: 'Events', href: '/events' },
+    { name: 'Functional Fitness', href: '/functional-fitness' },
+    { name: 'Sponsors', href: '/sponsors' },
+    { name: 'About', href: '/about' },
+];
 
 const Navbar = () => {
     const { user, logout } = useAuth();
     const [scrolled, setScrolled] = useState(false);
-
     const pathname = usePathname();
 
     useEffect(() => {
@@ -20,12 +26,6 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    const navLinks = [
-        { name: 'Events', href: '/events' },
-        { name: 'Schedule', href: '#schedule' },
-        { name: 'Sponsors', href: '/sponsors' },
-    ];
 
     if (pathname?.startsWith('/admin')) {
         return null;
@@ -53,7 +53,7 @@ const Navbar = () => {
 
                     {/* Desktop Nav */}
                     <div className="hidden md:flex items-center gap-8">
-                        {navLinks.map((link) => (
+                        {NAV_LINKS.map((link) => (
                             <Link key={link.name} href={link.href} className="nav-link font-bold uppercase tracking-widest text-[11px] text-gray-400 hover:text-white transition-colors">
                                 {link.name}
                             </Link>

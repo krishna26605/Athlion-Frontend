@@ -244,26 +244,27 @@ export function FlickeringFooter() {
 
   const footerLinks = [
     {
-      title: "Quick Links",
+      title: "Explore Athlion",
       links: [
         { id: 1, title: "Find an Event", url: "/events" },
-        { id: 2, title: "Rulebook", url: "#" },
-        { id: 3, title: "Training", url: "#" },
-        { id: 4, title: "Volunteers", url: "#" },
+        { id: 2, title: "Functional Fitness", url: "/functional-fitness" },
+        { id: 3, title: "Athletic Training", url: "/functional-fitness/training" },
+        { id: 4, title: "11 Station Workouts", url: "/functional-fitness/workouts" },
       ],
     },
     {
-      title: "Support",
+      title: "Company",
       links: [
-        { id: 5, title: "Contact Us", url: "#" },
-        { id: 6, title: "FAQs", url: "#" },
+        { id: 5, title: "About Us", url: "/about" },
+        { id: 6, title: "Contact Us", url: "/contact" },
+        { id: 7, title: "Sponsors & Gyms", url: "/sponsors" },
       ],
     },
     {
-      title: "Legal",
+      title: "Legal & Safety",
       links: [
-        { id: 7, title: "Privacy Policy", url: "#" },
-        { id: 8, title: "Terms of Service", url: "#" },
+        { id: 8, title: "Privacy Policy", url: "/privacy" },
+        { id: 9, title: "Terms of Service", url: "/terms" },
       ],
     },
   ];

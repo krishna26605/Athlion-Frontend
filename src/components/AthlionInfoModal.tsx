@@ -175,9 +175,10 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                <div key="athlion-info-modal-portal" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     {/* Backdrop */}
                     <motion.div
+                        key="athlion-info-backdrop"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -187,6 +188,7 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
 
                     {/* Modal Content */}
                     <motion.div
+                        key="athlion-info-modal-card"
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -207,7 +209,7 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
                             <div className="flex-grow overflow-y-auto p-3 space-y-1.5 custom-scrollbar">
                                 {stations.map((station) => (
                                     <button
-                                        key={station.id}
+                                        key={`station-btn-${station.id}`}
                                         onClick={() => setSelectedStation(station)}
                                         className={`w-full flex items-center gap-3 p-3 rounded-2xl transition-all group ${selectedStation?.id === station.id
                                             ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20'
@@ -242,7 +244,7 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
                             <AnimatePresence mode="wait">
                                 {selectedStation ? (
                                     <motion.div
-                                        key={selectedStation.id}
+                                        key={`station-detail-${selectedStation.id}`}
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
@@ -331,7 +333,13 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
                                         </div>
                                     </motion.div>
                                 ) : (
-                                    <div className="h-full flex flex-col items-center justify-center p-12 text-center space-y-8 bg-black">
+                                    <motion.div
+                                        key="empty-station-state"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="h-full flex flex-col items-center justify-center p-12 text-center space-y-8 bg-black"
+                                    >
                                         <div className="relative">
                                             <div className="absolute inset-0 rounded-full bg-[#f82506]/20 blur-3xl animate-pulse" />
                                             <div className="w-32 h-32 rounded-full bg-zinc-950 flex items-center justify-center border-2 border-[#f82506]/30 animate-vertical-bounce relative z-10 overflow-hidden p-6">
@@ -348,14 +356,14 @@ export default function AthlionInfoModal({ isOpen, onClose }: AthlionInfoModalPr
                                         <div className="flex gap-3 justify-center pt-4">
                                             {[1, 2, 3, 4, 5].map(i => (
                                                 <motion.div
-                                                    key={i}
+                                                    key={`loading-dot-${i}`}
                                                     animate={{ opacity: [0.2, 1, 0.2] }}
                                                     transition={{ repeat: Infinity, duration: 2, delay: i * 0.2 }}
                                                     className="w-16 h-1.5 bg-[#f82506] rounded-full"
                                                 />
                                             ))}
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 )}
                             </AnimatePresence>
                         </div>
