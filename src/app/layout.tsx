@@ -69,6 +69,13 @@ export const metadata: Metadata = {
   verification: {
     google: "googlee79688fd795f722d",
   },
+  icons: {
+    icon: [
+      { url: '/FINAL-ATH-LOGO.png', type: 'image/png' },
+    ],
+    shortcut: '/FINAL-ATH-LOGO.png',
+    apple: '/FINAL-ATH-LOGO.png',
+  },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

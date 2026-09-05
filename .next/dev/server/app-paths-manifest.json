@@ -1,11 +1,3 @@
 {
-  "/login/page": "app/login/page.js",
-  "/page": "app/page.js",
-  "/functional-fitness/page": "app/functional-fitness/page.js",
-  "/admin/blogs/page": "app/admin/blogs/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/events/page": "app/admin/events/page.js",
-  "/admin/registrations/page": "app/admin/registrations/page.js",
-  "/admin/early-access/page": "app/admin/early-access/page.js",
-  "/admin/sales-ai/page": "app/admin/sales-ai/page.js"
+  "/page": "app/page.js"
 }
