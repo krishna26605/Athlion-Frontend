@@ -42,11 +42,11 @@ export default function Home() {
               <span className="inline-block px-3 md:px-4 py-1 md:py-1.5 rounded-full bg-white/5 border border-white/10 text-[#f82506] text-[10px] md:text-xs font-black uppercase tracking-[0.2em] md:tracking-[0.3em] mb-4 md:mb-6">
                 INDIA'S PREMIER FITNESS RACE
               </span>
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black italic tracking-tighter leading-none mb-4 md:mb-6">
-                ARE YOU <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">ATHLION?</span>
+              <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black italic tracking-tighter leading-none mb-4 md:mb-6 uppercase">
+                FUNCTIONAL FITNESS & <span className="text-[#f82506] drop-shadow-[0_0_20px_rgba(248,37,6,0.4)]">OBSTACLE RACING</span>
               </h1>
-              <p className="max-w-2xl mx-auto text-gray-400 text-sm md:text-lg lg:text-xl mb-8 md:mb-[10vh] leading-relaxed uppercase font-black italic px-4 md:px-0">
-                The standardized format of fitness racing hits India. 2KM RUN. 11 STATIONS. NO LIMITS.
+              <p className="max-w-3xl mx-auto text-gray-400 text-sm md:text-lg lg:text-xl mb-8 md:mb-[8vh] leading-relaxed uppercase font-black italic px-4 md:px-0">
+                The standardized global format of hybrid fitness racing hits India. 2KM RUN. 11 STATIONS. NO LIMITS.
               </p>
 
               <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 px-4 md:px-0">
@@ -55,9 +55,13 @@ export default function Home() {
                   <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </Link>
 
+                <Link href="/functional-fitness" className="px-6 md:px-8 py-3 md:py-4 rounded-full border border-[#f82506]/50 bg-[#f82506]/10 text-white hover:bg-[#f82506] transition-all text-base md:text-lg font-bold uppercase italic text-center w-full sm:w-auto">
+                  FUNCTIONAL FITNESS GUIDE
+                </Link>
+
                 {!user ? (
                   <Link href="/register" className="px-6 md:px-8 py-3 md:py-4 rounded-full border border-white/20 hover:bg-white/5 transition-all text-base md:text-lg font-bold uppercase italic text-center w-full sm:w-auto">
-                    REGISTER AS USER
+                    JOIN ATHLION NOW
                   </Link>
                 ) : (
                   <Link

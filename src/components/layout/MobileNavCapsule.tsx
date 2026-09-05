@@ -85,9 +85,9 @@ const MobileNavCapsule = () => {
     // Different nav items for public vs admin pages
     const publicNavItems = [
         { name: 'Home', href: '/', icon: Home },
+        { name: 'Fitness', href: '/functional-fitness', icon: Trophy },
         { name: 'Events', href: '/events', icon: Calendar },
         { name: user ? 'Dashboard' : 'Login', href: user ? '/dashboard' : '/login', icon: user ? LayoutDashboard : LogIn },
-        { name: 'Sponsors', href: '/sponsors', icon: Trophy },
     ];
 
     const adminNavItems = [
