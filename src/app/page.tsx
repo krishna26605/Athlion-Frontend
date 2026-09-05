@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Trophy, Zap, Users, MapPin } from 'lucide-react';
+import { ArrowRight, Trophy, Zap, Users } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import AthlionStationsSection from '@/components/AthlionStationsSection';
 import CardFlip from '@/components/ui/flip-card';
@@ -11,6 +11,8 @@ import { useState, useEffect } from 'react';
 import apiClient from '@/api/client';
 import WhatsAppDiscountWidget from '@/components/WhatsAppDiscountWidget';
 import { HeroFuturistic } from '@/components/ui/hero-futuristic';
+import VisitorTracker from '@/components/VisitorTracker';
+import EarlyAccessModal from '@/components/EarlyAccessModal';
 
 export default function Home() {
   const { user } = useAuth();
@@ -24,12 +26,11 @@ export default function Home() {
       .catch(console.error);
   }, []);
 
-
-
   return (
     <div className="relative overflow-hidden">
-      {/* Hero Section */}
+      <VisitorTracker />
 
+      {/* Hero Section */}
       <section className="relative h-screen h-dvh w-full flex flex-col">
         <HeroFuturistic>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-50 text-center pointer-events-auto">
@@ -94,6 +95,12 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Embedded Early Access Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-[#0a0a0a] to-black border-b border-white/5">
+        <div className="max-w-4xl mx-auto px-4">
+          <EarlyAccessModal embedded={true} />
+        </div>
+      </section>
 
       {/* About Section */}
       <section id="about" className="py-16 md:py-24 bg-[#0a0a0a] border-y border-white/5">

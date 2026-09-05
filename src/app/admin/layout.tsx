@@ -7,7 +7,8 @@ import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     LayoutDashboard, Users, Calendar, Heart, Tag, Handshake,
-    LogOut, ChevronRight, User as UserIcon, ScanLine, Menu, X, Home
+    LogOut, ChevronRight, User as UserIcon, ScanLine, Menu, X, Home,
+    Phone, Upload, BarChart3
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -18,11 +19,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const menuItems = [
         { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/admin' },
         { name: 'Events', icon: <Calendar size={20} />, path: '/admin/events' },
+        { name: 'Early Access & Leads', icon: <Users size={20} />, path: '/admin/early-access' },
         { name: 'Registrations', icon: <Users size={20} />, path: '/admin/registrations' },
         { name: 'QR Scanner', icon: <ScanLine size={20} />, path: '/admin/scanner' },
         { name: 'Users', icon: <Users size={20} />, path: '/admin/users' },
         { name: 'Sponsors & Ads', icon: <Heart size={20} />, path: '/admin/sponsors' },
         { name: 'Pricing & Coupons', icon: <Tag size={20} />, path: '/admin/pricing' },
+    ];
+
+    const salesAiItems = [
+        { name: 'AI Dashboard', icon: <Phone size={20} />, path: '/admin/sales-ai' },
+        { name: 'Leads', icon: <Upload size={20} />, path: '/admin/sales-ai/leads' },
+        { name: 'CRM Logs', icon: <BarChart3 size={20} />, path: '/admin/sales-ai/crm' },
     ];
 
     const toggleSidebar = () => setIsCollapsed(!isCollapsed);
@@ -36,6 +44,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         if (pathname === '/admin/scanner') return { pre: 'QR', color: 'Scanner', sub: 'Athlete Verification' };
         if (pathname === '/admin/sponsors') return { pre: 'Sponsors', color: '& Ads', sub: 'Partners & Advertising' };
         if (pathname === '/admin/users') return { pre: 'Platform', color: 'Users', sub: 'Registered Athletes' };
+        if (pathname === '/admin/sales-ai') return { pre: 'Sales', color: 'AI', sub: 'AI Voice Calling Agent', colorClass: 'text-emerald-400' };
+        if (pathname === '/admin/sales-ai/leads') return { pre: 'Lead', color: 'Management', sub: 'AI Voice Calling Agent', colorClass: 'text-emerald-400' };
+        if (pathname === '/admin/sales-ai/crm') return { pre: 'CRM', color: 'Logs', sub: 'AI Voice Calling Agent', colorClass: 'text-emerald-400' };
         return { pre: 'Admin', color: 'Dashboard', sub: 'Executive Summary', titleSize: 'text-3xl' };
     };
 
@@ -98,6 +109,49 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                     className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-colors font-bold text-sm uppercase tracking-wider whitespace-nowrap flex-shrink-0 ${
                                         isActive
                                             ? 'bg-[#f82506] text-white shadow-lg shadow-[#f82506]/20'
+                                            : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                    }`}
+                                >
+                                    <span className="shrink-0">{item.icon}</span>
+                                    <AnimatePresence>
+                                        {!isCollapsed && (
+                                            <motion.span
+                                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                            >
+                                                {item.name}
+                                            </motion.span>
+                                        )}
+                                    </AnimatePresence>
+                                </Link>
+                            );
+                        })}
+                    </div>
+
+                    {/* Sales AI Section */}
+                    <AnimatePresence>
+                        {!isCollapsed && (
+                            <motion.div
+                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="mt-6 mb-2 px-2 whitespace-nowrap"
+                            >
+                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-500/70">Sales AI</span>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    <div className="flex flex-col gap-2">
+                        {salesAiItems.map((item) => {
+                            const isActive = pathname === item.path;
+                            return (
+                                <Link
+                                    key={item.path}
+                                    href={item.path}
+                                    title={isCollapsed ? item.name : ''}
+                                    className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-colors font-bold text-sm uppercase tracking-wider whitespace-nowrap flex-shrink-0 ${
+                                        isActive
+                                            ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'
                                             : 'text-gray-400 hover:text-white hover:bg-white/5'
                                     }`}
                                 >

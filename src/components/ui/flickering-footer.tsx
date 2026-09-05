@@ -106,6 +106,9 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   const setupCanvas = useCallback(
     (canvas: HTMLCanvasElement, width: number, height: number) => {
       const dpr = window.devicePixelRatio || 1;
+      if (width <= 0 || height <= 0) {
+        return { cols: 0, rows: 0, squares: new Float32Array(0), dpr, hasTextArray: new Uint8Array(0) };
+      }
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
