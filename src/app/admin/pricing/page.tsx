@@ -472,8 +472,8 @@ export default function AdminPricingPage() {
                                         <input
                                             required
                                             type="number"
-                                            value={couponFormData.count}
-                                            onChange={(e) => setCouponFormData({ ...couponFormData, count: parseInt(e.target.value) })}
+                                            value={isNaN(couponFormData.count) ? '' : couponFormData.count}
+                                            onChange={(e) => setCouponFormData({ ...couponFormData, count: e.target.value === '' ? NaN : (parseInt(e.target.value) || 0) })}
                                             className="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-[#f82506] transition-all text-sm"
                                             placeholder="e.g. 50"
                                         />
@@ -515,8 +515,8 @@ export default function AdminPricingPage() {
                                         <input
                                             required
                                             type="number"
-                                            value={couponFormData.value}
-                                            onChange={(e) => setCouponFormData({ ...couponFormData, value: parseInt(e.target.value) })}
+                                            value={isNaN(couponFormData.value) ? '' : couponFormData.value}
+                                            onChange={(e) => setCouponFormData({ ...couponFormData, value: e.target.value === '' ? NaN : (parseInt(e.target.value) || 0) })}
                                             className="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-[#f82506] transition-all text-sm"
                                             placeholder="100"
                                         />
@@ -608,8 +608,8 @@ export default function AdminPricingPage() {
                                             required
                                             type="number"
                                             min="1"
-                                            value={earlyBirdFormData.superEarlyLimit}
-                                            onChange={(e) => setEarlyBirdFormData({ ...earlyBirdFormData, superEarlyLimit: parseInt(e.target.value) })}
+                                            value={isNaN(earlyBirdFormData.superEarlyLimit) ? '' : earlyBirdFormData.superEarlyLimit}
+                                            onChange={(e) => setEarlyBirdFormData({ ...earlyBirdFormData, superEarlyLimit: e.target.value === '' ? NaN : (parseInt(e.target.value) || 0) })}
                                             className="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-amber-500 transition-all text-sm"
                                             placeholder="e.g. 50"
                                         />
@@ -641,8 +641,8 @@ export default function AdminPricingPage() {
                                                 required
                                                 type="number"
                                                 min="0"
-                                                value={earlyBirdFormData.superEarlyDiscountValue}
-                                                onChange={(e) => setEarlyBirdFormData({ ...earlyBirdFormData, superEarlyDiscountValue: parseInt(e.target.value) })}
+                                                value={isNaN(earlyBirdFormData.superEarlyDiscountValue) ? '' : earlyBirdFormData.superEarlyDiscountValue}
+                                                onChange={(e) => setEarlyBirdFormData({ ...earlyBirdFormData, superEarlyDiscountValue: e.target.value === '' ? NaN : (parseInt(e.target.value) || 0) })}
                                                 className="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-amber-500 transition-all text-sm"
                                                 placeholder="e.g. 20"
                                             />
@@ -683,8 +683,8 @@ export default function AdminPricingPage() {
                                                 required
                                                 type="number"
                                                 min="0"
-                                                value={earlyBirdFormData.earlyDiscountValue}
-                                                onChange={(e) => setEarlyBirdFormData({ ...earlyBirdFormData, earlyDiscountValue: parseInt(e.target.value) })}
+                                                value={isNaN(earlyBirdFormData.earlyDiscountValue) ? '' : earlyBirdFormData.earlyDiscountValue}
+                                                onChange={(e) => setEarlyBirdFormData({ ...earlyBirdFormData, earlyDiscountValue: e.target.value === '' ? NaN : (parseInt(e.target.value) || 0) })}
                                                 className="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-blue-500 transition-all text-sm"
                                                 placeholder="e.g. 200"
                                             />
