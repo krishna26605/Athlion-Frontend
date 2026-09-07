@@ -6,7 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import MobileNavCapsule from "@/components/layout/MobileNavCapsule";
 import NotificationStack from '@/components/shared/NotificationStack';
-import ChatWidget from '@/components/ChatWidget';
+// import ChatWidget from '@/components/ChatWidget';
 import { JsonLd, getOrganizationSchema, getWebSiteSchema } from "@/components/seo/JsonLd";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -122,7 +122,7 @@ export default function RootLayout({
             <NotificationStack />
             <Footer />
             <MobileNavCapsule />
-            <ChatWidget />
+            {/* <ChatWidget /> */}
           </div>
         </AuthProvider>
         <script
