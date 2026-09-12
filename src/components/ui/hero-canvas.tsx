@@ -2,7 +2,7 @@
 
 import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
 import { useAspect, useTexture } from '@react-three/drei';
-import { useMemo, useRef, useState, useEffect } from 'react';
+import { useMemo, useRef, useState, useEffect, Suspense } from 'react';
 import * as THREE from 'three/webgpu';
 import { bloom } from 'three/examples/jsm/tsl/display/BloomNode.js';
 import { Mesh } from 'three';
@@ -25,8 +25,8 @@ import {
   add
 } from 'three/tsl';
 
-const TEXTUREMAP = { src: 'https://i.postimg.cc/XYwvXN8D/img-4.png' };
-const DEPTHMAP = { src: 'https://i.postimg.cc/2SHKQh2q/raw-4.webp' };
+const TEXTUREMAP = { src: '/images/hero-texture.png' };
+const DEPTHMAP = { src: '/images/hero-depth.webp' };
 
 extend(THREE as any);
 
@@ -187,7 +187,9 @@ export default function HeroCanvas() {
       }}
     >
       <PostProcessing fullScreenEffect={true} />
-      <Scene />
+      <Suspense fallback={null}>
+        <Scene />
+      </Suspense>
     </Canvas>
   );
 }

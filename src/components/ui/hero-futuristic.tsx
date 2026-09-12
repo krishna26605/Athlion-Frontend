@@ -1,13 +1,43 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component, ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 
-const TEXTUREMAP = { src: 'https://i.postimg.cc/XYwvXN8D/img-4.png' };
+const TEXTUREMAP = { src: '/images/hero-texture.png' };
 
 const HeroCanvas = dynamic(() => import('./hero-canvas'), {
   ssr: false,
 });
+
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class CanvasErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(): ErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.warn('HeroCanvas rendering failed, falling back to static background:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return null;
+    }
+    return this.props.children;
+  }
+}
 
 export const HeroFuturistic = ({ children }: { children?: React.ReactNode }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -44,7 +74,11 @@ export const HeroFuturistic = ({ children }: { children?: React.ReactNode }) => 
         <div className="absolute inset-0 bg-gradient-to-b from-[#f82506]/10 via-transparent to-[#f82506]/10 animate-pulse duration-[8000ms]" />
       </div>
 
-      {isMounted && !isMobileDevice && <HeroCanvas />}
+      {isMounted && !isMobileDevice && (
+        <CanvasErrorBoundary>
+          <HeroCanvas />
+        </CanvasErrorBoundary>
+      )}
 
       <div className="absolute inset-0 z-[5] pointer-events-none bg-gradient-to-t from-black via-transparent to-black" />
       <div className="absolute inset-0 z-[5] pointer-events-none bg-gradient-to-r from-black via-transparent to-black opacity-80" />
