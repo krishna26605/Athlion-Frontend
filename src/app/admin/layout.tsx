@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     LayoutDashboard, Users, Calendar, Heart, Tag, Handshake,
     LogOut, ChevronRight, User as UserIcon, ScanLine, Menu, X, Home,
-    Phone, Upload, BarChart3, BookOpen
+    Phone, Upload, BarChart3, BookOpen, Trophy
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -18,6 +18,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     const menuItems = [
         { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/admin' },
+        { name: 'Leaderboard', icon: <Trophy size={20} />, path: '/admin/leaderboard' },
         { name: 'Blogs & SEO', icon: <BookOpen size={20} />, path: '/admin/blogs' },
         { name: 'Events', icon: <Calendar size={20} />, path: '/admin/events' },
         { name: 'Early Access & Leads', icon: <Users size={20} />, path: '/admin/early-access' },
@@ -38,6 +39,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     // Dynamic header logic
     const getHeaderInfo = () => {
+        if (pathname === '/admin/leaderboard') return { pre: 'Race', color: 'Leaderboard', sub: 'Athlete Rankings & Excel Upload', colorClass: 'text-amber-400' };
         if (pathname === '/admin/blogs') return { pre: 'Manage', color: 'Blogs & SEO', sub: 'Content & Search Strategy' };
         if (pathname === '/admin/events/new') return { pre: 'Create', color: 'Event', sub: 'Event Management' };
         if (pathname === '/admin/events') return { pre: 'Manage', color: 'Events', sub: 'Event Management' };

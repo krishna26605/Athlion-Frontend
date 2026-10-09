@@ -152,6 +152,14 @@ const MobileNavCapsule = () => {
                                             {isAdminPage ? (
                                                 <>
                                                     <Link
+                                                        href="/admin/leaderboard"
+                                                        onClick={() => setIsExpanded(false)}
+                                                        className="flex items-center gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
+                                                    >
+                                                        <Trophy size={16} className="text-[#f82506]" />
+                                                        Leaderboard
+                                                    </Link>
+                                                    <Link
                                                         href="/admin/registrations"
                                                         onClick={() => setIsExpanded(false)}
                                                         className="flex items-center gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
@@ -186,6 +194,14 @@ const MobileNavCapsule = () => {
                                                 </>
                                             ) : (
                                                 <>
+                                                    <Link
+                                                        href="/leaderboard"
+                                                        onClick={() => setIsExpanded(false)}
+                                                        className="flex items-center gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
+                                                    >
+                                                        <Trophy size={16} className="text-[#f82506]" />
+                                                        Leaderboard
+                                                    </Link>
                                                     {user.role === 'admin' && (
                                                         <Link
                                                             href="/admin"
@@ -208,6 +224,14 @@ const MobileNavCapsule = () => {
                                         </>
                                     ) : (
                                         <>
+                                            <Link
+                                                href="/leaderboard"
+                                                onClick={() => setIsExpanded(false)}
+                                                className="flex items-center gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
+                                            >
+                                                <Trophy size={16} className="text-[#f82506]" />
+                                                Leaderboard
+                                            </Link>
                                             <Link
                                                 href="/login"
                                                 onClick={() => setIsExpanded(false)}

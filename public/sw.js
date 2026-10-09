@@ -1,4 +1,4 @@
-const CACHE_NAME = 'athlion-v1';
+const CACHE_NAME = 'athlion-v2';
 const STATIC_ASSETS = [
   '/',
   '/FINAL-ATH-LOGO.png',
@@ -34,10 +34,15 @@ self.addEventListener('fetch', (event) => {
   // API calls: network only
   if (url.pathname.startsWith('/api') || url.origin !== self.location.origin) return;
 
-  // Navigation requests: network-first with fallback
+  // Navigation requests: network-first with fallback for root
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() => caches.match('/'))
+      fetch(request).catch(() => {
+        if (url.pathname === '/' || url.pathname === '') {
+          return caches.match('/');
+        }
+        return Promise.reject('offline');
+      })
     );
     return;
   }

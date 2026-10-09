@@ -1,9 +1,5 @@
 {
-  "/page": "app/page.js",
-  "/register/page": "app/register/page.js",
-  "/login/page": "app/login/page.js",
-  "/admin/scanner/page": "app/admin/scanner/page.js",
-  "/admin/users/page": "app/admin/users/page.js",
-  "/admin/blogs/page": "app/admin/blogs/page.js",
-  "/admin/events/page": "app/admin/events/page.js"
+  "/leaderboard/page": "app/leaderboard/page.js",
+  "/admin/sales-ai/leads/page": "app/admin/sales-ai/leads/page.js",
+  "/admin/leaderboard/page": "app/admin/leaderboard/page.js"
 }

@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import apiClient from '@/api/client';
-import { Loader2, Tag, Plus, Download, Trash2, Calendar, Zap, Gift, Settings2, ToggleLeft, ToggleRight, ChevronDown } from 'lucide-react';
+import { Loader2, Tag, Plus, Download, Trash2, Calendar, Zap, Gift, Settings2, ToggleLeft, ToggleRight, ChevronDown, Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Sponsor {
@@ -387,9 +388,23 @@ export default function AdminPricingPage() {
                                                 </span>
                                             </td>
                                             <td className="py-4 pr-8 text-right">
-                                                <button className="text-gray-700 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
-                                                    <Trash2 size={14} />
-                                                </button>
+                                                <div className="flex items-center justify-end gap-2">
+                                                    <Link
+                                                        href={`/admin/registrations?coupon=${encodeURIComponent(c.code)}`}
+                                                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all ${
+                                                            c.usageCount > 0
+                                                                ? 'bg-zinc-900 border border-[#f82506]/40 text-white hover:bg-[#f82506] hover:text-white shadow-sm shadow-[#f82506]/10'
+                                                                : 'bg-zinc-900/40 border border-white/5 text-gray-400 hover:text-white hover:border-white/20'
+                                                        }`}
+                                                        title="View enrolled athletes"
+                                                    >
+                                                        <Users size={12} className={c.usageCount > 0 ? 'text-[#f82506] group-hover:text-white' : 'text-gray-500'} />
+                                                        <span>Athletes ({c.usageCount})</span>
+                                                    </Link>
+                                                    <button className="text-gray-700 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 p-1.5">
+                                                        <Trash2 size={14} />
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     )) : (
@@ -419,6 +434,15 @@ export default function AdminPricingPage() {
                                         <span className="font-black italic text-white">
                                             {c.type === 'percentage' ? `${c.value}%` : `₹${c.value}`}
                                         </span>
+                                    </div>
+                                    <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
+                                        <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Enrolled: {c.usageCount}</span>
+                                        <Link
+                                            href={`/admin/registrations?coupon=${encodeURIComponent(c.code)}`}
+                                            className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-[#f82506] hover:underline"
+                                        >
+                                            <Users size={11} /> View Athletes →
+                                        </Link>
                                     </div>
                                 </div>
                             )) : (

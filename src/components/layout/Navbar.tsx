@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 const NAV_LINKS = [
     { name: 'Events', href: '/events' },
     { name: 'Functional Fitness', href: '/functional-fitness' },
+    { name: 'Leaderboard', href: '/leaderboard' },
     { name: 'Sponsors', href: '/sponsors' },
     { name: 'About', href: '/about' },
 ];
@@ -52,9 +53,9 @@ const Navbar = () => {
                     </Link>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-8">
+                    <div className="hidden md:flex items-center gap-8" suppressHydrationWarning>
                         {NAV_LINKS.map((link) => (
-                            <Link key={link.name} href={link.href} className="nav-link font-bold uppercase tracking-widest text-[11px] text-gray-400 hover:text-white transition-colors">
+                            <Link key={link.name} href={link.href} suppressHydrationWarning className="nav-link font-bold uppercase tracking-widest text-[11px] text-gray-400 hover:text-white transition-colors">
                                 {link.name}
                             </Link>
                         ))}
