@@ -6,13 +6,13 @@ import { JsonLd, getFAQSchema, getBreadcrumbSchema } from '@/components/seo/Json
 
 export const metadata: Metadata = {
   title: "Functional Fitness & Obstacle Course Racing in India | Athlion",
-  description: "Discover functional fitness racing in India with Athlion. Complete guide to physical workout stations, 2KM running splits, athletic training programs, and event calendar.",
+  description: "Discover functional fitness racing in India with Athlion. Complete guide to physical workout stations, 8KM running splits, athletic training programs, and event calendar.",
   alternates: {
     canonical: "https://www.athlion.in/functional-fitness",
   },
   openGraph: {
     title: "Functional Fitness & Obstacle Course Racing in India | Athlion",
-    description: "Master functional fitness racing with Athlion. Standardized fitness racing combining 2KM running with 11 physical challenge stations.",
+    description: "Master functional fitness racing with Athlion. Standardized fitness racing combining 8KM running with 11 physical challenge stations.",
     url: "https://www.athlion.in/functional-fitness",
     siteName: "Athlion",
     type: "article",
@@ -67,11 +67,11 @@ const FALLBACK_ARTICLES: Blog[] = [
 const fitnessFaqs = [
   {
     question: "What is functional fitness racing and how does Athlion bring it to India?",
-    answer: "Functional fitness racing is a standardized hybrid sports format combining cardiovascular running with physical workout stations. Athlion brings this standardized format to India, featuring a 2KM total run interspersed across 11 challenge stations designed for athletes of all conditioning levels.",
+    answer: "Functional fitness racing is a standardized hybrid sports format combining cardiovascular running with physical workout stations. Athlion brings this standardized format to India, featuring a 8KM total run interspersed across 11 challenge stations designed for athletes of all conditioning levels.",
   },
   {
     question: "What physical stations are included in Athlion races?",
-    answer: "Athlion's 11 challenge stations include: 2KM Run, Mudgar 360° Mace Swings, 50m Sled Push, Monkey Crawl, Burpee Broad Jumps (80m), Tire Flips, 100m Farmer's Carry, Wall Ball Shots, Low Mud Crawl, 20ft Cargo Net Trap, and the Ice Pool Slide finish.",
+    answer: "Athlion's 11 challenge stations include: 8KM Run, Mudgar 360° Mace Swings, 50m Sled Push, Monkey Crawl, Burpee Broad Jumps (80m), Tire Flips, 100m Farmer's Carry, Wall Ball Shots, Low Mud Crawl, 20ft Cargo Net Trap, and the Ice Pool Slide finish.",
   },
   {
     question: "How should beginners train for their first functional fitness event?",
@@ -186,13 +186,13 @@ export default async function FunctionalFitnessPage() {
               Functional fitness racing is a standardized hybrid competition format designed for athletes of all disciplines. It merges functional strength movements with standardized running segments to test complete physical conditioning.
             </p>
             <p>
-              In an Athlion race, athletes run a total distance of <strong>2KM</strong> broken into sections, paired with <strong>11 physical stations</strong> including heavy sled pushes, farmer carries, wall balls, mud crawls, and traditional Indian warrior mudgar mace swings.
+              In an Athlion race, athletes run a total distance of <strong>8KM</strong> broken into sections, paired with <strong>11 physical stations</strong> including heavy sled pushes, farmer carries, wall balls, mud crawls, and traditional Indian warrior mudgar mace swings.
             </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 pt-8 border-t border-white/10 text-center">
             <div>
-              <span className="text-3xl md:text-4xl font-black text-[#f82506] block">2KM</span>
+              <span className="text-3xl md:text-4xl font-black text-[#f82506] block">8KM</span>
               <span className="text-xs text-gray-500 uppercase font-bold tracking-widest">Total Run</span>
             </div>
             <div>
@@ -217,7 +217,7 @@ export default async function FunctionalFitnessPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { num: "01", title: "2km Opening Run", desc: "Sets your heart rate and tests pacing discipline." },
+              { num: "01", title: "8km Opening Run", desc: "Sets your heart rate and tests pacing discipline." },
               { num: "02", title: "Mudgar Ritual", desc: "360° traditional Indian mace swings for shoulders & grip." },
               { num: "03", title: "Sled Push", desc: "50m explosive lower-body leg drive on turf." },
               { num: "04", title: "Monkey Crawl", desc: "30m low locomotive movement for core stability." },

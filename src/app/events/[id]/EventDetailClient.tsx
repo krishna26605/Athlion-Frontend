@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import apiClient from '@/api/client';
 import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, Clock, Trophy, ArrowLeft, Loader2, CheckCircle, ShieldCheck, Tag, Zap, X } from 'lucide-react';
+import { MapPin, Calendar, Clock, Trophy, ArrowLeft, Loader2, CheckCircle, ShieldCheck, Tag, Zap, X, Users } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/utils/utils';
 import Script from 'next/script';
 import { Timer } from 'lucide-react';
@@ -93,8 +93,6 @@ export default function EventDetailClient() {
     const [step, setStep] = useState(1);
     const [regData, setRegData] = useState({
         level: '',
-        height: '',
-        weight: '',
         category: 'Single',
         batchTime: ''
     });
@@ -173,16 +171,15 @@ export default function EventDetailClient() {
             }
         };
 
-        if (step === 4) {
+        if (step === 3) {
             fetchDiscount();
         }
     }, [step, user, id, couponApplied]);
 
     const steps = [
         { id: 1, title: 'SELECT LEVEL' },
-        { id: 2, title: 'PHYSICAL DETAILS' },
-        { id: 3, title: 'CATEGORY' },
-        { id: 4, title: 'WAVE & PAY' }
+        { id: 2, title: 'CATEGORY' },
+        { id: 3, title: 'WAVE & PAY' }
     ];
 
     const generateWaveTimes = () => {
@@ -373,8 +370,22 @@ export default function EventDetailClient() {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                         >
-                            <h1 className="relative text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-black italic tracking-tighter uppercase mb-4 md:mb-8 leading-[0.9] break-words z-10">
-                                {event.name?.split(' ')[0]} <span className="text-[#f82506]">{event.name?.split(' ').slice(1).join(' ')}</span>
+                            <h1 className="relative text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-black italic tracking-tighter mb-4 md:mb-8 leading-[0.9] break-words z-10">
+                                {(() => {
+                                    if (!event.name) return null;
+                                    const parts = event.name.trim().split(/\s+/);
+                                    const formatWord = (w: string) => w.toLowerCase() === 'athlion' ? 'ATHLiON' : w.toUpperCase();
+                                    if (parts.length === 1) {
+                                        return <span className={parts[0].toLowerCase() === 'athlion' ? 'text-[#f82506]' : ''}>{formatWord(parts[0])}</span>;
+                                    }
+                                    const firstWord = formatWord(parts[0]);
+                                    const restWords = parts.slice(1).map(formatWord).join(' ');
+                                    return (
+                                        <>
+                                            {firstWord} <span className="text-[#f82506]">{restWords}</span>
+                                        </>
+                                    );
+                                })()}
                             </h1>
 
                             <div className="relative h-48 md:h-80 w-full mb-8 md:mb-12 rounded-2xl md:rounded-3xl overflow-hidden group z-10">
@@ -514,35 +525,43 @@ export default function EventDetailClient() {
 
                                         {step === 2 && (
                                             <div className="space-y-5 md:space-y-6">
-                                                <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PHYSICAL <span className="text-[#f82506]">DETAILS</span></h3>
-                                                <div className="grid grid-cols-2 gap-4">
-                                                    <div>
-                                                        <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Height (CM)</label>
-                                                        <input
-                                                            type="number"
-                                                            placeholder="175"
-                                                            value={regData.height}
-                                                            onChange={(e) => setRegData({ ...regData, height: e.target.value })}
-                                                            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 focus:border-[#f82506] transition-all outline-none text-sm"
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Weight (KG)</label>
-                                                        <input
-                                                            type="number"
-                                                            placeholder="70"
-                                                            value={regData.weight}
-                                                            onChange={(e) => setRegData({ ...regData, weight: e.target.value })}
-                                                            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 focus:border-[#f82506] transition-all outline-none text-sm"
-                                                        />
-                                                    </div>
+                                                <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PICK <span className="text-[#f82506]">CATEGORY</span></h3>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                    {[
+                                                        { id: 'Single', label: 'SINGLE', desc: 'Standard Solo Entry', icon: Trophy },
+                                                        { id: 'Couple', label: 'COUPLE', desc: 'Duo / Couple Entry', icon: Users }
+                                                    ].map((cat) => (
+                                                        <button
+                                                            key={cat.id}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setRegData((prev) => ({ ...prev, category: cat.id }));
+                                                                goToStep(3);
+                                                            }}
+                                                            className={`glass-card-hover p-6 md:p-8 rounded-xl md:rounded-2xl text-center border transition-all group flex flex-col items-center justify-center ${
+                                                                regData.category === cat.id
+                                                                    ? 'border-[#f82506] bg-[#f82506]/15 shadow-[0_0_20px_rgba(248,37,6,0.2)]'
+                                                                    : 'border-white/10 bg-white/5 hover:border-[#f82506]/50'
+                                                            }`}
+                                                        >
+                                                            <cat.icon className={`mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform ${regData.category === cat.id ? 'text-[#f82506]' : 'text-gray-400 group-hover:text-[#f82506]'}`} size={36} />
+                                                            <span className="block text-xl md:text-2xl font-black italic uppercase tracking-tighter mb-1 md:mb-2">{cat.label}</span>
+                                                            <span className="text-[10px] md:text-xs text-gray-300 uppercase font-black tracking-[0.15em]">{cat.desc}</span>
+                                                        </button>
+                                                    ))}
                                                 </div>
                                                 <div className="flex gap-4">
-                                                    <button onClick={() => goToStep(1)} className="flex-1 p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => goToStep(1)} 
+                                                        className="flex-1 p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5 transition-all"
+                                                    >
+                                                        Back
+                                                    </button>
                                                     <button
-                                                        disabled={!regData.height || !regData.weight}
+                                                        type="button"
                                                         onClick={() => goToStep(3)}
-                                                        className="flex-[2] btn-primary p-4 disabled:bg-zinc-800 disabled:text-zinc-500 py-4 font-black italic tracking-widest"
+                                                        className="flex-[2] btn-primary p-4 font-black italic tracking-widest text-xs uppercase"
                                                     >
                                                         CONTINUE
                                                     </button>
@@ -551,22 +570,6 @@ export default function EventDetailClient() {
                                         )}
 
                                         {step === 3 && (
-                                            <div className="space-y-5 md:space-y-6">
-                                                <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">PICK <span className="text-[#f82506]">CATEGORY</span></h3>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => goToStep(4)}
-                                                    className="w-full glass-card-hover p-6 md:p-10 rounded-xl md:rounded-2xl text-center border border-[#f82506] bg-[#f82506]/10 transition-all group"
-                                                >
-                                                    <Trophy className="mx-auto mb-3 md:mb-4 text-[#f82506] group-hover:scale-110 transition-transform" size={40} />
-                                                    <span className="block text-2xl md:text-4xl font-black italic uppercase tracking-tighter mb-2">SINGLE</span>
-                                                    <span className="text-[10px] md:text-xs text-gray-300 uppercase font-black tracking-[0.2em]">Standard Solo Entry</span>
-                                                </button>
-                                                <button onClick={() => goToStep(2)} className="w-full p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
-                                            </div>
-                                        )}
-
-                                        {step === 4 && (
                                             <div className="space-y-5 md:space-y-6">
                                                 <h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">WAVE <span className="text-[#f82506]">SELECTION</span></h3>
                                                 <div className="grid grid-cols-4 md:grid-cols-3 gap-2 md:gap-3 max-h-52 md:max-h-60 overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
@@ -661,7 +664,7 @@ export default function EventDetailClient() {
                                                     </div>
 
                                                     <div className="flex gap-4">
-                                                        <button onClick={() => goToStep(3)} className="flex-1 p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
+                                                        <button onClick={() => goToStep(2)} className="flex-1 p-4 rounded-xl border border-white/10 font-bold text-xs uppercase hover:bg-white/5">Back</button>
                                                         <button
                                                             onClick={handleBooking}
                                                             disabled={bookingLoading || !regData.batchTime}

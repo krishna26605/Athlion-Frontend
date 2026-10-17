@@ -3,7 +3,7 @@ import EventsClient from './EventsClient';
 
 export const metadata: Metadata = {
   title: "Upcoming Functional Fitness & Obstacle Racing Events in India | Athlion",
-  description: "Find and register for upcoming Athlion fitness races across India. 2KM runs, 11 physical station challenges, and standardized hybrid fitness competitions.",
+  description: "Find and register for upcoming Athlion fitness races across India. 8KM runs, 11 physical station challenges, and standardized hybrid fitness competitions.",
   alternates: {
     canonical: "https://www.athlion.in/events",
   },

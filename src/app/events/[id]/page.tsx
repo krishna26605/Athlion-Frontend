@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       if (event) {
         return {
           title: `${event.name} | Athlion Functional Fitness Race`,
-          description: event.description || `Register for ${event.name} on ${event.date} at ${event.venue?.address}. 2KM run, 11 stations.`,
+          description: event.description || `Register for ${event.name} on ${event.date} at ${event.venue?.address}. 8KM run, 11 stations.`,
           alternates: {
             canonical: `${baseUrl}/events/${id}`,
           },

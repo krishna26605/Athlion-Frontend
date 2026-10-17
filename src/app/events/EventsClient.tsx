@@ -118,7 +118,7 @@ export default function EventsClient() {
                         <h1 className="text-4xl sm:text-5xl md:text-7xl font-black italic tracking-tighter uppercase mb-4 md:mb-6 leading-none">
                             UPCOMING <span className="text-white">EVENTS & FITNESS RACES</span>
                         </h1>
-                        <p className="text-gray-400 text-sm md:text-lg">Pick your fitness race and join India&apos;s premier hybrid sports series. Test your endurance across 2KM runs and 11 station challenges.</p>
+                        <p className="text-gray-400 text-sm md:text-lg">Pick your fitness race and join India&apos;s premier hybrid sports series. Test your endurance across 8KM runs and 11 station challenges.</p>
                     </div>
 
                     <div className="relative group w-full md:w-80">
@@ -178,7 +178,14 @@ export default function EventsClient() {
                                         </div>
                                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
                                         <div className="absolute bottom-3 left-4 md:bottom-4 md:left-6 pr-4">
-                                            <h2 className="text-lg md:text-2xl font-black italic tracking-tighter leading-[1.1] uppercase break-words line-clamp-2">{event.name}</h2>
+                                            <h2 className="text-lg md:text-2xl font-black italic tracking-tighter leading-[1.1] break-words line-clamp-2">
+                                                {event.name?.split(' ').map((w, idx) => (
+                                                    <React.Fragment key={idx}>
+                                                        {idx > 0 && ' '}
+                                                        {w.toLowerCase() === 'athlion' ? 'ATHLiON' : w.toUpperCase()}
+                                                    </React.Fragment>
+                                                ))}
+                                            </h2>
                                         </div>
                                     </div>
 
@@ -194,7 +201,7 @@ export default function EventsClient() {
                                             </div>
                                             <div className="flex items-center gap-2 text-gray-400">
                                                 <Users size={12} className="text-[#f82506] shrink-0" />
-                                                <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight">Spots: {event.currentParticipants}/{event.maxParticipants} Full</span>
+                                                <span className="text-[10px] md:text-sm font-bold uppercase tracking-tight">Max Participants: {event.maxParticipants}</span>
                                             </div>
                                         </div>
 

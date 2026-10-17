@@ -22,8 +22,8 @@ interface Station {
 }
 
 const stations: Station[] = [
-    { id: 1, name: '2km Run', description: 'Opening endurance test to set the pace.', distanceReps: '2km', muscleGroup: 'Cardio, Legs', culturalRoots: 'Standard hybrid race opener', icon: Activity, image: '/images/stations/run_1km.png' },
-    { id: 2, name: 'Mudgar Ritual', description: '360° mace swings in controlled pattern.', distanceReps: '25 reps each direction (50 total)', muscleGroup: 'Shoulders, Grip, Core rotation', culturalRoots: 'Ancient Indian warrior training', icon: RotateCw, image: '/images/stations/mudgar_ritual.png' },
+    { id: 1, name: 'Mudgar Ritual', description: '360° mace swings in controlled pattern.', distanceReps: '25 reps each direction (50 total)', muscleGroup: 'Shoulders, Grip, Core rotation', culturalRoots: 'Ancient Indian warrior training', icon: RotateCw, image: '/images/stations/mudgar_ritual.png' },
+    { id: 2, name: '8km Run', description: 'Opening endurance test to set the pace.', distanceReps: '8km', muscleGroup: 'Cardio, Legs', culturalRoots: 'Standard hybrid race opener', icon: Activity, image: '/images/stations/run_1km.png' },
     { id: 3, name: 'Sled Push', description: 'Drive weighted sled on turf/ground with explosive power.', distanceReps: '50m', muscleGroup: 'Legs, Power, Mental grit', culturalRoots: 'ATHLiON-proven staple', icon: ArrowUpCircle, image: '/images/stations/sled_push.png' },
     { id: 4, name: 'Monkey Crawl', description: 'Low-profile locomotive movement for agility and coordination.', distanceReps: '30m', muscleGroup: 'Full Body, Coordination, Grit', culturalRoots: 'Primal movement training', icon: Move, image: '/images/stations/monkey_bar.png' },
     { id: 5, name: 'Burpee Broad Jump', description: 'Burpee combined with an explosive forward jump.', distanceReps: '80m total (10m x 8 reps)', muscleGroup: 'Full body, Cardio', culturalRoots: 'Functional fitness standard', icon: Zap, image: '/images/stations/burpee_broad_jump.png' },
@@ -71,7 +71,7 @@ export default function AthlionStationsSection() {
         <section id="stations" className="py-16 md:py-24 bg-[#050505] border-y border-white/5 relative z-10 w-full overflow-hidden">
             <div className="max-w-7xl mx-auto px-4">
                 <div className="text-center mb-10 md:mb-16">
-                    <h2 className="text-3xl sm:text-4xl md:text-6xl font-black italic tracking-tighter uppercase mb-3 md:mb-4">ATHLiON <span className="text-[#f82506]">CHALLENGES</span></h2>
+                    <h2 className="text-3xl sm:text-4xl md:text-6xl font-black italic tracking-tighter mb-3 md:mb-4">ATHLiON <span className="text-[#f82506]">CHALLENGES</span></h2>
                     <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] md:text-xs mt-3 md:mt-4">Master the ritual. Explore the 11 challenges.</p>
                 </div>
 

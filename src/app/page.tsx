@@ -12,7 +12,6 @@ import apiClient from '@/api/client';
 import WhatsAppDiscountWidget from '@/components/WhatsAppDiscountWidget';
 import { HeroFuturistic } from '@/components/ui/hero-futuristic';
 import VisitorTracker from '@/components/VisitorTracker';
-import EarlyAccessModal from '@/components/EarlyAccessModal';
 
 export default function Home() {
   const { user } = useAuth();
@@ -46,7 +45,7 @@ export default function Home() {
                 FUNCTIONAL FITNESS & <span className="text-[#f82506] drop-shadow-[0_0_20px_rgba(248,37,6,0.4)]">OBSTACLE RACING</span>
               </h1>
               <p className="max-w-3xl mx-auto text-gray-400 text-sm md:text-lg lg:text-xl mb-8 md:mb-[8vh] leading-relaxed uppercase font-black italic px-4 md:px-0">
-                The standardized global format of hybrid fitness racing hits India. 2KM RUN. 11 STATIONS. NO LIMITS.
+                The standardized global format of hybrid fitness racing hits India. 8KM RUN. 11 STATIONS. NO LIMITS.
               </p>
 
               <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 px-4 md:px-0">
@@ -99,22 +98,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Embedded Early Access Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-[#0a0a0a] to-black border-b border-white/5">
-        <div className="max-w-4xl mx-auto px-4">
-          <EarlyAccessModal embedded={true} />
-        </div>
-      </section>
 
       {/* About Section */}
       <section id="about" className="py-16 md:py-24 bg-[#0a0a0a] border-y border-white/5">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black italic tracking-tighter uppercase mb-8 md:mb-12">WHAT IS <span className="text-[#f82506]">ATHLION?</span></h2>
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black italic tracking-tighter mb-8 md:mb-12">WHAT IS <span className="text-[#f82506]">ATHLiON?</span></h2>
           <p className="text-gray-400 text-base md:text-xl leading-relaxed mb-6 md:mb-8 px-2">
             Athlion is India's answer to the global fitness racing revolution. We bring a standardized format that combines elite-level endurance with functional strength. Whether you're a first-timer or a pro, Athlion tests your heart, grit, and physical power in a high-octane stadium environment.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-12 md:mt-16 font-black italic uppercase">
-            <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">2KM</span><span className="text-[10px] md:text-xs text-gray-600">Total Running</span></div>
+            <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">8KM</span><span className="text-[10px] md:text-xs text-gray-600">Total Running</span></div>
             <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">11</span><span className="text-[10px] md:text-xs text-gray-600">Stations</span></div>
             <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">1</span><span className="text-[10px] md:text-xs text-gray-600">Winner</span></div>
             <div className="flex flex-col gap-1 md:gap-2"><span className="text-3xl md:text-4xl text-[#f82506]">550+</span><span className="text-[10px] md:text-xs text-gray-600">ATHLETES</span></div>

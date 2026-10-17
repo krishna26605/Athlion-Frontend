@@ -1,5 +1,10 @@
 {
-  "/leaderboard/page": "app/leaderboard/page.js",
-  "/admin/sales-ai/leads/page": "app/admin/sales-ai/leads/page.js",
-  "/admin/leaderboard/page": "app/admin/leaderboard/page.js"
+  "/events/[id]/page": "app/events/[id]/page.js",
+  "/page": "app/page.js",
+  "/events/page": "app/events/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/functional-fitness/page": "app/functional-fitness/page.js",
+  "/about/page": "app/about/page.js",
+  "/login/page": "app/login/page.js",
+  "/leaderboard/page": "app/leaderboard/page.js"
 }

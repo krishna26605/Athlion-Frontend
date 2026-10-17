@@ -6,7 +6,7 @@ import { JsonLd, getBreadcrumbSchema } from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: "Functional Fitness Workouts & 11 Station Standards | Athlion",
-  description: "Complete guide to Athlion's 11 physical challenge stations: 2KM Run, Mudgar Swings, Sled Push, Burpee Broad Jump, Farmer Carry, Wall Balls, and Ice Pool finish.",
+  description: "Complete guide to Athlion's 11 physical challenge stations: 8KM Run, Mudgar Swings, Sled Push, Burpee Broad Jump, Farmer Carry, Wall Balls, and Ice Pool finish.",
   alternates: {
     canonical: "https://www.athlion.in/functional-fitness/workouts",
   },
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 const stationDetails = [
-  { name: "Station 1: 2KM Run", distance: "2km total", muscles: "Cardiovascular, Legs", tip: "Maintain Zone 3 pace; don't sprint early." },
+  { name: "Station 1: 8KM Run", distance: "8km total", muscles: "Cardiovascular, Legs", tip: "Maintain Zone 3 pace; don't sprint early." },
   { name: "Station 2: Mudgar Ritual", distance: "50 reps total", muscles: "Shoulders, Grip, Core", tip: "Engage your core to maintain a smooth 360° swing arc." },
   { name: "Station 3: Sled Push", distance: "50m", muscles: "Quadriceps, Glutes, Calves", tip: "Keep hips low and drive with straight arms against the upright poles." },
   { name: "Station 4: Monkey Crawl", distance: "30m", muscles: "Full Body, Agility", tip: "Stay low to the ground and maintain a rhythmic 4-point gait." },
@@ -113,7 +113,7 @@ export default function FunctionalFitnessWorkoutsPage() {
               <span className="text-xs font-black text-[#f82506] uppercase tracking-widest block mb-2">Level 3: Elite</span>
               <h3 className="text-lg font-black italic uppercase mb-3">Full Stadium Race Sim</h3>
               <ul className="text-xs text-gray-300 space-y-2">
-                <li>• 2KM Continuous Run</li>
+                <li>• 8KM Continuous Run</li>
                 <li>• All 11 Stations back-to-back</li>
                 <li>• Target Time: Under 60 mins</li>
               </ul>

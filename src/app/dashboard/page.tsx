@@ -141,7 +141,14 @@ export default function DashboardPage() {
                                             <span className="bg-[#f82506] text-white px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-wider w-fit mb-3 md:mb-4">
                                                 Confirmed Slot
                                             </span>
-                                            <h3 className="text-2xl md:text-3xl font-black italic uppercase tracking-tight mb-4 md:mb-6">{reg.event.name}</h3>
+                                            <h3 className="text-2xl md:text-3xl font-black italic tracking-tight mb-4 md:mb-6">
+                                                {reg.event.name?.split(' ').map((w: string, idx: number) => (
+                                                    <React.Fragment key={idx}>
+                                                        {idx > 0 && ' '}
+                                                        {w.toLowerCase() === 'athlion' ? 'ATHLiON' : w.toUpperCase()}
+                                                    </React.Fragment>
+                                                ))}
+                                            </h3>
 
                                             <div className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-sm">
                                                 <div className="flex items-center gap-2.5 md:gap-3 text-gray-400">
@@ -219,7 +226,14 @@ export default function DashboardPage() {
                                                     <ArrowRight size={12} />
                                                 </div>
                                             </div>
-                                            <h3 className="text-lg md:text-xl font-black italic uppercase tracking-tight mb-3 md:mb-4 group-hover:text-[#f82506] transition-colors line-clamp-1">{event.name}</h3>
+                                            <h3 className="text-lg md:text-xl font-black italic tracking-tight mb-3 md:mb-4 group-hover:text-[#f82506] transition-colors line-clamp-1">
+                                                {event.name?.split(' ').map((w: string, idx: number) => (
+                                                    <React.Fragment key={idx}>
+                                                        {idx > 0 && ' '}
+                                                        {w.toLowerCase() === 'athlion' ? 'ATHLiON' : w.toUpperCase()}
+                                                    </React.Fragment>
+                                                ))}
+                                            </h3>
                                             <div className="space-y-1.5 md:space-y-2 text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-tight">
                                                 <div className="flex items-center gap-2">
                                                     <Calendar size={11} className="text-[#f82506]" />

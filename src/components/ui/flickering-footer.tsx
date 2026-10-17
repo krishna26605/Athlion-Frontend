@@ -293,7 +293,7 @@ export function FlickeringFooter() {
         <div className="col-span-1 md:col-span-12 lg:col-span-5 flex flex-col items-start gap-4 md:gap-6">
           <Link href="/" className="flex items-center gap-2 group">
               <img src="/FINAL-ATH-LOGO.png" alt="ATHLiON Logo" className="w-10 h-10 object-contain group-hover:scale-110 transition-transform duration-300" />
-              <span className="text-2xl font-black tracking-tighter italic text-white uppercase">ATH<span className="text-[#f82506]">LiON</span></span>
+              <span className="text-2xl font-black tracking-tighter italic text-white ">ATH<span className="text-[#f82506]">LiON</span></span>
           </Link>
           <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
             The world series of fitness racing. Test your strength, endurance, and mental toughness in the ultimate fitness competition where athletes unite.

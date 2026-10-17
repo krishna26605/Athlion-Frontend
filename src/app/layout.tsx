@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     default: "Athlion | Functional Fitness & Obstacle Course Racing in India",
     template: "%s | Athlion",
   },
-  description: "Join India's premier functional fitness & obstacle course racing series. Test your strength, endurance, and performance across 2KM runs and 11 station challenges.",
+  description: "Join India's premier functional fitness & obstacle course racing series. Test your strength, endurance, and performance across 8KM runs and 11 station challenges.",
   keywords: [
     "functional fitness",
     "functional training",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Athlion | Functional Fitness & Obstacle Course Racing in India",
-    description: "Join India's premier functional fitness and obstacle course racing series. 2KM Run. 11 Stations. No Limits.",
+    description: "Join India's premier functional fitness and obstacle course racing series. 8KM Run. 11 Stations. No Limits.",
     url: "https://www.athlion.in",
     siteName: "Athlion",
     locale: "en_IN",
