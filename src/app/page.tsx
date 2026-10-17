@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Trophy, Zap, Users } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import AthlionStationsSection from '@/components/AthlionStationsSection';
+import AthlionCourseMapSection from '@/components/AthlionCourseMapSection';
 import CardFlip from '@/components/ui/flip-card';
 import { useState, useEffect } from 'react';
 import apiClient from '@/api/client';
@@ -26,7 +27,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-x-clip">
       <VisitorTracker />
 
       {/* Hero Section */}
@@ -116,6 +117,9 @@ export default function Home() {
       </section>
 
       <AthlionStationsSection />
+
+      {/* Interactive Arena Site Plan & Scrollytelling Course Map */}
+      <AthlionCourseMapSection />
 
       {/* Partners Section */}
       <section className="py-16 md:py-24 bg-black relative overflow-hidden">
