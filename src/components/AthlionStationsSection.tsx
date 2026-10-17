@@ -22,8 +22,8 @@ interface Station {
 }
 
 const stations: Station[] = [
-    { id: 1, name: 'Mudgar Ritual', description: '360° mace swings in controlled pattern.', distanceReps: '25 reps each direction (50 total)', muscleGroup: 'Shoulders, Grip, Core rotation', culturalRoots: 'Ancient Indian warrior training', icon: RotateCw, image: '/images/stations/mudgar_ritual.png' },
-    { id: 2, name: '8km Run', description: 'Opening endurance test to set the pace.', distanceReps: '8km', muscleGroup: 'Cardio, Legs', culturalRoots: 'Standard hybrid race opener', icon: Activity, image: '/images/stations/run_1km.png' },
+    { id: 1, name: '8km Run', description: 'Opening endurance test to set the pace.', distanceReps: '8km', muscleGroup: 'Cardio, Legs', culturalRoots: 'Standard hybrid race opener', icon: Activity, image: '/images/stations/run_1km.png' },
+    { id: 2, name: 'Mudgar Ritual', description: '360° mace swings in controlled pattern.', distanceReps: '25 reps each direction (50 total)', muscleGroup: 'Shoulders, Grip, Core rotation', culturalRoots: 'Ancient Indian warrior training', icon: RotateCw, image: '/images/stations/mudgar_ritual.png' },
     { id: 3, name: 'Sled Push', description: 'Drive weighted sled on turf/ground with explosive power.', distanceReps: '50m', muscleGroup: 'Legs, Power, Mental grit', culturalRoots: 'ATHLiON-proven staple', icon: ArrowUpCircle, image: '/images/stations/sled_push.png' },
     { id: 4, name: 'Monkey Crawl', description: 'Low-profile locomotive movement for agility and coordination.', distanceReps: '30m', muscleGroup: 'Full Body, Coordination, Grit', culturalRoots: 'Primal movement training', icon: Move, image: '/images/stations/monkey_bar.png' },
     { id: 5, name: 'Burpee Broad Jump', description: 'Burpee combined with an explosive forward jump.', distanceReps: '80m total (10m x 8 reps)', muscleGroup: 'Full body, Cardio', culturalRoots: 'Functional fitness standard', icon: Zap, image: '/images/stations/burpee_broad_jump.png' },
